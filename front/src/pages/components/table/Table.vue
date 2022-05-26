@@ -3,7 +3,7 @@
     <advance-table
       :columns="columns"
       :data-source="dataSource"
-      title="高级表格-Beta"
+      title="고급 양식 - 베타"
       :loading="loading"
       rowKey="id"
       @search="onSearch"
@@ -17,16 +17,16 @@
         showSizeChanger: true,
         showLessItems: true,
         showQuickJumper: true,
-        showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，总计 ${total} 条`,
+        showTotal: (total, range) => `제 ${range[0]}-${range[1]} 바, 총 ${total} 개`,
         onChange: onPageChange,
         onShowSizeChange: onSizeChange,
       }"
     >
       <template slot="statusTitle">
-        状态<a-icon style="margin: 0 4px" type="info-circle" />
+        상태<a-icon style="margin: 0 4px" type="info-circle" />
       </template>
       <template slot="send" slot-scope="{text}">
-        {{text ? '是' : '否'}}
+        {{text ? '예' : '아니요'}}
       </template>
       <template slot="status" slot-scope="{text}">
         {{text | statusStr}}
@@ -47,10 +47,10 @@
     filters: {
       statusStr(val) {
         switch (val) {
-          case 1: return '已下单'
-          case 2: return '已付款'
-          case 3: return '已审核'
-          case 4: return '已发货'
+          case 1: return '주문'
+          case 2: return '배송대기'
+          case 3: return '진행중'
+          case 4: return '배송완료'
         }
       }
     },
@@ -62,12 +62,12 @@
         total: 0,
         columns: [
           {
-            title: '商品名称',
+            title: '상품명',
             dataIndex: 'name',
             searchAble: true
           },
           {
-            title: '订单号',
+            title: '주문 번호',
             dataIndex: 'orderId'
           },
           {
@@ -78,28 +78,28 @@
             scopedSlots: {customRender: 'status'},
             search: {
               selectOptions: [
-                {title: '已下单', value: 1},
-                {title: '已付款', value: 2},
-                {title: '已审核', value: 3},
-                {title: '已发货', value: 4}
+                {title: '주문', value: 1},
+                {title: '배송대기', value: 2},
+                {title: '진행중', value: 3},
+                {title: '마감', value: 4}
               ]
             }
           },
           {
-            title: '发货',
+            title: 'ㅅㅅ',
             searchAble: true,
             dataIndex: 'send',
             dataType: 'boolean',
             scopedSlots: {customRender: 'send'},
             search: {
               switchOptions: {
-                checkedText: '开',
-                uncheckedText: '关'
+                checkedText: '열림',
+                uncheckedText: '닫힘'
               }
             }
           },
           {
-            title: '审核时间',
+            title: '검토 시간',
             dataIndex: 'auditTime',
             dataType: 'time',
           }

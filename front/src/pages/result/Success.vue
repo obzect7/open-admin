@@ -2,31 +2,31 @@
   <a-card class="result-success" :bordered="false">
     <result :is-success="true" :description="description" :title="title">
       <template slot="action">
-        <a-button class="action" type="primary">返回列表</a-button>
-        <a-button class="action" @click="print">打印</a-button>
+        <a-button class="action" type="primary">목록으로</a-button>
+        <a-button class="action" @click="print">인쇄</a-button>
       </template>
       <div>
-        <div class="project-name">项目名称</div>
+        <div class="project-name">프로젝트명</div>
         <detail-list size="small" style="max-width: 800px; margin-bottom: 8px">
-          <detail-list-item term="项目ID">20180724089</detail-list-item>
-          <detail-list-item term="负责人">曲丽丽</detail-list-item>
-          <detail-list-item term="生效时间">016-12-12 ~ 2017-12-12</detail-list-item>
+          <detail-list-item term="프로젝트 ID">20180724089</detail-list-item>
+          <detail-list-item term="담당자">쿠 릴리</detail-list-item>
+          <detail-list-item term="유효기간">016-12-12 ~ 2017-12-12</detail-list-item>
         </detail-list>
         <a-steps :current="1" progressDot>
-          <a-step title="创建项目">
+          <a-step title="프로젝트 생성">
             <a-step-item-group slot="description">
-              <a-step-item title="曲丽丽" icon="dingding-o"/>
+              <a-step-item title="쿠 릴리" icon="dingding-o"/>
               <a-step-item title="2016-12-12 12:32"/>
             </a-step-item-group>
           </a-step>
-          <a-step title="部门初审">
+          <a-step title="부서 예비 검토">
             <a-step-item-group slot="description">
-              <a-step-item title="周毛毛" icon="dingding-o" :iconStyle="{color: '#00A0E9'}"/>
-              <a-step-item title="催一下" :titleStyle="{color: '#00A0E9'}"/>
+              <a-step-item title="홍길동" icon="dingding-o" :iconStyle="{color: '#00A0E9'}"/>
+              <a-step-item title="첨언" :titleStyle="{color: '#00A0E9'}"/>
             </a-step-item-group>
           </a-step>
-          <a-step title="财务复核"></a-step>
-          <a-step title="完成" ></a-step>
+          <a-step title="재무 검토"></a-step>
+          <a-step title="마감" ></a-step>
         </a-steps>
       </div>
     </result>
@@ -45,11 +45,11 @@ export default {
   components: {AStepItemGroup, AStepItem, DetailListItem, DetailList, Result},
   data () {
     return {
-      title: '提交成功',
-      description: '提交结果页用于反馈一系列操作任务的处理结果，\n' +
-      ' 如果仅是简单操作，使用 Message 全局提示反馈即可。\n' +
-      ' 本文字区域可以展示简单的补充说明，如果有类似展示\n' +
-      ' “单据”的需求，下面这个灰色区域可以呈现比较复杂的内容。'
+      title: '성공적으로 제출됨',
+      description: '제출 결과 페이지는 일련의 작업 작업의 처리 결과를 피드백하는 데 사용됩니다.，\n' +
+      ' 단순한 작업이라면 메시지 전역 프롬프트 피드백을 사용하세요.\n' +
+      ' 이 텍스트 영역은 유사한 디스플레이가 있는 경우 간단한 추가 지침을 표시할 수 있습니다.\n' +
+      ' "문서" 요구 사항의 경우 아래 회색 영역이 더 복잡한 내용을 나타낼 수 있습니다.。'
     }
   },
   methods: {

@@ -3,7 +3,7 @@
     <a-card :bordered="false">
       <div style="display: flex; flex-wrap: wrap">
           <head-info title="我的待办" content="8个任务" :bordered="true"/>
-          <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true"/>
+          <head-info title="이번 주 작업의 평균 처리 시간" content="32분" :bordered="true"/>
           <head-info title="本周完成任务数" content="24个"/>
       </div>
     </a-card>
@@ -14,17 +14,17 @@
     >
       <div slot="extra">
         <a-radio-group>
-          <a-radio-button>全部</a-radio-button>
-          <a-radio-button>进行中</a-radio-button>
-          <a-radio-button>等待中</a-radio-button>
+          <a-radio-button>전체</a-radio-button>
+          <a-radio-button>진행중</a-radio-button>
+          <a-radio-button>대기중</a-radio-button>
         </a-radio-group>
         <a-input-search style="margin-left: 16px; width: 272px;" />
       </div>
-      <a-button type="dashed" style="width: 100%" icon="plus">添加</a-button>
+      <a-button type="dashed" style="width: 100%" icon="plus">추가</a-button>
       <a-list size="large" :pagination="{showSizeChanger: true, showQuickJumper: true, pageSize: 5, total: 50}">
         <a-list-item :key="i" v-for="i in 5">
           <a-list-item-meta
-            description="那是一种内在的东西， 他们到达不了，也无法触及的"
+            description="손이 닿지 않는 안에 있는 것, 손이 닿지 않는 곳에 있는 것"
           >
             <a-avatar slot="avatar" size="large" shape="square" src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"/>
             <a slot="title">AliPay</a>
@@ -38,16 +38,16 @@
                 <a-menu-item><a>수정</a></a-menu-item>
                 <a-menu-item><a>삭제</a></a-menu-item>
               </a-menu>
-              <a>更多<a-icon type="down"/></a>
+              <a>더보기<a-icon type="down"/></a>
             </a-dropdown>
           </div>
           <div class="list-content">
             <div class="list-content-item">
               <span>Owner</span>
-              <p>付晓晓</p>
+              <p>홍길동</p>
             </div>
             <div class="list-content-item">
-              <span>开始时间</span>
+              <span>시작 시간</span>
               <p>2018-07-26 22:44</p>
             </div>
             <div class="list-content-item">
