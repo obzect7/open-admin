@@ -48,9 +48,9 @@
       <span slot="action" slot-scope="text, record">
         <a @click="handleAddSub(record)"> <a-icon type="plus" />新增子菜单 </a>
         <a-divider type="vertical" />
-        <a @click="handleEdit(record)"> <a-icon type="edit" />编辑 </a>
+        <a @click="handleEdit(record)"> <a-icon type="edit" />수정 </a>
         <a-divider type="vertical" />
-        <a @click="handleDelete(record)"> <a-icon type="delete" />删除 </a>
+        <a @click="handleDelete(record)"> <a-icon type="delete" />삭제 </a>
       </span>
     </s-table>
 
@@ -87,7 +87,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="菜单名称">
+            <a-form-item label="메뉴명">
               <a-input
                 placeholder="请输入菜单名称!"
                 v-decorator="[
@@ -142,12 +142,12 @@
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="组件名称">
+            <a-form-item label="컴포넌트명">
               <a-select
-                placeholder="请选择组件名称!"
+                placeholder="컴포넌트명을 선택하십시오!"
                 v-decorator="[
                   'component',
-                  { rules: [{ required: true, message: '请选择组件名称!' }] },
+                  { rules: [{ required: true, message: '컴포넌트명을 선택하십시오!' }] },
                 ]"
               >
                 <a-select-option
@@ -160,12 +160,12 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="排序">
+            <a-form-item label="종류">
               <a-input
-                placeholder="请输入排序!"
+                placeholder="종류를 입력해주세요!"
                 v-decorator="[
                   'sort',
-                  { rules: [{ required: true, message: '请输入排序!' }] },
+                  { rules: [{ required: true, message: '종류를 입력해주세요!' }] },
                 ]"
               />
             </a-form-item>
@@ -173,21 +173,21 @@
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="父节点">
+            <a-form-item label="부모 노드">
               <a-tree-select
                 v-if="formFlag == 1"
                 disabled="disabled"
                 v-decorator="['parentId']"
-                placeholder="根节点"
+                placeholder="루트 노드"
                 defaultValue="0"
                 style="width: 100%"
               ></a-tree-select>
               <a-tree-select
                 v-else
-                placeholder="请选择父节点!"
+                placeholder="상위 노드를 선택하십시오!"
                 v-decorator="[
                   'parentId',
-                  { rules: [{ required: true, message: '请选择父节点!' }] },
+                  { rules: [{ required: true, message: '상위 노드를 선택하십시오!' }] },
                 ]"
                 style="width: 100%"
                 :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
@@ -203,7 +203,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="图标">
+            <a-form-item label="아이콘">
               <a-select
                 v-if="formFlag == 3"
                 placeholder
@@ -221,10 +221,10 @@
               </a-select>
               <a-select
                 v-else
-                placeholder="请选择图标!"
+                placeholder="아이콘을 선택해 주세요!"
                 v-decorator="[
                   'icon',
-                  { rules: [{ required: true, message: '请选择图标!' }] },
+                  { rules: [{ required: true, message: '아이콘을 선택해 주세요!' }] },
                 ]"
               >
                 <a-select-option
@@ -245,10 +245,10 @@
               size="small"
               class="editable-add-btn"
               @click="handlePermissionAdd"
-              >增加页面菜单权限</a-button
+              >페이지 메뉴 권한 추가</a-button
             >
             <a-table
-              :locale="{ emptyText: '暂无数据' }"
+              :locale="{ emptyText: '데이터 없음' }"
               rowKey="index"
               :columns="permissionColumn"
               :data-source="permissionData"
@@ -282,7 +282,7 @@
                   <a
                     style="margin-left: 6px"
                     @click="() => removePermission(record.action)"
-                    >删除</a
+                    >삭제</a
                   >
                 </div>
               </template>
@@ -297,17 +297,17 @@
 <script>
 const permissionColumn = [
   {
-    title: "权限Action",
+    title: "권한 작업",
     dataIndex: "action",
     scopedSlots: { customRender: "action" },
   },
   {
-    title: "权限Describe",
+    title: "권한설명",
     dataIndex: "describe",
     scopedSlots: { customRender: "describe" },
   },
   {
-    title: "操作",
+    title: "액션",
     dataIndex: "operation",
     scopedSlots: { customRender: "operation" },
   },
@@ -358,36 +358,36 @@ export default {
           dataIndex: "id",
         },
         {
-          title: "菜单名称",
+          title: "메뉴명",
           dataIndex: "name",
           scopedSlots: { customRender: "name" },
         },
         {
-          title: "路径",
+          title: "path",
           dataIndex: "path",
           scopedSlots: { customRender: "path" },
         },
         {
-          title: "组件名称",
+          title: "컴포넌트명",
           dataIndex: "component",
           scopedSlots: { customRender: "component" },
         },
         {
-          title: "菜单是否隐藏",
+          title: "숨김여부",
           dataIndex: "invisible",
           scopedSlots: { customRender: "invisible" },
         },
         {
-          title: "页面是否缓存",
+          title: "페이지캐시",
           dataIndex: "cacheAble",
           scopedSlots: { customRender: "cacheAble" },
         },
         {
-          title: "排序",
+          title: "종류",
           dataIndex: "sort",
         },
         {
-          title: "操作",
+          title: "액션",
           width: "260px",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
@@ -496,12 +496,12 @@ export default {
     },
     handleDelete(record) {
       let model = this.$confirm({
-        title: "提示",
-        content: "确定要删除该菜单吗?",
+        title: "알림",
+        content: "정말 이 메뉴를 삭제하시겠습니까?",
         onOk: () => {
           return deleteMenu({ menuId: record.id }).then((res) => {
             if (res.code == 200) {
-              this.$message.success("删除菜单成功");
+              this.$message.success("메뉴 삭제 성공");
               this.$refs.list.refresh();
             } else {
               this.$message.error(res.message);
@@ -529,7 +529,7 @@ export default {
           if (this.formFlag == 1 || this.formFlag == 3) {
             addMenu(values).then((res) => {
               if (res.code == 200) {
-                this.$message.success("创建菜单成功");
+                this.$message.success("메뉴를 성공적으로 만들었습니다.");
                 this.visible = false;
                 this.$refs.list.refresh();
               } else {
@@ -540,7 +540,7 @@ export default {
             values.id = this.editId;
             editMenu(values).then((res) => {
               if (res.code == 200) {
-                this.$message.success("编辑菜单成功");
+                this.$message.success("메뉴 수정 성공");
                 this.visible = false;
                 this.$refs.list.refresh();
               } else {

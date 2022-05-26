@@ -67,7 +67,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if(kaptchaCode != null && !code.equals(kaptchaCode)) {
             response.setContentType("application/json;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(JsonUtils.objectToJson(new ExceptionResponse(1006, "验证码错误，请刷新验证码！", request.getMethod() + ':' + request.getRequestURI())));
+            response.getWriter().write(JsonUtils.objectToJson(new ExceptionResponse(1006, "인증 코드가 잘못되었습니다. 인증 코드를 새로고침하세요!", request.getMethod() + ':' + request.getRequestURI())));
             return null;
         }
 

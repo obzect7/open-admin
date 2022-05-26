@@ -6,7 +6,7 @@ import PageView from "@/layouts/PageView";
 export const commonRoutes = [
   {
     path: "/login",
-    name: "登录页",
+    name: "로그인 페이지",
     component: () => import("@/pages/login"),
   },
   {
@@ -24,7 +24,7 @@ export const commonRoutes = [
 export const defaultSettingRoutes = [
   {
     path: 'setting',
-    name: '个人设置',
+    name: '개인 설정',
     meta: {
       invisible: true,
     },
@@ -33,24 +33,24 @@ export const defaultSettingRoutes = [
     children: [
       {
         path: 'base',
-        name: '基本设置',
+        name: '기본 설정',
         component: () => import("@/pages/setting/BaseSetting"),
       },
       {
         path: 'security',
-        name: '安全设置',
+        name: '보안 설정',
         component: () => import("@/pages/setting/Security"),
       },
       {
         path: 'custom',
-        name: '个人性化',
+        name: '개인화',
         component: () => import("@/pages/setting/Custom"),
       },
     ]
   }
 ];
 
-// 前端路由表
+// 프런트 엔드 라우팅 테이블
 export const constantRouterComponents = {
   TabsView: TabsView,
   PageView: PageView,

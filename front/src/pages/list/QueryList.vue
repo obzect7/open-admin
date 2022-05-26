@@ -19,7 +19,7 @@
               :labelCol="{span: 5}"
               :wrapperCol="{span: 18, offset: 1}"
             >
-              <a-select placeholder="请选择">
+              <a-select placeholder="선택하세요.">
                 <a-select-option value="1">关闭</a-select-option>
                 <a-select-option value="2">运行中</a-select-option>
               </a-select>
@@ -51,7 +51,7 @@
               :labelCol="{span: 5}"
               :wrapperCol="{span: 18, offset: 1}"
             >
-              <a-select placeholder="请选择">
+              <a-select placeholder="선택하세요.">
                 <a-select-option value="1">关闭</a-select-option>
                 <a-select-option value="2">运行中</a-select-option>
               </a-select>
@@ -84,7 +84,7 @@
         <a-button >批量操作</a-button>
         <a-dropdown>
           <a-menu @click="handleMenuClick" slot="overlay">
-            <a-menu-item key="delete">删除</a-menu-item>
+            <a-menu-item key="delete">삭제</a-menu-item>
             <a-menu-item key="audit">审批</a-menu-item>
           </a-menu>
           <a-button>
@@ -108,10 +108,10 @@
             <a-icon type="plus"/>新增
           </a>
           <a style="margin-right: 8px">
-            <a-icon type="edit"/>编辑
+            <a-icon type="edit"/>수정
           </a>
           <a @click="deleteRecord(record.key)" v-auth="`delete`">
-            <a-icon type="delete" />删除1
+            <a-icon type="delete" />삭제1
           </a>
         </div>
         <template slot="statusTitle">

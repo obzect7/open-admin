@@ -4,11 +4,11 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="7" :sm="16">
-            <a-form-item label="昵称">
+            <a-form-item label="닉네임">
               <a-input-search
                 v-model="queryParam.nickname"
-                placeholder="请输入昵称"
-                enter-button="搜索"
+                placeholder="닉네임을 입력해주세요"
+                enter-button="검색"
                 @search="search"
               />
             </a-form-item>
@@ -19,7 +19,7 @@
 
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="exportExcel"
-        >导出用户</a-button
+        >사용자 내려받기</a-button
       >
     </div>
 
@@ -71,7 +71,7 @@ export default {
   },
   data() {
     return {
-      // 查询参数
+      // 쿼리 매개변수
       queryParam: {},
       layout: {
         labelCol: { span: 4 },
@@ -90,7 +90,7 @@ export default {
         sm: { span: 16 },
       },
       mdl: {},
-      // 表头
+      // 헤더
       columns: [
         {
           title: "Id",
@@ -98,7 +98,7 @@ export default {
           key: "id",
         },
         {
-          title: "昵称",
+          title: "닉네임",
           dataIndex: "nickname",
           key: "nickname",
           scopedSlots: { customRender: "nickname" },
@@ -109,23 +109,23 @@ export default {
           key: "openid",
         },
         {
-          title: "手机号",
+          title: "전화번호",
           dataIndex: "mobile",
           key: "mobile",
         },
         {
-          title: "状态",
+          title: "상태",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
           key: "status",
         },
         {
-          title: "创建时间",
+          title: "생성 시간",
           dataIndex: "createdTime",
           key: "createdTime",
         },
         {
-          title: "操作",
+          title: "액션",
           width: "150px",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
@@ -167,13 +167,13 @@ export default {
       exportExcel(this.queryParam).then((res) => {
         let blob = new Blob([res]);
         let downloadElement = document.createElement("a");
-        let href = window.URL.createObjectURL(blob); //创建下载的链接
+        let href = window.URL.createObjectURL(blob); //다운로드 링크 만들기
         downloadElement.href = href;
-        downloadElement.download = "用户列表.xlsx"; //下载后文件名
+        downloadElement.download = "사용자목록.xlsx"; //다운로드 후 파일 이름
         document.body.appendChild(downloadElement);
-        downloadElement.click(); //点击下载
-        document.body.removeChild(downloadElement); //下载完成移除元素
-        window.URL.revokeObjectURL(href); //释放掉blob对象
+        downloadElement.click(); //다운로드하려면 클릭
+        document.body.removeChild(downloadElement); //완전한 제거 요소 다운로드
+        window.URL.revokeObjectURL(href); //blob파싱
       });
     },
     handleInfo(record) {

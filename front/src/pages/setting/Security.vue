@@ -26,7 +26,7 @@
 
       <a-form ref="ruleForm" :form="form" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-form-item
-          label="用户名"
+          label="사용자 이름"
         >
           <a-input
             disabled="disabled"
@@ -35,7 +35,7 @@
         </a-form-item>
 
         <a-form-item
-          label="密码"
+          label="비밀번호"
         >
           <a-input
             placeholder="请输入原密码!"

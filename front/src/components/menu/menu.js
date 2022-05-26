@@ -1,33 +1,33 @@
 /**
- * 该插件可根据菜单配置自动生成 ANTD menu组件
+ * 이 플러그인은 메뉴 구성에 따라 ANTD 메뉴 구성 요소를 자동으로 생성할 수 있습니다.
  * menuOptions示例：
  * [
  *  {
- *    name: '菜单名称',
- *    path: '菜单路由',
+ *    name: '메뉴명',
+ *    path: 'path',
  *    meta: {
- *      icon: '菜单图标',
+ *      icon: '메뉴 아이콘',
  *      invisible: 'boolean, 是否不可见, 默认 false',
  *    },
- *    children: [子菜单配置]
+ *    children: [하위 메뉴 구성]
  *  },
  *  {
- *    name: '菜单名称',
- *    path: '菜单路由',
+ *    name: '메뉴명',
+ *    path: 'path',
  *    meta: {
- *      icon: '菜单图标',
- *      invisible: 'boolean, 是否不可见, 默认 false',
+ *      icon: '메뉴 아이콘',
+ *      invisible: 'boolean, 숨김, 기본 false',
  *    },
- *    children: [子菜单配置]
+ *    children: [하위 메뉴 구성]
  *  }
  * ]
  *
- * i18n: 国际化配置。系统默认会根据 options route配置的 path 和 name 生成英文以及中文的国际化配置，如需自定义或增加其他语言，配置
- * 此项即可。如：
+ * i18n: 국제 구성. 기본적으로 시스템은 options route에서 구성한 경로와 이름에 따라 영어 및 중국어 국제화 구성을 생성합니다. 다른 언어를 사용자 지정하거나 추가해야 하는 경우 구성합니다.
+ * 예제：
  * i18n: {
  *   messages: {
- *     CN: {dashboard: {name: '监控中心'}}
- *     HK: {dashboard: {name: '監控中心'}}
+ *     CN: {dashboard: {name: '모니터링 센터'}}
+ *     HK: {dashboard: {name: '모니터링 센터'}}
  *   }
  * }
  **/
@@ -80,7 +80,7 @@ export default {
     if (this.options.length > 0 && !this.options[0].fullPath) {
       this.formatOptions(this.options, '')
     }
-    // 自定义国际化配置
+    // 사용자 지정 국제화 구성
     if(this.i18n && this.i18n.messages) {
       const messages = this.i18n.messages
       Object.keys(messages).forEach(key => {

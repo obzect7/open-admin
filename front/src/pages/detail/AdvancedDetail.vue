@@ -3,13 +3,13 @@
     <detail-list size="small" :col="2" slot="headerContent">
       <detail-list-item term="创建人">曲丽丽</detail-list-item>
       <detail-list-item term="订购产品">XX服务</detail-list-item>
-      <detail-list-item term="创建时间">2018-08-07</detail-list-item>
+      <detail-list-item term="생성 시간">2018-08-07</detail-list-item>
       <detail-list-item term="关联单据"><a>12421</a></detail-list-item>
       <detail-list-item term="生效日期">2018-08-07 ~ 2018-12-11</detail-list-item>
       <detail-list-item term="备注">请于两个工作日内确认</detail-list-item>
     </detail-list>
     <template slot="extra">
-      <head-info title="状态" content="待审批" />
+      <head-info title="상태" content="待审批" />
       <head-info title="订单金额" content="¥ 568.08" />
     </template>
     <template slot="action">

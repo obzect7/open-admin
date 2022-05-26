@@ -7,12 +7,12 @@
     <a-menu :class="['avatar-menu']" slot="overlay">
       <a-menu-item @click="account">
         <a-icon type="user" />
-        <span>个人中心</span>
+        <span>개인설정</span>
       </a-menu-item>
       <a-menu-divider />
       <a-menu-item @click="logout">
         <a-icon style="margin-right: 8px;" type="poweroff" />
-        <span>退出登录</span>
+        <span>로그아웃</span>
       </a-menu-item>
     </a-menu>
   </a-dropdown>

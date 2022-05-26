@@ -2,7 +2,7 @@
   <a-card :bordered="false" :style="{ minHeight: '560px' }">
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="handleCreate"
-        >新建用户</a-button
+        >사용자 추가</a-button
       >
     </div>
 
@@ -15,7 +15,7 @@
     >
       <span slot="action" slot-scope="text, record">
         <template>
-          <a @click="handleEdit(record)"> <a-icon type="edit" />编辑 </a>
+          <a @click="handleEdit(record)"> <a-icon type="edit" />수정 </a>
         </template>
       </span>
 
@@ -40,7 +40,7 @@
     </s-table>
 
     <a-modal
-      :title="formFlag == 1 ? '创建用户' : '修改用户'"
+      :title="formFlag == 1 ? '사용자 생성' : '사용자 수정'"
       style="top: 20px"
       :width="800"
       @cancel="cancel"
@@ -53,19 +53,19 @@
         :labelCol="labelCol"
         :wrapperCol="wrapperCol"
       >
-        <a-form-item label="用户名">
+        <a-form-item label="사용자 이름">
           <a-input
-            placeholder="请输入用户名!"
+            placeholder="사용자 이름을 입력하십시오!"
             v-decorator="[
               'username',
-              { rules: [{ required: true, message: '请输入用户名!' }] },
+              { rules: [{ required: true, message: '사용자 이름을 입력하십시오!' }] },
             ]"
           />
         </a-form-item>
 
-        <a-form-item label="密码">
+        <a-form-item label="비밀번호">
           <a-input
-            placeholder="请输入密码,(编辑用户不填，则不更新密码)!"
+            placeholder="비밀번호를 입력해주세요. (수정 사용자가 입력되지 않으면 비밀번호는 업데이트 되지 않습니다.)!"
             v-decorator="[
               'password',
               { rules: [{ validator: checkPassword }] },
@@ -73,21 +73,21 @@
           />
         </a-form-item>
 
-        <a-form-item label="姓名">
+        <a-form-item label="이름">
           <a-input
-            placeholder="请输入姓名!"
+            placeholder="이름을 입력하십시오!"
             v-decorator="[
               'name',
-              { rules: [{ required: true, message: '请输入姓名!' }] },
+              { rules: [{ required: true, message: '이름을 입력하십시오!' }] },
             ]"
           />
         </a-form-item>
 
-        <a-form-item label="用户角色">
+        <a-form-item label="사용자 역할">
           <a-select
             v-decorator="[
               'roleId',
-              { rules: [{ required: true, message: '请选择用户角色!' }] },
+              { rules: [{ required: true, message: '사용자 역할을 선택하십시오!' }] },
             ]"
           >
             <a-select-option
@@ -99,11 +99,11 @@
           </a-select>
         </a-form-item>
 
-        <a-form-item label="用户状态">
+        <a-form-item label="사용자 상태">
           <a-select
             v-decorator="[
               'status',
-              { rules: [{ required: true, message: '请选择用户状态!' }] },
+              { rules: [{ required: true, message: '사용자 상태를 선택하십시오!' }] },
             ]"
           >
             <a-select-option
@@ -144,7 +144,7 @@ export default {
         if (!pwdRegex.test(value)) {
           callback(
             new Error(
-              "设置密码复杂度太低，必须包含大小写，数字，特殊字符，不少于8位"
+              "암호 복잡성을 너무 낮게 설정하십시오. 대문자와 소문자, 숫자, 특수 문자를 포함해야 하며 8자 이상이어야 합니다."
             )
           );
         }
@@ -172,7 +172,7 @@ export default {
         sm: { span: 16 },
       },
       mdl: {},
-      // 表头
+      // 헤더
       columns: [
         {
           title: "Id",
@@ -180,35 +180,35 @@ export default {
           key: "id",
         },
         {
-          title: "用户名",
+          title: "사용자 이름",
           dataIndex: "username",
           key: "username",
           scopedSlots: { customRender: "username" },
         },
         {
-          title: "姓名",
+          title: "이름",
           dataIndex: "name",
           key: "name",
         },
         {
-          title: "角色",
+          title: "역할",
           dataIndex: "roleId",
           scopedSlots: { customRender: "roleId" },
           key: "roleId",
         },
         {
-          title: "状态",
+          title: "상태",
           dataIndex: "status",
           scopedSlots: { customRender: "status" },
           key: "status",
         },
         {
-          title: "创建时间",
+          title: "생성 시간",
           dataIndex: "createdTime",
           key: "createdTime",
         },
         {
-          title: "操作",
+          title: "액션",
           width: "150px",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
@@ -293,7 +293,7 @@ export default {
             values.id = this.editId;
             updateSysUser(values).then((res) => {
               if (res.code == 200) {
-                this.$message.success("修改用户信息成功");
+                this.$message.success("사용자 정보 수정 성공");
                 this.visible = false;
                 this.$refs.list.refresh();
               } else {

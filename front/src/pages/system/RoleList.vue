@@ -9,10 +9,10 @@
     >
       <a-tabs :default-active-key="currentTab" @change="changeTab">
         <a-tab-pane key="1">
-          <span slot="tab"> <a-icon type="menu" />配置菜单 </span>
+          <span slot="tab"> <a-icon type="menu" />메뉴구성 </span>
 
           <div class="table-operator">
-            <a-button type="primary" @click="saveRoleMenus">保存</a-button>
+            <a-button type="primary" @click="saveRoleMenus">저장</a-button>
           </div>
 
           <a-tree
@@ -26,10 +26,10 @@
           />
         </a-tab-pane>
         <a-tab-pane key="2">
-          <span slot="tab"> <a-icon type="control" />配置页面按钮权限 </span>
+          <span slot="tab"> <a-icon type="control" />페이지 버튼 권한 구성 </span>
           <div class="table-operator">
             <a-button type="primary" @click="saveRoleMenuPermissons"
-              >保存</a-button
+              >저장</a-button
             >
           </div>
           <a-row
@@ -59,7 +59,7 @@
 
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="handleCreate()"
-        >新建角色</a-button
+        >역할 추가</a-button
       >
     </div>
 
@@ -73,11 +73,11 @@
     >
       <span slot="action" slot-scope="text, record">
         <template>
-          <a @click="showDrawer(record)"> <a-icon type="tool" />配置权限 </a>
+          <a @click="showDrawer(record)"> <a-icon type="tool" />권한 구성 </a>
           <a-divider type="vertical" />
-          <a @click="handleEdit(record)"> <a-icon type="edit" />编辑 </a>
+          <a @click="handleEdit(record)"> <a-icon type="edit" />수정 </a>
           <a-divider type="vertical" />
-          <a @click="handleDelete(record)"> <a-icon type="delete" />删除 </a>
+          <a @click="handleDelete(record)"> <a-icon type="delete" />삭제 </a>
         </template>
       </span>
 
@@ -87,7 +87,7 @@
     </s-table>
 
     <a-modal
-      :title="formFlag == 1 ? '创建角色' : '修改角色'"
+      :title="formFlag == 1 ? '역할 생성' : '역할 수정'"
       style="top: 20px"
       :width="800"
       @cancel="cancel"
@@ -95,30 +95,30 @@
       @ok="handleOk"
     >
       <a-form :form="form" :labelCol="labelCol" :wrapperCol="wrapperCol">
-        <a-form-item label="权限唯一键">
+        <a-form-item label="권한 고유 키">
           <a-input
-            placeholder="请输入权限唯一键!"
+            placeholder="권한 고유 키를 입력하세요.!"
             v-decorator="[
               'uniqueKey',
-              { rules: [{ required: true, message: '请输入权限唯一键!' }] },
+              { rules: [{ required: true, message: '권한 고유 키를 입력하세요.!' }] },
             ]"
           />
         </a-form-item>
 
-        <a-form-item label="角色名称">
+        <a-form-item label="role명">
           <a-input
-            placeholder="请输入角色名称!"
+            placeholder="role명을 입력하세요.!"
             v-decorator="[
               'name',
-              { rules: [{ required: true, message: '请输入角色名称!' }] },
+              { rules: [{ required: true, message: 'role명을 입력하세요!' }] },
             ]"
           />
         </a-form-item>
 
-        <a-form-item label="角色备注">
+        <a-form-item label="role 비고">
           <a-textarea
             :rows="3"
-            placeholder="请输入角色备注!"
+            placeholder="역할 메모를 입력하세요.!"
             v-decorator="['remark']"
           />
         </a-form-item>
@@ -174,7 +174,7 @@ export default {
         sm: { span: 16 },
       },
       mdl: {},
-      // 表头
+      // 헤더
       columns: [
         {
           title: "Id",
@@ -182,28 +182,28 @@ export default {
           key: "id",
         },
         {
-          title: "唯一键",
+          title: "고유 키",
           dataIndex: "uniqueKey",
           key: "uniqueKey",
           scopedSlots: { customRender: "uniqueKey" },
         },
         {
-          title: "角色名称",
+          title: "role명",
           dataIndex: "name",
           key: "name",
         },
         {
-          title: "备注说明",
+          title: "비고",
           dataIndex: "remark",
           key: "remark",
         },
         {
-          title: "创建时间",
+          title: "생성 시간",
           dataIndex: "createdTime",
           key: "createdTime",
         },
         {
-          title: "操作",
+          title: "액션",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
           key: "action",
@@ -251,7 +251,7 @@ export default {
         permissions: permissions,
       }).then((res) => {
         if (res.code == 200) {
-          this.$message.success("配置配置页面按钮权限成功");
+          this.$message.success("구성 페이지 버튼 권한 구성");
         } else {
           this.$message.error(res.message);
         }
@@ -263,7 +263,7 @@ export default {
         menuIds: this.checkedKeys.join(","),
       }).then((res) => {
         if (res.code == 200) {
-          this.$message.success("配置菜单成功");
+          this.$message.success("구성 메뉴 성공");
         } else {
           this.$message.error(res.message);
         }
@@ -333,9 +333,9 @@ export default {
       getMenuAndMenuPermissions({ roleId: record.id }).then((res) => {
         let { menuIds, permissions: rolePermissions } = res.data;
         this.checkedKeys = menuIds.split(",").map((item) => Number(item));
-        // 有权限表，处理勾选
+        // 권한 테이블, 처리 확인
         if (this.permissions && rolePermissions && rolePermissions.length > 0) {
-          // 先处理要勾选的权限结构
+          // 먼저 확인할 권한 구조를 처리합니다.
           const permissionsAction = {};
           rolePermissions.forEach((item) => {
             let operation = JSON.parse(item.operation);
@@ -372,12 +372,12 @@ export default {
     },
     handleDelete(record) {
       let model = this.$confirm({
-        title: "提示",
-        content: "确定要删除该角色吗?",
+        title: "알림",
+        content: "이 역할을 삭제하시겠습니까?",
         onOk: () => {
           return deleteRole({ roleId: record.id }).then((res) => {
             if (res.code == 200) {
-              this.$message.success("删除角色成功");
+              this.$message.success("역할 삭제 성공");
               this.$refs.list.refresh();
             } else {
               this.$message.error(res.message);
@@ -395,7 +395,7 @@ export default {
           editRole(values).then((res) => {
             if (res.code == 200) {
               this.$message.success(
-                this.formFlag == 1 ? "创建" : "修改" + "角色成功"
+                this.formFlag == 1 ? "생성" : "수정" + "역할 성공"
               );
               this.visible = false;
               this.$refs.list.refresh();

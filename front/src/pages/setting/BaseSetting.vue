@@ -6,13 +6,13 @@
         <a-form layout="vertical">
 
           <a-form-item
-            label="用户名"
+            label="사용자 이름"
           >
             <a-input disabled="disabled" :value="currUser.username" />
           </a-form-item>
 
           <a-form-item
-            label="昵称"
+            label="닉네임"
           >
             <a-input placeholder="给自己起个名字" v-model="name" />
           </a-form-item>

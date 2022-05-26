@@ -4,14 +4,14 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="7" :sm="16">
-            <a-form-item label="操作人">
+            <a-form-item label="운영자">
               <a-select
                 @change="change"
                 v-model="queryParam.operationId"
-                placeholder="请选择"
+                placeholder="선택하세요."
                 default-value="0"
               >
-                <a-select-option value>所有</a-select-option>
+                <a-select-option value>전체</a-select-option>
                 <a-select-option
                   :key="index"
                   v-for="(item, index) in sysUserList"
@@ -23,7 +23,7 @@
           </a-col>
 
           <a-col :md="14" :sm="24">
-            <a-form-item label="审核时间">
+            <a-form-item label="검토시간">
               <a-form-item :style="{ display: 'inline-block' }">
                 <a-date-picker
                   :format="dateFormat"
@@ -96,9 +96,9 @@ export default {
   },
   data() {
     return {
-      // 查询参数
+      // 쿼리 매개변수
       queryParam: {},
-      modelTitle: "操作日志",
+      modelTitle: "작업 로그",
       visible: false,
       labelCol: {
         xs: { span: 24 },
@@ -110,42 +110,42 @@ export default {
       },
       sysUserList: [],
       dateFormat: "YYYY-MM-DD",
-      // 表头
+      // 헤더
       columns: [
         {
           title: "Id",
           dataIndex: "id",
         },
         {
-          title: "操作人",
+          title: "운영자",
           dataIndex: "operationId",
           scopedSlots: { customRender: "operationId" },
         },
         {
-          title: "请求url",
+          title: "요청 URL",
           dataIndex: "url",
           scopedSlots: { customRender: "url" },
         },
         {
-          title: "请求ip",
+          title: "요청 IP",
           dataIndex: "ip",
         },
         {
-          title: "请求浏览器",
+          title: "브라우저",
           dataIndex: "browser",
         },
         {
-          title: "请求参数",
+          title: "파라미터",
           dataIndex: "params",
           width: 380,
           scopedSlots: { customRender: "params" },
         },
         {
-          title: "执行时长(ms)",
+          title: "실행 시간(ms)",
           dataIndex: "takeTime",
         },
         {
-          title: "请求时间",
+          title: "요청 시간",
           dataIndex: "createdTime",
           key: "createdTime",
         },

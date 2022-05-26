@@ -16,17 +16,17 @@
           >
             <a-menu-item key="/setting/base">
               <router-link :to="{ path: '/setting/base' }">
-                基本设置
+                기본 설정
               </router-link>
             </a-menu-item>
             <a-menu-item key="/setting/security">
               <router-link :to="{ path: '/setting/security' }">
-                安全设置
+                보안 설정
               </router-link>
             </a-menu-item>
             <a-menu-item key="/setting/custom">
               <router-link :to="{ path: '/setting/custom' }">
-                个性化
+                개인화
               </router-link>
             </a-menu-item>
           </a-menu>
@@ -61,11 +61,11 @@ export default {
         outputType: "jpeg",
         canScale: false,
         autoCrop: true,
-        // 只有自动截图开启 宽度高度才生效
+        // 자동 스크린샷이 켜져 있을 때만 너비와 높이가 적용됩니다.
         autoCropWidth: 180,
         autoCropHeight: 180,
         fixedBox: true,
-        // 开启宽度和高度比例
+        // 너비 및 높이 비율 켜기
         fixed: true,
         fixedNumber: [1, 1],
       },
