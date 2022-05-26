@@ -1,0 +1,24 @@
+server:
+  port: 8020
+
+spring:
+  datasource:
+    url: jdbc:mariadb://210.114.10.52:3306:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&autoReconnect&useSSL=false
+    username: root
+    password: prosoft1!
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql console log
+
+resource:
+  upload-location: D:\\uploads\\open_admin
+  server-url: http://localhost:8020/open_admin
+
+wx:
+  mini-app:
+    appId: xxxxxxxxxxxxxxxx
+    appSecret: xxxxxxxxxxxxxxxx
+
+server-url: http://localhost:8020
+

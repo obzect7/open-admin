@@ -1,0 +1,240 @@
+<template>
+  <common-layout>
+    <div class="top">
+      <div class="header">
+        <img alt="logo" class="logo" src="@/assets/img/logo.png" />
+        <span class="title">{{ systemName }}</span>
+      </div>
+      <div class="desc">프로소프트 웹 프레임워크</div>
+    </div>
+    <div class="login">
+      <a-form @submit="onSubmit" :form="form">
+        <a-alert
+          type="error"
+          :closable="true"
+          v-show="error"
+          :message="error"
+          showIcon
+          style="margin-bottom: 24px"
+        />
+        <a-form-item>
+          <a-input
+            autocomplete="autocomplete"
+            size="large"
+            placeholder="사용자 이름을 입력하십시오"
+            v-decorator="[
+              'username',
+              {
+                rules: [
+                  { required: true, message: '사용자 이름을 입력하십시오', whitespace: true },
+                ],
+              },
+            ]"
+          >
+            <a-icon slot="prefix" type="user" />
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-input
+            size="large"
+            placeholder="비밀번호를 입력 해주세요"
+            autocomplete="autocomplete"
+            type="password"
+            v-decorator="[
+              'password',
+              {
+                rules: [
+                  { required: true, message: '비밀번호를 입력 해주세요', whitespace: true },
+                ],
+              },
+            ]"
+          >
+            <a-icon slot="prefix" type="lock" />
+          </a-input>
+        </a-form-item>
+
+        <a-form-item>
+          <a-input
+            style="width: 230px; margin-right: 20px; cursor: pointer"
+            size="large"
+            autocomplete="false"
+            placeholder="인증 코드를 입력하십시오"
+            v-decorator="[
+              'code',
+              {
+                rules: [{ required: true, message: '인증 코드를 입력하십시오' }],
+                validateTrigger: 'blur',
+              },
+            ]"
+          />
+          <img
+            style="display: inline-block"
+            :src="verCode"
+            class="verCode"
+            @click="newVerCode"
+          />
+        </a-form-item>
+
+        <div>
+          <a-checkbox :checked="true">자동 로그인</a-checkbox>
+        </div>
+        <a-form-item>
+          <a-button
+            :loading="logging"
+            style="width: 100%; margin-top: 24px"
+            size="large"
+            htmlType="submit"
+            type="primary"
+            >로그인</a-button
+          >
+        </a-form-item>
+
+        <!-- <div>
+          기타 로그인 방법
+          <a-icon class="icon" type="alipay-circle" />
+          <a-icon class="icon" type="taobao-circle" />
+        </div>-->
+      </a-form>
+    </div>
+  </common-layout>
+</template>
+
+<script>
+import CommonLayout from "@/layouts/CommonLayout";
+import { login } from "@/services/system";
+import { setAuthorization } from "@/utils/request";
+import { mapMutations } from "vuex";
+import { mapState } from "vuex";
+export default {
+  name: "Login",
+  components: { CommonLayout },
+  data() {
+    return {
+      logging: false,
+      error: "",
+      form: this.$form.createForm(this),
+      verCode: "",
+    };
+  },
+  computed: {
+    systemName() {
+      return this.$store.state.setting.systemName;
+    },
+  },
+  created() {
+    this.newVerCode();
+  },
+  methods: {
+    ...mapMutations("account", [
+      "setUser",
+      "setPermissions",
+      "setRole",
+      "setMenus",
+    ]),
+    newVerCode() {
+      this.verCode =
+        process.env.VUE_APP_API_BASE_URL +
+        "/backed/captcha" +
+        "?m=" +
+        Math.random();
+    },
+    onSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err) => {
+        if (!err) {
+          this.logging = true;
+          const username = this.form.getFieldValue("username");
+          const password = this.form.getFieldValue("password");
+          const code = this.form.getFieldValue("code");
+          login({ username, password, code }).then(this.afterLogin);
+        }
+      });
+    },
+    translatePermission(permissions) {
+      return permissions.map((item) => {
+        return {
+          operation: JSON.parse(item.operation),
+          component: item.component,
+        };
+      });
+    },
+    afterLogin(loginRes) {
+      this.logging = false;
+      if (loginRes.code == 200) {
+        let { user, permissions, menus } = loginRes.data;
+        permissions = this.translatePermission(permissions);
+        this.setUser(user);
+        this.setPermissions(permissions);
+        this.setMenus(menus);
+        this.setRole(user.role);
+        setAuthorization({
+          token: loginRes.data.token,
+          expireAt: new Date(loginRes.data.tokenExpireAt),
+        });
+        window.location.reload();
+      } else {
+        this.error = loginRes.message;
+      }
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.common-layout {
+  .top {
+    text-align: center;
+    .header {
+      height: 44px;
+      line-height: 44px;
+      a {
+        text-decoration: none;
+      }
+      .logo {
+        height: 44px;
+        vertical-align: top;
+        margin-right: 16px;
+      }
+      .title {
+        font-size: 33px;
+        color: @title-color;
+        font-family: "Myriad Pro", "Helvetica Neue", Arial, Helvetica,
+          sans-serif;
+        font-weight: 600;
+        position: relative;
+        top: 2px;
+      }
+    }
+    .desc {
+      font-size: 14px;
+      color: @text-color-second;
+      margin-top: 12px;
+      margin-bottom: 40px;
+    }
+  }
+  .login {
+    width: 368px;
+    margin: 0 auto;
+    @media screen and (max-width: 576px) {
+      width: 95%;
+    }
+    @media screen and (max-width: 320px) {
+      .captcha-button {
+        font-size: 14px;
+      }
+    }
+    .icon {
+      font-size: 24px;
+      color: @text-color-second;
+      margin-left: 16px;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: color 0.3s;
+
+      &:hover {
+        color: @primary-color;
+      }
+    }
+  }
+}
+</style>

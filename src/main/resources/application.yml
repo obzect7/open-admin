@@ -1,0 +1,45 @@
+server:
+  port: 8020
+
+spring:
+  profiles:
+    active: ${PROCESS_ENV:dev}
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource # 데이터 소스 유형: HikariCP
+    driver-class-name: org.mariadb.jdbc.Driver # mysql 드라이버
+  hikari:
+    connection-timeout: 30000 # 연결 풀이 연결을 할당할 때까지 대기하는 최대 시간(밀리초)입니다. 이 시간 이후에 연결을 사용할 수 없으면 SQL 오류가 발생합니다.
+    minimum-idle: 5 # 최소 연결 수
+    maximum-pool-size: 20 # 최대 연결 수
+    auto-commit: true # 자동 커밋
+    idle-timeout: 30000 # 연결 시간 초과의 최대 기간(밀리초), 시간 초과가 해제됨(폐기됨), 기본값: 10분
+    pool-name: DateSourceHikariCP # 연결 풀 이름
+    max-lifetime: 20000 # 연결 수명(밀리초), 시간 초과되어 사용되지 않으면 해제(폐기됨), 기본값: 30분
+    connection-test-query: SELECT 1
+  servlet:
+    multipart:
+      max-file-size: 5120000
+      max-request-size: 5120000
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  application:
+    name: open-admin
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+
+mybatis:
+  type-aliases-package: com.cxp.openadmin.domain.entity # 모든 POJO 클래스가 있는 패키지 경로
+  mapper-locations: classpath*:com.cxp.openadmin.dao/**/*.xml
+
+jwt:
+  secret: cxp
+  expire-time-in-second: 1209600
