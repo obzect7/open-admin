@@ -14,7 +14,7 @@ NProgress.configure({
 });
 
 /**
- * 进度条开始
+ * 진행 표시줄 시작
  * @param to
  * @param form
  * @param next

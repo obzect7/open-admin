@@ -2,7 +2,7 @@ import TabsView from "@/layouts/tabs/TabsView";
 import BlankView from "@/layouts/BlankView";
 import PageView from "@/layouts/PageView";
 
-// 通用路由配置
+// 일반 라우팅 구성
 export const commonRoutes = [
   {
     path: "/login",

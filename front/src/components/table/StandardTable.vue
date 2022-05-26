@@ -3,10 +3,10 @@
     <div class="alert">
       <a-alert type="info" :show-icon="true" v-if="selectedRows">
         <div class="message" slot="message">
-          已选择&nbsp;<a>{{selectedRows.length}}</a>&nbsp;项 <a class="clear" @click="onClear">清空</a>
+          선택된&nbsp;<a>{{selectedRows.length}}</a>&nbsp;건 <a class="clear" @click="onClear">초기화</a>
           <template  v-for="(item, index) in needTotalList" >
             <div v-if="item.needTotal" :key="index">
-              {{item.title}}总计&nbsp;
+              {{item.title}} 전체&nbsp;
               <a>{{item.customRender ? item.customRender(item.total) : item.total}}</a>
             </div>
           </template>

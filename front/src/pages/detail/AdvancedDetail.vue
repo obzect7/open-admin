@@ -62,7 +62,7 @@
           <detail-list-item term="角色码">1234567</detail-list-item>
           <detail-list-item term="所属部门">XX公司-YY部</detail-list-item>
           <detail-list-item term="过期时间">2018-08-08</detail-list-item>
-          <detail-list-item term="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
+          <detail-list-item term="비고">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
         </detail-list>
         <a-divider style="margin: 16px 0" />
         <detail-list title="组名称" size="small" :col="1">
@@ -70,7 +70,7 @@
           <detail-list-item term="角色码">1234567</detail-list-item>
           <detail-list-item term="所属部门">XX公司-YY部</detail-list-item>
           <detail-list-item term="过期时间">2018-08-08</detail-list-item>
-          <detail-list-item term="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
+          <detail-list-item term="비고">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
         </detail-list>
         <a-divider style="margin: 16px 0" />
         <detail-list title="组名称" size="small" :col="2">
@@ -78,7 +78,7 @@
           <detail-list-item term="角色码">1234567</detail-list-item>
           <detail-list-item term="所属部门">XX公司-YY部</detail-list-item>
           <detail-list-item term="过期时间">2018-08-08</detail-list-item>
-          <detail-list-item term="描述">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
+          <detail-list-item term="비고">这段描述很长很长很长很长很长很长很长很长很长很长很长很长很长很长...</detail-list-item>
         </detail-list>
       </a-card>
     </a-card>

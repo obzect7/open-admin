@@ -39,6 +39,7 @@ export default {
   data() {
     return {
       langList: [
+        {key: 'KO', name: '한국어', alias: '한글'},
         {key: 'CN', name: '简体中文', alias: '简体'},
         {key: 'HK', name: '繁體中文', alias: '繁體'},
       ]

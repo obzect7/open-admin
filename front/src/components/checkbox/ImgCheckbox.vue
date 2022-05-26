@@ -38,7 +38,7 @@ const Group = {
   watch: {
     'values': function (value) {
       this.$emit('change', value)
-      // // 此条件是为解决单选时，触发两次chang事件问题
+      // // 이 조건은 라디오 선택 시 변경 이벤트가 두 번 발생하는 문제를 해결하기 위한 것입니다.
       // if (!(newVal.length === 1 && oldVal.length === 1 && newVal[0] === oldVal[0])) {
       //   this.$emit('change', this.values)
       // }

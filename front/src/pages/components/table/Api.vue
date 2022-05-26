@@ -3,13 +3,13 @@
     <div class="introduce">
       <h2 class="title">说明</h2>
       <p class="content">
-        AdvanceTable 是基于 Ant Design Vue Table 组件封装，支持其所有 API。<br/>
-        主要添加了<em>列设置</em>及<em>搜索控件配置</em>的功能，可用于一些需要动态配置表格展示、动态配置搜索条件的场景。<br/>
-        使用方式 与 antd table 基本无异。添加了部分API，如下：
+        AdvanceTable은 Ant Design Vue Table 구성 요소 패키지를 기반으로 하며 모든 API를 지원합니다. <br/>
+        테이블 표시의 동적 구성 및 검색 조건의 동적 구성이 필요한 일부 시나리오에서 사용할 수 있는 <em>열 설정</em> 및 <em>검색 제어 구성</em> 기능을 주로 추가했습니다. <br/>
+        사용법은 기본적으로 antd 테이블과 동일합니다. 다음과 같이 일부 API를 추가했습니다.：
       </p>
     </div>
     <api-table :api-source="apiSource" />
-    <api-table type="event" title="事件" :api-source="events" />
+    <api-table type="event" title="이벤트" :api-source="events" />
     <api-table title="Column" :api-source="columnApi" />
     <api-table title="Search" :api-source="searchApi" />
   </div>
@@ -26,29 +26,29 @@
           {
             key: 0,
             param: '<a href="https://www.antdv.com/components/table-cn/#API" target="_blank">Ant Design Vue Table API</a>',
-            desc: '支持 Ant Design Vue Table 组件 所有 api',
+            desc: 'Ant Design Vue Table 컴포넌트의 모든 API 지원',
             type: '--',
             default: '--',
           },
           {
             key: 1,
             param: 'title',
-            desc: '表格标题',
+            desc: '테이블 제목',
             type: 'string | slot',
             default: '\'高级表格\''
           },
           {
             key: 2,
             param: 'formatConditions',
-            desc: `是否格式化搜索条件的值，格式化规则参考 <a>Search 配置</a>。
-                   <br/>false：取搜索输入控件的原值 <br/>true：取搜索输入控件格式化后的值`,
+            desc: `검색 조건 값의 형식 지정 여부에 대한 형식 지정 규칙은 <a>검색 구성</a>을 참조하세요.。
+                   <br/>false: 검색 입력 컨트롤의 원래 값을 가져옵니다. <br/>true: 검색 입력 컨트롤의 형식이 지정된 값을 가져옵니다.`,
             type: 'boolean',
             default: 'false',
           },
           {
             key: 3,
             param: 'columns',
-            desc: `表格列配置，参考 <a>Column 配置</a>`,
+            desc: `테이블 열 구성, <a>컬럼 구성</a> 참조`,
             type: 'array',
             default: '--',
           }
@@ -57,25 +57,25 @@
           {
             key: 0,
             param: '<a href="https://www.antdv.com/components/table-cn/#API" target="_blank">Ant Design Vue Table Events API</a>',
-            desc: '支持 Ant Design Vue Table 所有事件',
+            desc: 'Ant Design Vue Table의 모든 이벤트 지원',
             callback: '--',
           },
           {
             key: 1,
             param: 'search',
-            desc: '搜索条件变化时触发',
+            desc: '검색 조건이 변경될 때 트리거됨',
             callback: 'Function(conditions, searchOptions: [{field, value, format}])',
           },
           {
             key: 2,
             param: 'refresh',
-            desc: '表头刷新图标点击时触发',
+            desc: '헤더 새로 고침 아이콘을 클릭하면 트리거됩니다.',
             callback: 'Function(conditions, searchOptions: [{field, value, format}])',
           },
           {
             key: 3,
             param: 'reset',
-            desc: '列配置重置按钮点击时触发',
+            desc: '컬럼구성 재설정 버튼을 클릭하면 발생',
             callback: 'Function(conditions, searchOptions: [{field, value, format}])',
           },
         ],
@@ -83,34 +83,34 @@
           {
             key: 0,
             param: '<a href="https://www.antdv.com/components/table-cn/#API" target="_blank">Ant Design Vue Table Column API</a>',
-            desc: '支持 Ant Design Vue Table 组件 Column 配置所有 api',
+            desc: '모든 API를 구성하는 Ant Design Vue Table 구성 요소 열 지원',
             type: '--',
             default: '--'
           },
           {
             key: 1,
             param: 'searchAble',
-            desc: '是否启用列搜索',
+            desc: '컬럼검색 활성화 여부',
             type: 'boolean',
             default: 'false'
           },
           {
             key: 2,
             param: 'dataType',
-            desc: `数据类型，该配置将决定列搜索输入控件的类型，与列搜索输入控件对应关系如下：<br/>
-                   string: 输入框组件<br/>
-                   boolean: 开关组件<br/>
-                   select: 下拉输入框组件<br/>
-                   date: 日期选择器<br/>
-                   time: 时间选择器<br/>
-                   datetime: 带时间选择器的日期选择器`,
+            desc: `데이터 유형, 이 구성은 열 검색 입력 컨트롤의 유형을 결정하며 열 검색 입력 컨트롤과의 해당 관계는 다음과 같습니다.：<br/>
+                   string: string<br/>
+                   boolean: boolean<br/>
+                   select: select<br/>
+                   date: date<br/>
+                   time: time<br/>
+                   datetime: datetime`,
             type: `'string' | 'boolean' | 'select' | 'date' | 'time' | 'datetime'`,
             default: `'string'`
           },
           {
             key: 3,
             param: 'search',
-            desc: '列搜索配置，参考 <a>Search 配置</a>',
+            desc: '열 검색 구성, <a>검색 구성</a> 참조',
             type: 'object',
             default: '--'
           },

@@ -2,8 +2,8 @@
   <div class="action-columns" ref="root">
       <a-popover v-model="visible" placement="bottomRight" trigger="click" :get-popup-container="() => $refs.root">
         <div slot="title">
-          <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange" class="check-all" />列展示
-          <a-button @click="resetColumns" style="float: right" type="link" size="small">重置</a-button>
+          <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange" class="check-all" />컬럼표시
+          <a-button @click="resetColumns" style="float: right" type="link" size="small">초기화</a-button>
         </div>
         <a-list style="width: 100%" size="small" :key="i" v-for="(col, i) in columns" slot="content">
           <a-list-item>
@@ -13,13 +13,13 @@
             </template>
             <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
             <template slot="actions">
-              <a-tooltip title="固定在列头" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
+              <a-tooltip title="컬럼헤더에 고정" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
                 <a-icon :class="['left', {active: col.fixed === 'left'}]" @click="fixColumn('left', col)" type="vertical-align-top" />
               </a-tooltip>
-              <a-tooltip title="固定在列尾" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
+              <a-tooltip title="컬럼끝에 고정" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
                 <a-icon :class="['right', {active: col.fixed === 'right'}]" @click="fixColumn('right', col)" type="vertical-align-bottom" />
               </a-tooltip>
-              <a-tooltip title="添加搜索" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
+              <a-tooltip title="검색 추가" :mouseEnterDelay="0.5" :get-popup-container="() => $refs.root">
                 <a-icon :class="{active: col.searchAble}" @click="setSearch(col)" type="search" />
               </a-tooltip>
             </template>

@@ -79,6 +79,6 @@ export default {
     box-shadow: -4px 4px 16px 1px @shadow-color !important;
   }
   .ant-menu-item {
-    margin: 0 !important // 菜单项之间的缝隙会影响点击
+    margin: 0 !important // 메뉴 항목 간의 간격이 클릭에 영향을 미침
   }
 </style>

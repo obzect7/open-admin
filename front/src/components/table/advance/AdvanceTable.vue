@@ -5,7 +5,7 @@
       <div class="title">
         <template v-if="title">{{title}}</template>
         <slot v-else-if="$slots.title" name="title"></slot>
-        <template v-else>高级表格</template>
+        <template v-else>고급 양식</template>
       </div>
       <div class="search">
         <search-area :format-conditions="formatConditions" @change="onSearchChange" :columns="columns" >
@@ -15,18 +15,18 @@
         </search-area>
       </div>
       <div class="actions">
-        <a-tooltip title="刷新">
+        <a-tooltip title="새로고침">
           <a-icon @click="refresh" class="action" :type="loading ? 'loading' : 'reload'" />
         </a-tooltip>
         <action-size v-model="sSize" class="action" />
-        <a-tooltip title="列配置">
+        <a-tooltip title="컬럼구성">
           <action-columns :columns="columns" @reset="onColumnsReset" class="action">
             <template :slot="slot" v-for="slot in slots">
               <slot :name="slot"></slot>
             </template>
           </action-columns>
         </a-tooltip>
-        <a-tooltip title="全屏">
+        <a-tooltip title="전체 화면">
           <a-icon @click="toggleScreen" class="action" :type="fullScreen ? 'fullscreen-exit' : 'fullscreen'" />
         </a-tooltip>
       </div>
@@ -151,7 +151,7 @@
           el.msRequestFullscreen()
           return true
         }
-        this.$message.warn('对不起，您的浏览器不支持全屏模式')
+        this.$message.warn('죄송합니다. 귀하의 브라우저는 전체 화면 모드를 지원하지 않습니다')
         el.classList.remove('beauty-scroll')
         return false
       },

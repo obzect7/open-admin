@@ -1,19 +1,19 @@
 <template>
   <a-table :data-source="apiSource" :pagination="false">
     <h2 v-if="title" style="margin: 0 16px 0" slot="title">{{title}}</h2>
-    <a-table-column width="20%" data-index="param" title="参数">
+    <a-table-column width="20%" data-index="param" title="파라미터">
       <div slot-scope="text" v-html="text"></div>
     </a-table-column>
-    <a-table-column width="50%" data-index="desc" title="说明">
+    <a-table-column width="50%" data-index="desc" title="비고">
       <div slot-scope="text" v-html="text"></div>
     </a-table-column>
-    <a-table-column v-if="isApi" width="15%" data-index="type" title="类型">
+    <a-table-column v-if="isApi" width="15%" data-index="type" title="유형">
       <div slot-scope="text" v-html="text"></div>
     </a-table-column>
-    <a-table-column v-if="isApi" width="15%" data-index="default" title="默认值">
+    <a-table-column v-if="isApi" width="15%" data-index="default" title="기본값">
       <div slot-scope="text" v-html="text"></div>
     </a-table-column>
-    <a-table-column v-if="!isApi" width="30%" data-index="callback" title="回调函数">
+    <a-table-column v-if="!isApi" width="30%" data-index="callback" title="콜백">
       <div slot-scope="text" v-html="text"></div>
     </a-table-column>
   </a-table>

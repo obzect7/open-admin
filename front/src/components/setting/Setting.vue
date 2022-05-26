@@ -148,37 +148,37 @@ export default {
     },
     copyCode () {
       let config = this.extractConfig(false)
-      this.copyConfig = `// 自定义配置，参考 ./default/setting.config.js，需要自定义的属性在这里配置即可
+      this.copyConfig = `// 사용자 지정 구성, ./default/setting.config.js 참조, 사용자 지정이 필요한 속성은 여기에서 구성할 수 있습니다.
       module.exports = ${formatConfig(config)}
       `
       let clipboard = new Clipboard('#copyBtn')
       clipboard.on('success', () => {
-        this.$message.success(`复制成功，覆盖文件 src/config/config.js 然后重启项目即可生效`).then(() => {
+        this.$message.success(`성공적으로 복사하고 src/config/config.js 파일을 덮어쓴 다음 프로젝트를 다시 시작하여 적용하십시오.`).then(() => {
           const localConfig = localStorage.getItem(process.env.VUE_APP_SETTING_KEY)
           if (localConfig) {
-            console.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置')
-            this.$message.warn('检测到本地有历史保存的主题配置，想要要拷贝的配置代码生效，您可能需要先重置配置', 5)
+            console.warn('PC에 저장된 테마 구성이 감지되었습니다. 구성 코드를 복사하여 적용하려면 먼저 구성을 재설정해야 할 수 있습니다.')
+            this.$message.warn('PC에 저장된 테마 구성이 감지되었습니다. 구성 코드를 복사하여 적용하려면 먼저 구성을 재설정해야 할 수 있습니다.', 5)
           }
         })
         clipboard.destroy()
       })
     },
     saveSetting() {
-      const closeMessage = this.$message.loading('正在保存到本地，请稍后...', 0)
+      const closeMessage = this.$message.loading('PC에 저장 중입니다. 잠시만 기다려 주십시오...', 0)
       const config = this.extractConfig(true)
       localStorage.setItem(process.env.VUE_APP_SETTING_KEY, JSON.stringify(config))
       setTimeout(closeMessage, 800)
     },
     resetSetting() {
       this.$confirm({
-        title: '重置主题会刷新页面，当前页面内容不会保留，确认重置？',
+        title: '테마를 재설정하면 페이지가 새로고침되지만 현재 페이지 내용은 유지되지 않습니다. 재설정하시겠습니까?',
         onOk() {
           localStorage.removeItem(process.env.VUE_APP_SETTING_KEY)
           window.location.reload()
         }
       })
     },
-    //提取配置
+    //구성 추출
     extractConfig(local = false) {
       let config = {}
       let mySetting = this.$store.state.setting

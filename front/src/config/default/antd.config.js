@@ -1,4 +1,4 @@
-// antd 配置
+// antd 구성
 const ANTD = {
   primary: {
     color: '#1890ff',

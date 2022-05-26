@@ -2,11 +2,11 @@ import TabsView from '@/layouts/tabs/TabsView'
 import BlankView from '@/layouts/BlankView'
 import PageView from '@/layouts/PageView'
 
-// 路由配置
+// 라우팅 구성
 const options = {
     routes: [{
             path: '/login',
-            name: '登录页',
+            name: '로그인 페이지',
             component: () => import('@/pages/login')
         },
         {
@@ -21,12 +21,12 @@ const options = {
         },
         {
             path: '/',
-            name: '首页',
+            name: '첫페이지',
             component: TabsView,
             redirect: '/workplace',
             children: [{
                     path: 'workplace',
-                    name: '工作台',
+                    name: '워크플레이스',
                     meta: {
                         icon: 'dashboard'
                     },
@@ -34,7 +34,7 @@ const options = {
                 },
                 {
                     path: 'form',
-                    name: '表单页',
+                    name: '양식 페이지',
                     meta: {
                         icon: 'form',
                         page: {
@@ -44,31 +44,31 @@ const options = {
                     component: PageView,
                     children: [{
                             path: 'basic',
-                            name: '基础表单',
+                            name: '기본 형태',
                             component: () => import('@/pages/form/basic'),
                         },
                         {
                             path: 'step',
-                            name: '分步表单',
+                            name: '단계별 양식',
                             component: () => import('@/pages/form/step'),
                         },
                         {
                             path: 'advance',
-                            name: '高级表单',
+                            name: '고급 양식',
                             component: () => import('@/pages/form/advance'),
                         }
                     ]
                 },
                 {
                     path: 'list',
-                    name: '列表页',
+                    name: '목록',
                     meta: {
                         icon: 'table'
                     },
                     component: PageView,
                     children: [{
                             path: 'query',
-                            name: '查询表格',
+                            name: '문의 양식',
                             meta: {
                                 authority: 'queryForm',
                             },
@@ -76,51 +76,51 @@ const options = {
                         },
                         {
                             path: 'primary',
-                            name: '标准列表',
+                            name: '표준 목록',
                             component: () => import('@/pages/list/StandardList'),
                         },
                         {
                             path: 'card',
-                            name: '卡片列表',
+                            name: '카드 목록',
                             component: () => import('@/pages/list/CardList'),
                         }
                     ]
                 },
                 {
                     path: 'details',
-                    name: '详情页',
+                    name: '세부정보 페이지',
                     meta: {
                         icon: 'profile'
                     },
                     component: BlankView,
                     children: [{
                         path: 'advance',
-                        name: '高级详情页',
+                        name: '고급 세부 정보 페이지',
                         component: () => import('@/pages/detail/AdvancedDetail')
                     }]
                 },
                 {
                     path: 'result',
-                    name: '结果页',
+                    name: '결과 페이지',
                     meta: {
                         icon: 'check-circle-o',
                     },
                     component: PageView,
                     children: [{
                             path: 'success',
-                            name: '成功',
+                            name: '성공',
                             component: () => import('@/pages/result/Success')
                         },
                         {
                             path: 'error',
-                            name: '失败',
+                            name: '불합격',
                             component: () => import('@/pages/result/Error')
                         }
                     ]
                 },
                 {
                     path: 'exception',
-                    name: '异常页',
+                    name: '예외 페이지',
                     meta: {
                         icon: 'warning',
                     },
@@ -139,19 +139,19 @@ const options = {
                 },
                 {
                     path: 'components',
-                    name: '内置组件',
+                    name: '컴포넌트',
                     meta: {
                         icon: 'appstore-o'
                     },
                     component: PageView,
                     children: [{
                         path: 'table',
-                        name: '高级表格',
+                        name: '고급 양식',
                         component: () => import('@/pages/components/table')
                     }]
                 },
                 {
-                    name: '验权表单',
+                    name: '인증 양식',
                     path: 'auth/form',
                     meta: {
                         icon: 'file-excel',

@@ -1,5 +1,5 @@
 /**
- * 判断是否已为方法注入权限认证
+ * 메서드에 권한 인증이 삽입되었는지 확인
  * @param method
  * @returns {boolean}
  */
@@ -11,9 +11,9 @@ const auth = function(check, component, permissions) {
 };
 
 /**
- * 检查权限是否有操作权限
- * @param check 需要检查的操作权限
- * @param permissions 权限
+ * 권한에 작업 권한이 있는지 확인
+ * @param check 확인이 필요한 작업 권한
+ * @param permissions 허가
  * @returns {boolean}
  */
 const checkFromPermission = function(check, component, permissions) {
@@ -43,7 +43,7 @@ const addDisabled = function(el) {
   } else {
     el.classList.add("disabled");
   }
-  el.setAttribute("title", "无此权限");
+  el.setAttribute("title", "이 권한이 없습니다");
 };
 
 const removeDisabled = function(el) {
@@ -88,7 +88,7 @@ const AuthorityPlugin = {
                   if (this.$auth(check, component)) {
                     return method.apply(this, arguments);
                   } else {
-                    this.$message.error(`对不起，您没有操作权限：${check}`);
+                    this.$message.error(`죄송합니다. 다음 작업을 수행할 권한이 없습니다.：${check}`);
                     return 0;
                   }
                 };

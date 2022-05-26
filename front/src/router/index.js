@@ -15,13 +15,13 @@ Router.prototype.push = function push(location) {
 
 Vue.use(Router);
 
-// 不需要登录拦截的路由配置
+// 로그인 가로채기가 필요하지 않은 라우팅 구성
 const loginIgnore = {
-  names: ["404"], //根据路由名称匹配
-  paths: ["/login", "/403"], //根据路由fullPath匹配
+  names: ["404"], //경로 이름으로 일치
+  paths: ["/login", "/403"], //경로 fullPath에 따라 일치
   /**
-   * 判断路由是否包含在该配置中
-   * @param route vue-router 的 route 对象
+   * 경로가 구성에 포함되어 있는지 확인
+   * @param route vue-router 의 route 객체
    * @returns {boolean}
    */
   includes(route) {

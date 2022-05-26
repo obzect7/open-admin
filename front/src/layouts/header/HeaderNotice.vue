@@ -3,29 +3,29 @@
     <div slot="overlay">
       <a-spin :spinning="loading">
         <a-tabs class="dropdown-tabs" :tabBarStyle="{textAlign: 'center'}" :style="{width: '297px'}">
-          <a-tab-pane tab="通知" key="1">
+          <a-tab-pane tab="알림" key="1">
             <a-list class="tab-pane">
               <a-list-item>
-                <a-list-item-meta title="你收到了 14 份新周报" description="一年前">
+                <a-list-item-meta title="14개의 새로운 알림을 받았습니다." description="1년 전">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png"/>
                 </a-list-item-meta>
               </a-list-item>
               <a-list-item>
-                <a-list-item-meta title="你推荐的 曲妮妮 已通过第三轮面试" description="一年前">
+                <a-list-item-meta title="추천해주신 홍길동이 3차 면접을 통과했습니다." description="1년 전">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png"/>
                 </a-list-item-meta>
               </a-list-item>
               <a-list-item>
-                <a-list-item-meta title="这种模板可以区分多种通知类型" description="一年前">
+                <a-list-item-meta title="이 템플릿은 다양한 알림 유형을 구분할 수 있습니다." description="1년 전">
                   <a-avatar style="background-color: white" slot="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png"/>
                 </a-list-item-meta>
               </a-list-item>
             </a-list>
           </a-tab-pane>
-          <a-tab-pane tab="消息" key="2">
+          <a-tab-pane tab="정보" key="2">
             <a-list class="tab-pane"></a-list>
           </a-tab-pane>
-          <a-tab-pane tab="待办" key="3">
+          <a-tab-pane tab="다가오는" key="3">
             <a-list class="tab-pane"></a-list>
           </a-tab-pane>
         </a-tabs>

@@ -73,6 +73,43 @@ module.exports = {
       copy: 'Copy Setting',
       save: 'Save',
       reset: 'Reset',
+    },KO: {
+      theme: {
+        title: 'Page Style Setting',
+        light: '라이트 스타일',
+        dark: '다크 스타일',
+        night: '나이트 스타일',
+        color: '테마 색상'
+      },
+      navigate: {
+        title: '탐색 모드',
+        side: '사이드 메뉴',
+        head: '상단 메뉴',
+        mix: '믹스 메뉴',
+        content: {
+          title: '콘텐츠 너비',
+          fluid: '자동',
+          fixed: '고정'
+        },
+        fixedHeader: '고정 헤더',
+        fixedSideBar: '고정 사이드바',
+      },
+      other: {
+        title: '기타 설정',
+        weekMode: '주간 모드',
+        multiPages: '다중 페이지',
+        hideSetting: '설정 서랍 숨기기'
+      },
+      animate: {
+        title: '페이지 토글 애니메이션',
+        disable: 'Disable',
+        effect: 'Effect',
+        direction: 'Direction'
+      },
+      alert: '구성 코드를 복사한 후 src/config/config.js 파일의 모든 내용을 직접 덮고 서버를 다시 시작합니다. (참고: 기본 구성과 다른 항목만 복사됩니다.)',
+      copy: '설정 복사',
+      save: '저장',
+      reset: '리셋',
     }
   }
 }

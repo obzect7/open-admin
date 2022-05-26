@@ -8,8 +8,8 @@
         </template>
         <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
         <a-switch @change="onSwitchChange(col)" class="switch" v-model="col.search.value" size="small"
-                  :checked-children="(col.search.switchOptions && col.search.switchOptions.checkedText) || '是'"
-                  :un-checked-children="(col.search.switchOptions && col.search.switchOptions.uncheckedText) || '否'"
+                  :checked-children="(col.search.switchOptions && col.search.switchOptions.checkedText) || '예'"
+                  :un-checked-children="(col.search.switchOptions && col.search.switchOptions.uncheckedText) || '아니요'"
         />
         <a-icon v-if="col.search.value !== undefined" class="close" @click="e => onCloseClick(e, col)" type="close-circle" theme="filled" />
       </div>
@@ -18,7 +18,7 @@
           {{col.title}}:
         </template>
         <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
-        <a-time-picker :format="col.search.format" v-model="col.search.value" placeholder="选择时间" @change="(time, timeStr) => onCalendarChange(time, timeStr, col)" @openChange="open => onCalendarOpenChange(open, col)" class="time-picker" size="small" :get-popup-container="() => $refs.root"/>
+        <a-time-picker :format="col.search.format" v-model="col.search.value" placeholder="선발 기간" @change="(time, timeStr) => onCalendarChange(time, timeStr, col)" @openChange="open => onCalendarOpenChange(open, col)" class="time-picker" size="small" :get-popup-container="() => $refs.root"/>
       </div>
       <div v-else-if="col.dataType === 'date'" :class="['title', {active: col.search.value}]">
         <template v-if="col.title">
@@ -39,7 +39,7 @@
           {{col.title}}:
         </template>
         <slot v-else-if="col.slots && col.slots.title" :name="col.slots.title"></slot>
-        <a-select :allowClear="true" :options="col.search.selectOptions" v-model="col.search.value" placeholder="请选择..." @change="onSelectChange(col)" class="select" slot="content" size="small" :get-popup-container="() => $refs.selectRoot">
+        <a-select :allowClear="true" :options="col.search.selectOptions" v-model="col.search.value" placeholder="선택해주세요..." @change="onSelectChange(col)" class="select" slot="content" size="small" :get-popup-container="() => $refs.selectRoot">
         </a-select>
       </div>
       <div v-else :class="['title', {active: col.search.value}]">
@@ -51,8 +51,8 @@
           <div class="value " v-if="col.search.value">:&nbsp;&nbsp;{{col.search.format && typeof col.search.format === 'function' ? col.search.format(col.search.value) : col.search.value}}</div>
           <a-icon v-if="!col.search.value" class="icon-down" type="down"/>
           <div class="operations" slot="content">
-            <a-button @click="onCancel(col)" class="btn" size="small" type="link">取消</a-button>
-            <a-button @click="onConfirm(col)" class="btn" size="small" type="primary">确认</a-button>
+            <a-button @click="onCancel(col)" class="btn" size="small" type="link">취소</a-button>
+            <a-button @click="onConfirm(col)" class="btn" size="small" type="primary">확인</a-button>
           </div>
           <div class="search-overlay" slot="title">
             <a-input :id="`${searchIdPrefix}${index}`" :allow-clear="true" @keyup.esc="onCancel(col)" @keyup.enter="onConfirm(col)" v-model="col.search.value" size="small" />

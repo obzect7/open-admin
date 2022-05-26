@@ -1,16 +1,16 @@
 /**
- * webpack-theme-color-replacer 插件的 resolve 配置
- * 为特定的 css 选择器（selector）配置 resolve 规则。
+ * webpack-theme-color-replacer 플러그인에 대한 구성 해결
+ * 특정 CSS 선택기에 대한 확인 규칙을 구성합니다.
  *
- * key 为 css selector 值或合法的正则表达式字符串
- * 当 key 设置 css selector 值时，会匹配对应的 css
- * 当 key 设置为正则表达式时，会匹配所有满足此正则表达式的的 css
+ * 키는 CSS 선택기 값 또는 유효한 정규식 문자열입니다.
+ * 키가 CSS 선택기 값을 설정하면 해당 CSS와 일치합니다.
+ * 키가 정규식으로 설정되면 이 정규식을 충족하는 모든 CSS와 일치합니다.
  *
- * value 可以设置为 boolean 值 false 或 一个对象
- * 当 value 为 false 时，则会忽略此 css，即此 css 不纳入 webpack-theme-color-replacer 管理
- * 当 value 为 对象时，会调用该对象的 resolve 函数，并传入 cssText（原始的 css文本） 和 cssObj（css对象）参数; resolve函数应该返
- * 回一个处理后的、合法的 css字符串（包含 selector）
- * 注意: value 不能设置为 true
+ * 값은 부울 값 false 또는 개체로 설정할 수 있습니다.
+ * 값이 false이면 이 CSS는 무시됩니다. 즉, 이 CSS는 webpack-theme-color-replacer 관리에 포함되지 않습니다.
+ * 값이 객체일 때 객체의 resolve 함수가 호출되고 cssText(원본 CSS 텍스트) 및 cssObj(css 객체) 매개변수가 전달됩니다. resolve 함수는 다음을 반환해야 합니다.
+ * 처리되고 유효한 CSS 문자열을 반환합니다(선택기 포함).
+ * 참고: 값을 true로 설정할 수 없습니다.
  */
 const cssResolve = {
   '.ant-checkbox-checked .ant-checkbox-inner::after': {

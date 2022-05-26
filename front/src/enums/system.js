@@ -171,11 +171,11 @@ export const customIcon = [
 
 
 export const invisibleMap = [
-    {key: 0, text: '不隐藏' , color: 'blue'},
-    {key: 1, text: '隐藏' , color: '#f50'},
+    {key: 0, text: '보이기' , color: 'blue'},
+    {key: 1, text: '숨기기' , color: '#f50'},
 ];
 
 export const cacheAbleMap = [
-    {key: 0, text: '不缓存' , color: 'blue'},
-    {key: 1, text: '缓存' , color: '#f50'},
+    {key: 0, text: 'NO캐시' , color: 'blue'},
+    {key: 1, text: '캐시' , color: '#f50'},
 ];

@@ -122,7 +122,7 @@ export default {
       return breadcrumb;
     },
     /**
-     * 用于计算页面内容最小高度
+     * 페이지 콘텐츠의 최소 높이를 계산하는 데 사용됩니다.
      * @param newHeight
      */
     updatePageHeight(
