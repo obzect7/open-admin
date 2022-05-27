@@ -1,62 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
-    <!--设置存储路径变量-->
+    <!--저장 경로 변수 설정-->
     <property name="LOG_HOME" value="./logs"/>
 
-    <!--控制台输出appender-->
+    <!--콘솔 출력 appender-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <!--设置输出格式-->
+        <!--출력 형식 설정-->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <!--형식화된 출력: %d는 날짜, %thread는 스레드 이름, %-5level: 수준은 왼쪽에서 5자 너비입니다. %msg: 로그 메시지, %n은 줄 바꿈-->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-            <!--设置编码-->
+            <!--인코딩 설정-->
             <charset>UTF-8</charset>
         </encoder>
     </appender>
 
+    <appender name="console-infolog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%-5p: %c - %m%n</Pattern>
+        </encoder>
+    </appender>
 
-    <!--接收log下的-->
+
+    <!--수신 로그-->
     <appender name="logFileOutput" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--日志名,指定最新的文件名，其他文件名使用FileNamePattern -->
+        <!--로그 이름, 최신 파일 이름 지정, 다른 파일 이름은 FileNamePattern 사용 -->
         <File>${LOG_HOME}/out.log</File>
-        <!--文件滚动模式-->
+        <!--파일 스크롤 모드-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名,使用gz压缩-->
+            <!--gz로 압축된 로그 파일 출력의 파일 이름-->
             <FileNamePattern>${LOG_HOME}/log/info.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
-            <!--日志文件保留天数-->
+            <!--로그 파일 보관 일수-->
             <MaxHistory>30</MaxHistory>
-            <!--按大小分割同一天的-->
+            <!--같은 날을 크기로 나누기-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
 
-        <!--输出格式-->
+        <!--출력 형식-->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <!--형식화된 출력: %d는 날짜, %thread는 스레드 이름, %-5level: 수준은 왼쪽에서 5자 너비입니다. %msg: 로그 메시지, %n은 줄 바꿈-->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-            <!--设置编码-->
+            <!--인코딩 설정-->
             <charset>UTF-8</charset>
         </encoder>
 
     </appender>
 
-    <!--生产环节中打印到production-->
+    <logger name="jdbc" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="INFO" appender-ref="console-infolog" />
+    <logger name="jdbc.sqltiming" level="OFF"/>
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="jdbc.resultsettable" level="OFF"/>
+    <logger name="jdbc.connection" level="OFF"/>
+
+
+    <!--프로덕션 링크에서 production으로 인쇄-->
     <springProfile name="production">
         <logger name="com.cxp.openadmin" level="INFO" additivity="false">
             <appender-ref ref="logFileOutput"/>
         </logger>
     </springProfile>
 
-    <!--dev环境中打印到控制台-->
+    <!--개발 환경에서 콘솔에 인쇄-->
     <springProfile name="dev">
         <logger name="com.cxp.openadmin" level="DEBUG" additivity="false">
             <appender-ref ref="console"/>
         </logger>
     </springProfile>
 
-    <!--指定基础的日志输出级别-->
+    <!--기본 로그 출력 수준을 지정합니다.-->
     <root level="DEBUG">
+        <appender-ref ref="console-infolog" />
     </root>
 
 </configuration>

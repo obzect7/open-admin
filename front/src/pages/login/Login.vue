@@ -165,6 +165,8 @@ export default {
         permissions = this.translatePermission(permissions);
         this.setUser(user);
         this.setPermissions(permissions);
+        console.log('menus === ',menus)
+        alert('menus === ',menus)
         this.setMenus(menus);
         this.setRole(user.role);
         setAuthorization({
