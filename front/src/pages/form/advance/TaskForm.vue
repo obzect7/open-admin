@@ -25,8 +25,8 @@
             :placeholder="$ta('select|executor')"
             v-decorator="['task.executor', {rules: [{ required: true, message: $ta('select|executor')}]}]"
           >
-            <a-select-option value="黄丽丽">黄丽丽</a-select-option>
-            <a-select-option value="李大刀">李大刀</a-select-option>
+            <a-select-option value="이태양">이태양</a-select-option>
+            <a-select-option value="권지용">권지용</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>
@@ -38,8 +38,8 @@
             :placeholder="$ta('select|duty')"
             v-decorator="['task.manager', {rules: [{ required: true, message: $ta('select|duty')}]}]"
           >
-            <a-select-option value="王伟">王伟</a-select-option>
-            <a-select-option value="李红军">李红军</a-select-option>
+            <a-select-option value="이태양">이태양</a-select-option>
+            <a-select-option value="권지용">권지용</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>
@@ -57,8 +57,8 @@
             :placeholder="$ta('select|type')"
             v-decorator="['task.type', {rules: [{ required: true, message: $ta('select|type')}]}]"
           >
-            <a-select-option value="定时执行">定时执行</a-select-option>
-            <a-select-option value="周期执行">周期执行</a-select-option>
+            <a-select-option value="시간 제한 실행">시간 제한 실행</a-select-option>
+            <a-select-option value="주기적 실행">주기적 실행</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>

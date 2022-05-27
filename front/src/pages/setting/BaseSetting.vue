@@ -14,11 +14,11 @@
           <a-form-item
             label="닉네임"
           >
-            <a-input placeholder="给自己起个名字" v-model="name" />
+            <a-input placeholder="자신에게 이름을 지어주세요" v-model="name" />
           </a-form-item>
 
           <a-form-item>
-            <a-button type="primary" @click="submit">提交</a-button>
+            <a-button type="primary" @click="submit">제출</a-button>
           </a-form-item>
         </a-form>
 
@@ -69,13 +69,13 @@ export default {
     },
     submit(){
       if(this.name == ''){
-        this.$message.error("昵称必填！");
+        this.$message.error("닉네임은 필수 항목입니다.！");
         return false;
       }
 
       setSysUserInfo({name:this.name}).then(res => {
         if(res.code == 200){
-          this.$message.success('修改成功!');
+          this.$message.success('성공적으로 수정됨!');
         }else{
           this.$message.error(res.message);
         }

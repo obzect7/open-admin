@@ -13,6 +13,13 @@ module.exports = {
       task: 'Task Manage',
       user: 'User Manage',
       submit: 'submit'
+    },
+    KO: {
+      desc: 'Advanced forms are common in scenarios where large quantities of data are entered and submitted at one time.',
+      repository: 'Repository Manage',
+      task: 'Task Manage',
+      user: 'User Manage',
+      submit: 'submit'
     }
   }
 }

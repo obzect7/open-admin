@@ -22,7 +22,7 @@
 
     </a-list>
 
-    <a-modal title="修改密码" :width="800" @cancel="cancel" v-model="visible" @ok="handleOk">
+    <a-modal title="비밀번호 변경" :width="800" @cancel="cancel" v-model="visible" @ok="handleOk">
 
       <a-form ref="ruleForm" :form="form" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-form-item
@@ -38,25 +38,25 @@
           label="비밀번호"
         >
           <a-input
-            placeholder="请输入原密码!"
-            v-decorator="['sourcePassword', { rules: [{ required: true, message: '请输入原密码!' }] }]"
+            placeholder="기존 비밀번호를 입력하세요!"
+            v-decorator="['sourcePassword', { rules: [{ required: true, message: '기존 비밀번호를 입력하세요!' }] }]"
           />
         </a-form-item>
 
         <a-form-item
-          label="新密码"
+          label="새 비밀번호"
         >
           <a-input
-            placeholder="请输入新密码!"
+            placeholder="새 비밀번호를 입력하세요!"
             v-decorator="['password', { rules: [{ required: true, validator: checkPassword }] }]"
           />
         </a-form-item>
 
         <a-form-item
-          label="确认新密码"
+          label="새 비밀번호 확인"
         >
           <a-input
-            placeholder="请输入确认新密码!"
+            placeholder="확인을 위해 새 비밀번호를 입력하세요.!"
             v-decorator="['confirmPassword', { rules: [{ required: true, validator: checkConfirmPassword }] }]"
           />
         </a-form-item>
@@ -79,12 +79,12 @@ export default {
     let checkPassword = (rule, value, callback) => {
 
       if(!value){
-        callback(new Error('请输入新密码!'));  
+        callback(new Error('새 비밀번호를 입력하세요!'));
       }
 
       if (value) {
         if(!pwdRegex.test(value)){
-          callback(new Error('设置密码复杂度太低，必须包含大小写，数字，特殊字符，不少于8位'));
+          callback(new Error('암호 복잡성을 너무 낮게 설정하십시오. 대문자와 소문자, 숫자, 특수 문자를 포함해야 하며 8자 이상이어야 합니다.'));
         }
       }
        callback();
@@ -92,16 +92,16 @@ export default {
     let checkConfirmPassword = (rule, value, callback) => {
 
       if(!value){
-        callback(new Error('请输入新密码!'));  
+        callback(new Error('새 비밀번호를 입력하세요!'));
       }
 
       if (value) {
         if(!pwdRegex.test(value)){
-          callback(new Error('设置密码复杂度太低，必须包含大小写，数字，特殊字符，不少于8位'));
+          callback(new Error('암호 복잡성을 너무 낮게 설정하십시오. 대문자와 소문자, 숫자, 특수 문자를 포함해야 하며 8자 이상이어야 합니다.'));
         }
 
         if(value != this.$refs['ruleForm'].form.getFieldValue("password")){
-          callback(new Error('两次输入密码不一致！'));
+          callback(new Error('두 번 입력한 비밀번호가 일치하지 않습니다！'));
         }
 
       }
@@ -109,7 +109,7 @@ export default {
     };
     return {
       data: [
-        { title: '账户密码', actions: { title: '修改', callback: () => { this.showDialog()} } },
+        { title: '계정 암호', actions: { title: '수정완료', callback: () => { this.showDialog()} } },
       ],
       visible: false,
       checkPassword: checkPassword,
@@ -141,7 +141,7 @@ export default {
         if (!err) {
           setSysUserPassword(values).then(res => {
             if(res.code == 200){
-              this.$message.success('修改密码成功!');
+              this.$message.success('비밀번호가 업데이트되었습니다!');
               this.visible = false;
             }else{
               this.$message.error(res.message);

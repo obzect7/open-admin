@@ -119,15 +119,15 @@
           {
             key: 0,
             param: 'format',
-            desc: `列搜索输入控件值的格式化配置。<br/>如果输入控件支持格式化，则可设置该值为字符串，如日期输入组件，可设为为 'YYYY-MM-DD'。
-                   <br/>不支持格式化的输入控件，可设置为一个接收控件的输入值作为参数的函数，如 (value) => {return \`prefix\${value}\`}。`,
+            desc: `열 검색 입력 제어 값에 대한 서식 구성입니다. <br/>입력 컨트롤이 형식 지정을 지원하는 경우 날짜 입력 구성 요소와 같은 문자열로 값을 설정할 수 있으며 'YYYY-MM-DD'로 설정할 수 있습니다.'。
+                   <br/>형식이 지정된 입력 컨트롤은 지원되지 않으며 다음과 같이 컨트롤의 입력 값을 매개변수로 받는 함수로 설정할 수 있습니다. (value) => {return \`prefix\${value}\`}。`,
             type: 'string | Function(value)',
-            default: '取输入控件默认的格式化配置'
+            default: '입력 컨트롤의 기본 서식 구성 가져오기'
           },
           {
             key: 1,
             param: 'selectOptions',
-            desc: `select 数据类型的下拉输入组件的选项配置，可参考 <a href="https://www.antdv.com/components/select-cn/#API" target="_blank">Ant Design Vue Select Option props Api</a>`,
+            desc: `select 데이터 유형의 드롭다운 입력 구성 요소에 대한 옵션 구성은 다음을 참조하십시오. <a href="https://www.antdv.com/components/select-cn/#API" target="_blank">Ant Design Vue Select Option props Api</a>`,
             type: 'array',
             default: '--'
           }

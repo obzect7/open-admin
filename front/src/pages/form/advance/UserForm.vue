@@ -47,28 +47,28 @@
 <script>
 const columns = [
   {
-    title: '成员姓名',
+    title: '회원 이름',
     dataIndex: 'name',
     key: 'name',
     width: '20%',
     scopedSlots: { customRender: 'name' }
   },
   {
-    title: '工号',
+    title: '작업번호',
     dataIndex: 'number',
     key: 'number',
     width: '20%',
     scopedSlots: { customRender: 'number' }
   },
   {
-    title: '所属部门',
+    title: '부서',
     dataIndex: 'department',
     key: 'department',
     width: '40%',
     scopedSlots: { customRender: 'department' }
   },
   {
-    title: '操作',
+    title: '액션',
     key: 'operation',
     scopedSlots: { customRender: 'operation' }
   }
@@ -77,24 +77,24 @@ const columns = [
 const dataSource = [
   {
     key: 1,
-    name: '小明',
+    name: '이민수',
     number: '001',
     editable: false,
-    department: '行政部'
+    department: '관리'
   },
   {
     key: 2,
-    name: '李莉',
+    name: '김태수',
     number: '002',
     editable: false,
-    department: 'IT部'
+    department: 'IT 부서'
   },
   {
     key: 3,
-    name: '王小帅',
+    name: '이기리',
     number: '003',
     editable: false,
-    department: '财务部'
+    department: '재무 부서'
   }
 ]
 

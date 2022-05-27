@@ -19,7 +19,7 @@ import {
   checkAuthorization
 } from '@/utils/request'
 const router = initRouter(false, checkAuthorization() ? true : false);
-const i18n = initI18n("CN", "US");
+const i18n = initI18n("KO", "US");
 
 Vue.use(Antd);
 Vue.config.productionTip = false;

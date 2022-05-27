@@ -24,9 +24,9 @@
             :placeholder="$ta('select|manager')"
             v-decorator="['repository.manager', {rules: [{ required: true, message: $ta('select|manager')}]}]"
           >
-            <a-select-option value="王同学">王同学</a-select-option>
-            <a-select-option value="李同学">李同学</a-select-option>
-            <a-select-option value="黄同学">黄同学</a-select-option>
+            <a-select-option value="나홍진">나홍진</a-select-option>
+            <a-select-option value="김직장인">김직장인</a-select-option>
+            <a-select-option value="이주부">이주부</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>
@@ -38,8 +38,8 @@
             :placeholder="$ta('select|approval')"
             v-decorator="['repository.auditor', {rules: [{ required: true, message: $ta('select|approval')}]}]"
           >
-            <a-select-option value="王晓丽">王晓丽</a-select-option>
-            <a-select-option value="李军">李军</a-select-option>
+            <a-select-option value="이태양">이태양</a-select-option>
+            <a-select-option value="권지용">권지용</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>
@@ -57,8 +57,8 @@
             :placeholder="$ta('select|type')"
             v-decorator="['repository.type', {rules: [{ required: true, message: $ta('select|type')}]}]"
           >
-            <a-select-option value="公开">公开</a-select-option>
-            <a-select-option value="私密">私密</a-select-option>
+            <a-select-option value="공개">공개</a-select-option>
+            <a-select-option value="비공개">비공개</a-select-option>
           </a-select>
         </a-form-item>
       </a-col>
@@ -89,8 +89,8 @@ export default {
       })
     },
     validate (rule, value, f) {
-      if (value !== undefined && value !== 'iczer') {
-        f('输入\'iczer\'试下？')
+      if (value !== undefined && value !== 'delete') {
+        f('\'delete\'를 입력하시겠습니까?')
       }
       f()
     }

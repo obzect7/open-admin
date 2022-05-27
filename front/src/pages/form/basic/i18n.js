@@ -49,6 +49,31 @@ module.exports = {
       colleague1: 'Colleague A',
       colleague2: 'Colleague B',
       colleague3: 'Colleague C'
+    },
+    KO: {
+      pageDesc: '양식 페이지는 사용자에게 정보를 수집하거나 확인하는 데 사용되며 기본 양식은 데이터 항목이 적은 시나리오에서 일반적입니다.',
+      title: '제목',
+      titleInput: '제목을 입력하세요.',
+      date: '시작일과 종료일',
+      describe: '목표 설명',
+      describeInput: '업무 목표를 입력하세요.',
+      metrics: '측정항목',
+      metricsInput: '측정항목을 입력하세요.',
+      customer: '고객',
+      customerInput: '고객 서비스, 내부 고객을 직접 설명하십시오 @ 이름/직업 번호',
+      critics: '비평가 초대',
+      criticsInput: 'Please direct @ Name / job number, you can invite up to 5 people',
+      weight: '무게',
+      disclosure: '대상 공개',
+      disclosureDesc: '고객 및 초대 대상자는 기본적으로 공유됩니다.',
+      public: '공공의',
+      partially: '부분적으로 공개',
+      private: '비공개',
+      submit: '제출',
+      save: '저장',
+      colleague1: '동료 A',
+      colleague2: '동료 B',
+      colleague3: '동료 C'
     }
   }
 }

@@ -37,6 +37,25 @@ module.exports = {
       success: 'Payment successful',
       doAgain: 'Do Again',
       bill: 'Check the bill'
+    },
+    KO: {
+      pageDesc: 'Divide a long or unfamiliar form task into several steps to guide the user to complete it.',
+      input: 'Fill transfer information',
+      confirm: 'Confirm transfer information',
+      complete: 'Complete',
+      payment: 'Payment account',
+      collection: 'Collection account',
+      alipay: 'Alipay',
+      wechat: 'Wechat',
+      collectionName: 'Name of payee',
+      transferAmount: 'Transfer amount',
+      nextStep: 'Next',
+      preStep: 'Back',
+      submit: 'Submit',
+      note: 'After confirming the transfer, the funds will be directly transferred into the other party\'s account and cannot be returned.',
+      success: 'Payment successful',
+      doAgain: 'Do Again',
+      bill: 'Check the bill'
     }
   }
 }

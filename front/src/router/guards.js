@@ -28,7 +28,7 @@ const progressStart = (to, from, next) => {
 };
 
 /**
- * 登录守卫
+ * 로그인 가드
  * @param to
  * @param form
  * @param next
@@ -49,7 +49,7 @@ const loginGuard = (to, from, next, options) => {
 };
 
 /**
- * 权限守卫
+ * 허가 가드
  * @param to
  * @param form
  * @param next
@@ -62,7 +62,7 @@ const authorityGuard = (to, from, next, options) => {
   } = options;
   const role = store.getters["account/role"];
   if (!hasAuthority(to, role)) {
-    message.warning(`对不起，您无权访问页面: ${to.fullPath}，请联系管理员`);
+    message.warning(`죄송합니다. 페이지에 액세스할 수 있는 권한이 없습니다.: ${to.fullPath}，관리자에게 문의하세요`);
     next({
       path: "/403"
     });
@@ -73,7 +73,7 @@ const authorityGuard = (to, from, next, options) => {
 };
 
 /**
- * 混合导航模式下一级菜单跳转重定向
+ * 혼합 탐색 모드에서 다음 수준 메뉴 점프 리디렉션
  * @param to
  * @param from
  * @param next

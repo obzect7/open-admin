@@ -32,7 +32,7 @@
     >
       <span slot="action" slot-scope="text, record">
         <template>
-          <a @click="handleInfo(record)"> <a-icon type="info-circle" />详情 </a>
+          <a @click="handleInfo(record)"> <a-icon type="info-circle" />상세 </a>
         </template>
       </span>
 

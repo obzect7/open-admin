@@ -2,7 +2,7 @@
   <a-card :bordered="false" :style="{ minHeight: '560px' }">
     <div class="table-operator">
       <a-button type="primary" icon="plus" @click="handleCreate"
-        >新建根菜单</a-button
+        >새 루트 메뉴</a-button
       >
     </div>
     <s-table
@@ -46,7 +46,7 @@
       </span>
 
       <span slot="action" slot-scope="text, record">
-        <a @click="handleAddSub(record)"> <a-icon type="plus" />新增子菜单 </a>
+        <a @click="handleAddSub(record)"> <a-icon type="plus" />하위 메뉴 추가 </a>
         <a-divider type="vertical" />
         <a @click="handleEdit(record)"> <a-icon type="edit" />수정 </a>
         <a-divider type="vertical" />
@@ -58,10 +58,10 @@
       class="edit-modal"
       :title="
         formFlag == 1
-          ? '创建系统根菜单'
+          ? '시스템 루트 메뉴 만들기'
           : formFlag == 2
-          ? '编辑系统菜单'
-          : '创建系统菜单'
+          ? '시스템 메뉴 편집'
+          : '시스템 메뉴 만들기'
       "
       :width="800"
       v-model="visible"
@@ -76,12 +76,12 @@
       >
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item :required="true" label="路由">
+            <a-form-item :required="true" label="라우팅">
               <a-input
-                placeholder="请输入路由!"
+                placeholder="경로를 입력하세요!"
                 v-decorator="[
                   'path',
-                  { rules: [{ required: true, message: '请输入路由!' }] },
+                  { rules: [{ required: true, message: '경로를 입력하세요!' }] },
                 ]"
               />
             </a-form-item>
@@ -89,10 +89,10 @@
           <a-col :span="12">
             <a-form-item label="메뉴명">
               <a-input
-                placeholder="请输入菜单名称!"
+                placeholder="메뉴명을 입력해주세요!"
                 v-decorator="[
                   'name',
-                  { rules: [{ required: true, message: '请输入菜单名称!' }] },
+                  { rules: [{ required: true, message: '메뉴명을 입력해주세요!' }] },
                 ]"
               />
             </a-form-item>
@@ -100,9 +100,9 @@
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="是否隐藏菜单">
+            <a-form-item label="메뉴를 숨길지 여부">
               <a-select
-                placeholder="请选择是否隐藏菜单!"
+                placeholder="메뉴를 숨길지 선택하세요!"
                 v-decorator="[
                   'invisible',
                   {
@@ -120,13 +120,13 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="是否缓存页面">
+            <a-form-item label="페이지를 캐시할지 여부">
               <a-select
-                placeholder="请选择是否缓存页面!"
+                placeholder="페이지를 캐시할지 여부를 선택하십시오.!"
                 v-decorator="[
                   'cacheAble',
                   {
-                    rules: [{ required: true, message: '请选择是否缓存页面!' }],
+                    rules: [{ required: true, message: '페이지를 캐시할지 여부를 선택하십시오.!' }],
                   },
                 ]"
               >

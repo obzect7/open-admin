@@ -19,6 +19,16 @@ module.exports = {
       approval: 'Approval Person',
       date: 'Effective Date',
       type: 'Repository Type',
+    },
+    KO: {
+      input: 'Please enter',
+      select: 'Please select',
+      name: 'Repository Name',
+      domain: 'Repository Domain',
+      manager: 'Repository Manager',
+      approval: 'Approval Person',
+      date: 'Effective Date',
+      type: 'Repository Type',
     }
   }
 }

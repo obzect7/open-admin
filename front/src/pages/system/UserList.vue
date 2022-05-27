@@ -282,7 +282,7 @@ export default {
           if (this.formFlag == 1) {
             createSysUser(values).then((res) => {
               if (res.code == 200) {
-                this.$message.success("创建用户成功");
+                this.$message.success("사용자 생성 성공");
                 this.visible = false;
                 this.$refs.list.refresh();
               } else {

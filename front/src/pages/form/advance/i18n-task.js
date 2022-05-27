@@ -19,6 +19,16 @@ module.exports = {
       duty: 'Duty Person',
       time: 'Reminder Time',
       type: 'Task Type',
+    },
+    KO: {
+      input: 'Please enter',
+      select: 'Please select',
+      name: 'Task Name',
+      describe: 'Task Describe',
+      executor: 'Executor',
+      duty: 'Duty Person',
+      time: 'Reminder Time',
+      type: 'Task Type',
     }
   }
 }

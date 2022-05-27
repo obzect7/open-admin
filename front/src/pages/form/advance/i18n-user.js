@@ -10,12 +10,27 @@ module.exports = {
       newMember: '新增成员',
       table: {
         name: '成员姓名',
-        number: '工号',
-        department: '所属部门',
-        operation: '操作',
+        number: '작업번호',
+        department: '부서',
+        operation: '액션',
       }
     },
     US: {
+      add: 'add',
+      delete: 'delete',
+      save: 'save',
+      cancel: 'cancel',
+      edit: 'edit',
+      deleteConfirm: 'Confirm to delete this row?',
+      newMember: 'new member',
+      table: {
+        name: 'Member Name',
+        number: 'Job Number',
+        department: 'Department',
+        operation: 'Operation',
+      }
+    },
+    KO: {
       add: 'add',
       delete: 'delete',
       save: 'save',

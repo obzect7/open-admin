@@ -1,7 +1,7 @@
 <template>
 
   <a-modal
-    title="修改头像"
+    title="아바타 수정"
     :visible="visible"
     :maskClosable="false"
     :confirmLoading="confirmLoading"
@@ -83,7 +83,7 @@ export default {
     edit (id) {
       this.visible = true
       this.id = id
-      /* 获取原始头像 */
+      /* 원본 아바타 가져오기 */
     },
     close () {
       this.id = null
@@ -104,8 +104,8 @@ export default {
     },
     beforeUpload (file) {
       const reader = new FileReader()
-      // 把Array Buffer转化为blob 如果是base64不需要
-      // 转化为base64
+      // base64가 필요하지 않은 경우 배열 버퍼를 blob으로 변환
+      // base64로 변환
       reader.readAsDataURL(file)
       reader.onload = () => {
         this.options.img = reader.result
@@ -114,7 +114,7 @@ export default {
       return false
     },
 
-    // 上传图片（点击上传按钮）
+    // 이미지 업로드(업로드 버튼 클릭)
     finish (type) {
       const _this = this
       const formData = new FormData()
@@ -136,7 +136,7 @@ export default {
             if(res.code == 200){
               setSysUserInfo({avatar:res.data}).then(res1 => {
                 if(res1.code == 200){
-                  _this.$message.success('上传成功')
+                  _this.$message.success('성공적으로 업로드됨')
                   _this.$emit('ok', res.data)
                   _this.visible = false
                 }else{
@@ -155,7 +155,7 @@ export default {
       setTimeout(() => {
         vm.confirmLoading = false
         vm.close()
-        vm.$message.success('上传头像成功')
+        vm.$message.success('아바타를 성공적으로 업로드했습니다.')
       }, 2000)
     },
 

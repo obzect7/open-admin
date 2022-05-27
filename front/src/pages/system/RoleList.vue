@@ -1,7 +1,7 @@
 <template>
   <a-card :bordered="false" :style="{ minHeight: '560px' }">
     <a-drawer
-      title="配置角色权限"
+      title="역할 권한 구성"
       :width="720"
       :visible="powerVisible"
       :body-style="{ paddingBottom: '80px' }"
@@ -44,7 +44,7 @@
                 :indeterminate="permission.indeterminate"
                 :checked="permission.checkedAll"
                 @change="onChangeCheckAll($event, permission)"
-                >全选</a-checkbox
+                >모두 선택</a-checkbox
               >
               <a-checkbox-group
                 :options="permission.actionsOptions"
