@@ -18,13 +18,13 @@ module.exports = {
   multiPage: false, //멀티탭 모드, true: 활성화, false: 비활성화
   cachePage: true, //페이지 데이터를 캐시할지 여부는 멀티탭 모드에서만 적용되며 true 캐시, false는 캐시하지 않습니다.
   hideSetting: false, //설정 서랍 숨기기, true: 숨김, false: 숨겨지지 않음
-  systemName: "Open Admin", //시스템 이름
-  copyright: "2021 Open Admin 出品", //copyright
+  systemName: "Pro Admin", //시스템 이름
+  copyright: "2022 Prosofot All rights reserved", //copyright
   showPageTitle: true, //페이지 제목(PageLayout 레이아웃의 페이지 제목) 표시 여부, true: 표시, false: 표시 안 함
   filterMenu: true, //권한에 따른 필터 메뉴, true: 필터, false: 필터 없음
   animate: {
     //애니메이션 설정
-    disabled: false, //애니메이션 비활성화, true: 비활성화, false: 활성화
+    disabled: true, //애니메이션 비활성화, true: 비활성화, false: 활성화
     name: "bounce", //애니메이션 효과, 지원되는 애니메이션 효과는 ./animate.config.js를 참조하세요.
     direction: "left", //애니메이션 방향, 페이지 전환 시 애니메이션 방향은 ./animate.config.js 참조
   },
