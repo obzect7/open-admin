@@ -36,6 +36,12 @@ public class SysOperationAspect {
     @Autowired
     private SysOperationLogMapper sysOperationLogMapper;
 
+//    특정 패턴을 가진 메소드에 공통되는 위치(실행 전, 실행 후)에 있는 공통되는 기능을 횡단 관심사라고 함
+//    이러한 횡단 관심사를 수동으로 구현할 필요 없이 알아서 지정한 패턴에 넣어주는 방법으로는 Spring AOP와 AspectJ가 있는데,
+//    이 글에서는 AspectJ 기능을 간단하게 구현할 수 있도록 스프링에서 제공하는 Spring AOP
+//    @Around("${pattern}"}
+//    지정된 패턴에 해당하는 메소드의 실행되기 전, 실행된 후 모두에서 동작한다.
+//   이 어노테이션이 붙은 메소드의 반환 값은 Object여야 한다.(지정된 패턴에 해당하는 메소드의 실행 결과를 반환해야 하므로)
     @Around("execution(* com.cxp.openadmin.service.backed.impl..*.*(..))")
     public Object recordTimeLog(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -64,7 +70,7 @@ public class SysOperationAspect {
 
     private void _operationSyslog(HttpServletRequest request, JoinPoint joinPoint, long takeTime){
 
-        // 记录操作日志
+        // 작업 로그 기록
         SysOperationLog sysOperationLog = new SysOperationLog();
         sysOperationLog.setUrl(request.getRequestURI());
         sysOperationLog.setMethod(request.getMethod());
