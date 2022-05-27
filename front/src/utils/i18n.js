@@ -30,6 +30,7 @@ function initI18n(locale, fallback) {
 function generateI18n(lang, routes, valueKey) {
   routes.forEach((route) => {
     let keys = getI18nKey(route.fullPath).split(".");
+    console.log('route.fullPath == ',route.fullPath)
     let value =
       valueKey === "path"
         ? route[valueKey]

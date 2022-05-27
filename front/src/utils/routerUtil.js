@@ -9,7 +9,7 @@ let appOptions = {
 };
 
 /**
- * 设置应用配置
+ * 앱 구성 설정
  * @param options
  */
 function setAppOptions(options) {
@@ -62,11 +62,11 @@ function translateRouter(routes, parent) {
 }
 
 function loadRoutes() {
-  // 应用配置
+  // 애플리케이션 구성
   const { router, store, i18n } = appOptions;
-  // 提取路由国际化数据
+  // 경로 국제화 데이터 추출
   mergeI18nFromRoutes(i18n, router.options.routes);
-  // 初始化Admin后台菜单数据
+  // 관리자 백그라운드 메뉴 데이터 초기화
   const rootRoute = router.options.routes.find((item) => item.path === "/");
   const menuRoutes = rootRoute && rootRoute.children;
   if (menuRoutes) {
@@ -75,8 +75,8 @@ function loadRoutes() {
 }
 
 /**
- * 格式化路由
- * @param routes 路由配置
+ * 형식화된 경로
+ * @param routes 라우팅 구성
  */
 function formatRoutes(routes) {
   routes.forEach((route) => {
@@ -89,9 +89,9 @@ function formatRoutes(routes) {
 }
 
 /**
- * 格式化路由的权限配置
- * @param routes 路由
- * @param pAuthorities 父级路由权限配置集合
+ * 형식이 지정된 경로에 대한 권한 구성
+ * @param routes 라우팅
+ * @param pAuthorities 상위 라우팅 권한 구성 집합
  */
 function formatAuthority(routes, pAuthorities = []) {
   routes.forEach((route) => {
@@ -128,7 +128,7 @@ function formatAuthority(routes, pAuthorities = []) {
 }
 
 /**
- * 从路由 path 解析 i18n key
+ * path 경로에서 i18n key 가져오기
  * @param path
  * @returns {*}
  */
@@ -141,7 +141,7 @@ function getI18nKey(path) {
 }
 
 /**
- * 加载导航守卫
+ * 네비게이션 가드 로드
  * @param guards
  * @param options
  */
