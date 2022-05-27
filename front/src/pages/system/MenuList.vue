@@ -160,12 +160,12 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="종류">
+            <a-form-item label="정렬순서">
               <a-input
-                placeholder="종류를 입력해주세요!"
+                placeholder="정렬순서 입력해주세요!"
                 v-decorator="[
                   'sort',
-                  { rules: [{ required: true, message: '종류를 입력해주세요!' }] },
+                  { rules: [{ required: true, message: '정렬순서를 입력해주세요!' }] },
                 ]"
               />
             </a-form-item>
@@ -383,7 +383,7 @@ export default {
           scopedSlots: { customRender: "cacheAble" },
         },
         {
-          title: "종류",
+          title: "정렬순서",
           dataIndex: "sort",
         },
         {
