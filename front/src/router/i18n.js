@@ -17,6 +17,9 @@ module.exports = {
       system: {
         name: '시스템 관리',
         users: {name: '사용자 관리'},
+      },form: {
+        name: 'FORM 양식',
+        basic: {name: '기본 양식'},
       },
     }
   }
