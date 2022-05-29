@@ -24,6 +24,7 @@ module.exports = {
             menus: {name: '메뉴관리'},
             roles: {name: 'ROLE관리'},
             logs: {name: '시스템로그'},
+            commoncode: {name: '공통코드 관리'},
           },
       },form: {
         name: 'FORM 샘플',

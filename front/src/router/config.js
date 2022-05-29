@@ -75,4 +75,5 @@ export const constantRouterComponents = {
   Error: () => import("@/pages/result/Error"),
   SeniorTable: () => import("@/pages/components/table"),
   AuthForm: () => import("@/pages/form/basic"),
+  CommonCodeList: () => import("@/pages/system/CommonCodeList"),
 };

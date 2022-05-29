@@ -100,13 +100,13 @@
         </a-row>
         <a-row :gutter="24">
           <a-col :span="12">
-            <a-form-item label="메뉴를 숨길지 여부">
+            <a-form-item label="메뉴숨김">
               <a-select
-                placeholder="메뉴를 숨길지 선택하세요!"
+                placeholder="선택하세요."
                 v-decorator="[
                   'invisible',
                   {
-                    rules: [{ required: true, message: '请选择是否隐藏菜单!' }],
+                    rules: [{ required: true, message: '메뉴를 숨길지 선택하세요!' }],
                   },
                 ]"
               >
@@ -120,9 +120,9 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="페이지를 캐시할지 여부">
+            <a-form-item label="페이지 캐시">
               <a-select
-                placeholder="페이지를 캐시할지 여부를 선택하십시오.!"
+                placeholder="선택하세요."
                 v-decorator="[
                   'cacheAble',
                   {
