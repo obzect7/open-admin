@@ -26,7 +26,14 @@ module.exports = {
             logs: {name: '시스템로그'},
             commoncode: {name: '공통코드 관리'},
           },
-      },form: {
+      },
+      master : {
+        name : '마스터관리',
+        master:{
+          CommonCodeMgt: {name: '공통코드 관리'}
+        }
+      },
+      form: {
         name: 'FORM 샘플',
         form:{
           basic: {name: '기본 FORM'},
