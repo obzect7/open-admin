@@ -4,7 +4,7 @@
 
     <select id="getCmCodeGrpList" resultType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" parameterType="Map">
         select
-            t.GROUP_CD
+               t.GROUP_CD
              , t.GROUP_NM
              , t.GROUP_NM_EN
              , t.CODE_TYPE

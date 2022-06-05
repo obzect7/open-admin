@@ -190,9 +190,11 @@ export default {
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
-      return getCmCodeGrpList(this.queryParam).then(
+      return getCmCodeGrpList().then(
           (res) => {
-            return res.data;
+            console.log('res====',res)
+            this.$refs.myGrid1.setGridData(res.data);
+            //return res.data;
           }
       );
 
