@@ -1,15 +1,8 @@
 /*!
-
- * AUIGrid 3.0.11 OEM Dev / Test License
-
- * Authorized Domain(or IP) : 118.39.135.164
-
- * Expiration Date :  2022-11-27
-
- * www.auisoft.net
-
+ * AUIGrid 3.0.10 License
+ * License Type :  Enterprise Dev License
+ * Authorized Domain(or IP) : 210.114.10.52
+ * Expiration Date :  2022/04/30
  */
-
 /* eslint-disable */
-
-AUIGridLicense = "eyJjdCI6Ikd4b215NHhwMDExXC96SnViMTVXZU42VU1YcHBjT1RsN1wvdDdJTG5sK0VKTFFBK01ISlR3aXFoWStMTTRZZlJld1Z0XC9iQ09YdGE2TlJ1SU1nR1wvcDhwZ2NpS1wvejFOS3hSQVwvYkpwNGU1WDdtNEhtckcyYW1BQ3ZnaldCVUxRWndzIiwiaXYiOiI2ZWE4ZTBjNTY4MDljZDZmODNjZWU1NTU0YjdmMTM2NyIsInMiOiI2NThiM2ZhNDQyZjViOWQ0In0=";
+AUIGridLicense = "eyJjdCI6IlZxK1d3eGl6T3A1aHh0cFRNN01vbzh1NGVibnEwNFE2d0p4dVlmSUhoZS9zSjM2clNFRHZneXVvamFVUmxFdHlEMkpQQk4rdVNiNUdEcmU0aWgzRUt0UkFQTlZrUGtuUlg5YyswWlFtWDU4RFlPSUtWZHY4cXl2Y0hKQ0lvSThiIiwiaXYiOiJkMDFjNzgyYTBiY2NlODg4OTQ1MTY5NmRjMmUyMmQzYyIsInMiOiI1MDBhMmY5MjMyYmU2YWY5In0=";

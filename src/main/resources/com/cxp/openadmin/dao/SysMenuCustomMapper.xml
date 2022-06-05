@@ -24,6 +24,7 @@
     <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
       #{id}
     </foreach>
+     ORDER BY SORT
   </select>
 
 </mapper>

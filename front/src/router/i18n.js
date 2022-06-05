@@ -27,7 +27,14 @@ module.exports = {
             commoncode: {name: '공통코드 관리'},
             commoncode_free: {name: '공통코드_무료그리드'},
           },
-      },form: {
+      },
+      master : {
+        name : '마스터관리',
+        master:{
+          CommonCodeMgt: {name: '공통코드 관리'}
+        }
+      },
+      form: {
         name: 'FORM 샘플',
         form:{
           basic: {name: '기본 FORM'},
