@@ -54,6 +54,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @SneakyThrows
     @Override
+    //시스템 로그인 url /backed/system/login 에 해당 하는 구현체
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
@@ -77,6 +78,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
+    //인증에 성공했을 경우 successfulAuthentication() 메서드가 호출
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
@@ -148,6 +150,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         map.put("role",role);
 
         String token = jwtOperator.generateToken(map);
+        System.out.println("생성 토큰값 token:===="+token);
 
         SysUser sysUser = systemService.getUserInfoById(jwtSysUserDTO.getId());
         SimpleSysUserVo simpleSysUserVo = new SimpleSysUserVo();

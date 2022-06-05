@@ -1,195 +1,221 @@
 <template>
-  <a-card :bordered="false" :style="{ minHeight: '560px' }">
-    <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="7" :sm="16">
-            <a-form-item label="운영자">
-              <a-select
-                @change="change"
-                v-model="queryParam.operationId"
-                placeholder="선택하세요."
-                default-value="0"
-              >
-                <a-select-option value>전체</a-select-option>
-                <a-select-option
-                  :key="index"
-                  v-for="(item, index) in sysUserList"
-                  :value="item.id"
-                  >{{ item.name }}</a-select-option
-                >
-              </a-select>
-            </a-form-item>
-          </a-col>
-
-          <a-col :md="14" :sm="24">
-            <a-form-item label="검토시간">
-              <a-form-item :style="{ display: 'inline-block' }">
-                <a-date-picker
-                  :format="dateFormat"
-                  @change="change"
-                  v-model="queryParam.startTime"
-                  style="width: 100%"
-                />
-              </a-form-item>
-              <span
-                :style="{
-                  display: 'inline-block',
-                  width: '24px',
-                  textAlign: 'center',
-                }"
-                >-</span
-              >
+  <div :bordered="false" :style="{ minHeight: '800px' }">
+    <div >
+      <a-form layout="horizontal" >
+        <div >
+          <a-row >
+            <a-col :md="7" :sm="24" >
               <a-form-item
-                :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
+                  label="그룹코드"
+                  :labelCol="{span: 5}"
+                  :wrapperCol="{span: 18, offset: 1}"
               >
-                <a-date-picker
-                  :format="dateFormat"
-                  @change="change"
-                  v-model="queryParam.endTime"
-                  style="width: 100%"
-                />
+                <a-input v-model="queryParam.groupCd" placeholder="입력하세요." />
               </a-form-item>
-            </a-form-item>
-          </a-col>
-        </a-row>
+            </a-col>
+            <a-col :md="7" :sm="24" >
+              <a-form-item
+                  label="사용여부"
+                  :labelCol="{span: 5}"
+                  :wrapperCol="{span: 18, offset: 1}"
+              >
+                <a-select v-model="queryParam.useYn" placeholder="선택하세요.">
+                  <a-select-option value="Y">사용</a-select-option>
+                  <a-select-option value="N">미사용</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="7" :sm="24" >
+              <a-form-item
+                  label="그룹코드명"
+                  :labelCol="{span: 5}"
+                  :wrapperCol="{span: 18, offset: 1}"
+              >
+                <a-input v-model="queryParam.groupNm" placeholder="입력하세요." />
+              </a-form-item>
+            </a-col>
+            <a-col :md="3" :sm="24" >
+              <a-button type="primary" @click="search">조회</a-button>
+              <a-button style="margin-left: 8px">초기화</a-button>
+            </a-col>
+          </a-row>
+        </div>
       </a-form>
     </div>
 
-    <s-table
-      ref="list"
-      rowKey="id"
-      size="default"
-      :columns="columns"
-      :data="loadData"
-      :pageURI="true"
-      :queryParam="queryParam"
-    >
-      <span slot="operationId" slot-scope="operationId">{{
-        getOpertationName(operationId)
-      }}</span>
+    <div>
+      <a-row>
 
-      <span slot="url" slot-scope="url">
-        <a-tag>{{ url }}</a-tag>
-      </span>
+        <a-col :md="10" :sm="24">
+          <div>
+            <a-button type="primary">추가</a-button>
+            <a-button type="primary">삭제</a-button>
+            <a-button type="primary">저장</a-button>
+          </div>
+          <AUIGrid ref="myGrid1" class="grid-wrap">
+          </AUIGrid>
+        </a-col>
 
-      <span slot="browser" slot-scope="browser">
-        <a-tag>{{ browser }}</a-tag>
-      </span>
+        <a-col :md="14" :sm="24">
+          <div>
+            <a-button type="primary">추가</a-button>
+            <a-button type="primary">삭제</a-button>
+            <a-button type="primary">저장</a-button>
+          </div>
+          <AUIGrid ref="myGrid2" class="grid-wrap">
+          </AUIGrid>
+        </a-col>
+      </a-row>
+    </div>
 
-      <span slot="params" slot-scope="params" :title="params">
-        <span :title="params">{{ params | slice }}</span>
-      </span>
-    </s-table>
-  </a-card>
+
+  </div>
+
 </template>
 
+
+
 <script>
-import moment from "moment";
-import STable from "@/components/table";
-import { getSysUserList, getLogList } from "@/services/system";
+
+
+
+// AUIGrid 컴포넌트
+
+import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
+import {getCmCodeGrpList} from "@/services/commoncode";
 
 export default {
-  name: "LogList",
-  components: {
-    STable,
+
+  components : {
+    AUIGrid
   },
-  data() {
+  data: function () {
     return {
       // 쿼리 매개변수
       queryParam: {},
-      modelTitle: "작업 로그",
-      visible: false,
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 5 },
+      // 그리드 칼럼 레이아웃 정의
+      columnLayoutHD : [{
+        dataField : "groupCd",
+        headerText : "그룹코드",
+        width : 120
+      }, {
+        dataField : "groupNm",
+        headerText : "그룹코드명",
+        width : 140
+      }, {
+        dataField : "useYn",
+        headerText : "사용여부",
+        width : 120
+      }, {
+        dataField : "rem",
+        headerText : "비고",
+        width : 120
+      }
+      ]
+      ,columnLayoutDT : [{
+        dataField : "code",
+        headerText : "코드ID",
+        width : 120
+      }, {
+        dataField : "codeNm",
+        headerText : "코드명",
+        width : 140
+      }, {
+        dataField : "sort",
+        headerText : "정렬순서",
+        width : 120
+      },{
+        dataField : "data1",
+        headerText : "속성1",
+        width : 120
+      },{
+        dataField : "data2",
+        headerText : "정렬순서",
+        width : 120
+      },{
+        dataField : "data3",
+        headerText : "정렬순서",
+        width : 120
+      },{
+        dataField : "data4",
+        headerText : "정렬순서",
+        width : 120
+      },{
+        dataField : "data5",
+        headerText : "정렬순서",
+        width : 120
+      },{
+        dataField : "data5",
+        headerText : "정렬순서",
+        width : 120
+      },{
+        dataField : "data6",
+        headerText : "정렬순서",
+        width : 120
       },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-      sysUserList: [],
-      dateFormat: "YYYY-MM-DD",
-      // 헤더
-      columns: [
-        {
-          title: "Id",
-          dataIndex: "id",
-        },
-        {
-          title: "운영자",
-          dataIndex: "operationId",
-          scopedSlots: { customRender: "operationId" },
-        },
-        {
-          title: "요청 URL",
-          dataIndex: "url",
-          scopedSlots: { customRender: "url" },
-        },
-        {
-          title: "요청 IP",
-          dataIndex: "ip",
-        },
-        {
-          title: "브라우저",
-          dataIndex: "browser",
-        },
-        {
-          title: "파라미터",
-          dataIndex: "params",
-          width: 380,
-          scopedSlots: { customRender: "params" },
-        },
-        {
-          title: "실행 시간(ms)",
-          dataIndex: "takeTime",
-        },
-        {
-          title: "요청 시간",
-          dataIndex: "createdTime",
-          key: "createdTime",
-        },
       ],
-      loadData: (parameter) => {
-        return getLogList(Object.assign(this.queryParam, parameter)).then(
+
+      // 그리드 속성 정의
+
+      auigridProps : {
+        // 편집 가능 여부 (기본값 : false)
+        editable : true,
+        // 셀 선택모드 (기본값: singleCell)
+        selectionMode : "multipleCells"
+
+      },
+
+      // 그리드 데이터
+      gridDataHD : [],
+      gridDataDT : []
+
+    }
+
+  },
+  mounted(){
+
+    let grid1 = this.$refs.myGrid1;
+    let grid2 = this.$refs.myGrid2;
+
+    // 그리드 생성
+
+    grid1.create(this.columnLayoutHD, this.auigridProps);
+    grid2.create(this.columnLayoutDT, this.auigridProps);
+
+    // 그리드 데이터 삽입하기
+    grid1.setGridData(this.gridDataHD);
+    grid2.setGridData(this.gridDataDT);
+
+  },
+  methods : {
+    search(){
+      console.log('조회를 시작합니다.',this.queryParam);
+      return getCmCodeGrpList(this.queryParam).then(
           (res) => {
             return res.data;
           }
-        );
-      },
-    };
-  },
-  created() {
-    this.getSysUserList();
-  },
-  filters: {
-    slice(text) {
-      if (text && text.length > 118) {
-        return text.slice(0, 118) + "...";
-      } else {
-        return text;
-      }
-    },
-  },
-  methods: {
-    change() {
-      this.$refs.list.refresh();
-    },
-    getSysUserList() {
-      getSysUserList().then((res) => {
-        this.sysUserList = res.data;
-      });
-    },
-    getOpertationName(operationId) {
-      let res = this.sysUserList.find((item) => {
-        return item.id == operationId;
-      });
-      if (res) {
-        return res.name;
-      } else {
-        return "";
-      }
-    },
-  },
-};
+      );
+
+    }
+  }
+}
+
 </script>
+
+<style lang="less" scoped>
+.search{
+  margin-bottom: 54px;
+}
+.fold{
+  width: calc(100% - 216px);
+  display: inline-block
+}
+.operator{
+  margin-bottom: 18px;
+}
+@media screen and (max-width: 900px) {
+  .fold {
+    width: 100%;
+  }
+}
+</style>

@@ -25,6 +25,7 @@ module.exports = {
             roles: {name: 'ROLE관리'},
             logs: {name: '시스템로그'},
             commoncode: {name: '공통코드 관리'},
+            commoncode_free: {name: '공통코드_무료그리드'},
           },
       },form: {
         name: 'FORM 샘플',
@@ -59,6 +60,12 @@ module.exports = {
         }
       },
       users: {name: '사용자 관리'},
+      setting: {name: '설정',
+        base: {name: '기본 설정'},
+        security: {name: '보안 설정'},
+        custom: {name: '커스텀 설정'},
+      },
+
 
     }
   }

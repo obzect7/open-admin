@@ -51,6 +51,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             jwtOperator = (JwtOperator) SpringUtils.getBean("jwtOperator");
         }
 
+        System.out.print("token =========="+token);
+
         Boolean isValid = jwtOperator.validateToken(token);
 
         if(isValid){
@@ -71,7 +73,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
             try {
                 writer=response.getWriter();
-                writer.write(JsonUtils.objectToJson(new ExceptionResponse(1003, "token失效",request.getMethod()+':'+request.getRequestURI())));
+                writer.write(JsonUtils.objectToJson(new ExceptionResponse(1003, "token무효화",request.getMethod()+':'+request.getRequestURI())));
                 writer.flush();
             } catch (IOException ex) {
             }finally {

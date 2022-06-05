@@ -54,6 +54,9 @@
     <logger name="jdbc.resultset" level="OFF"/>
     <logger name="jdbc.resultsettable" level="OFF"/>
     <logger name="jdbc.connection" level="OFF"/>
+    <logger name="org.springframework.boot.autoconfigure.logging">
+        <level value="INFO"  />
+    </logger>
 
 
     <!--프로덕션 링크에서 production으로 인쇄-->
