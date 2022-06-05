@@ -25,6 +25,7 @@
             v-decorator="[
               'username',
               {
+                initialValue: 'admin',
                 rules: [
                   { required: true, message: '사용자 이름을 입력하십시오', whitespace: true },
                 ],
@@ -43,6 +44,7 @@
             v-decorator="[
               'password',
               {
+                initialValue: '111111',
                 rules: [
                   { required: true, message: '비밀번호를 입력 해주세요', whitespace: true },
                 ],
