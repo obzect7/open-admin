@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 @Data
 public class SaveCmCodeGrpDto {
 
+    private String _rowStatus;  //row 상태
     private String group_cd;
     private String group_nm;
     private String group_nm_en;

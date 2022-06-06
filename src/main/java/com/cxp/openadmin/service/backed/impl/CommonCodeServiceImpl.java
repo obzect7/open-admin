@@ -23,17 +23,30 @@ public class CommonCodeServiceImpl implements CommonCodeService {
     @Override
     public List<SaveCmCodeGrpDto> getCmCodeGrpList(Map<String, Object> map) {
         return cmCodeGrpMapper.getCmCodeGrpList(map);
-    }@Override
+    }
+    @Override
     public List<CmCodeDto> getCmCodeList(Map<String, Object> map) {
         return cmCodeGrpMapper.getCmCodeList(map);
     }
 
-
     @Override
-    public void saveCmCodeGrp(SaveCmCodeGrpDto saveCmCodeGrpDto) {
-
+    public int saveCmCodeGrp(List<SaveCmCodeGrpDto> list) {
+        if(list.size()> 0){
+            for(SaveCmCodeGrpDto dto : list){
+                if("I".equals(dto.get_rowStatus())){
+                    cmCodeGrpMapper.insertCmCodeGrp(dto);
+                    //insert
+                }else if("U".equals(dto.get_rowStatus())){
+                    cmCodeGrpMapper.updateCmCodeGrp(dto);
+                    //update
+                }else if("D".equals(dto.get_rowStatus())){
+                    cmCodeGrpMapper.deleteCmCodeGrp(dto);
+                    //delete
+                }
+            }
+        }
 //        cmCodeGrpMapper.insertSelective(saveCmCodeGrpDto);
-
+        return 0;
     }
 
 }

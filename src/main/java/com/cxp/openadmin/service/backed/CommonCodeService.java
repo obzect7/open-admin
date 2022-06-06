@@ -13,6 +13,6 @@ public interface CommonCodeService {
 
     List<CmCodeDto> getCmCodeList(Map<String, Object> map);
 
-    void saveCmCodeGrp(SaveCmCodeGrpDto saveCmCodeGrpDto);
+    int saveCmCodeGrp(List<SaveCmCodeGrpDto> list);
 
 }

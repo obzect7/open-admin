@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 @Data
 public class CmCodeDto {
 
+    private String _rowStatus;  //row status 컬럼
     private String group_cd;
     private String code;
     private String code_nm;

@@ -19,3 +19,12 @@ export function getCmCodeList(params) {
   });
 }
 
+export function saveCmCodeGrp(params) {
+  console.log('getCmCodeGrpList===',params)
+  return axios({
+    url: "/backed/commoncode/saveCmCodeGrp",
+    method: "post",
+    params,
+  });
+}
+

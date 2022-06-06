@@ -50,7 +50,7 @@
           <div>
             <a-button type="primary" @click="masterAddRow">추가</a-button>
             <a-button type="primary" @click="masterRemoveRow">삭제</a-button>
-            <a-button type="primary">저장</a-button>
+            <a-button type="primary" @click="saveMaster">저장</a-button>
           </div>
           <AUIGrid ref="myGrid1" class="grid-wrap"
                    @cellClick="cellClickHandler">
@@ -63,7 +63,7 @@
           <div>
             <a-button type="primary" @click="detailAddRow">추가</a-button>
             <a-button type="primary" @click="detailRemoveRow">삭제</a-button>
-            <a-button type="primary">저장</a-button>
+            <a-button type="primary" @click="saveDetail">저장</a-button>
           </div>
           <AUIGrid ref="myGrid2" class="grid-wrap">
           </AUIGrid>
@@ -85,7 +85,7 @@
 // AUIGrid 컴포넌트
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getCmCodeGrpList, getCmCodeList} from "@/services/commoncode";
+import {getCmCodeGrpList, getCmCodeList, saveCmCodeGrp} from "@/services/commoncode";
 const useYnList= []
 export default {
 
@@ -136,6 +136,7 @@ export default {
     this.columnLayoutHD = [{
       dataField : "group_cd",
       headerText : "그룹코드",
+      headerStyle : "aui-grid-required-header",
       style: "left-text",
       width : 120
     }, {
@@ -268,8 +269,69 @@ export default {
             //return res.data;
           }
       )
+    },saveMaster() {
+      console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
+      const grid = this.$refs.myGrid1;
+      // let items = grid.getCheckedRowItems();
+      // console.log("items===", JSON.stringify(items))
+
+      let addedRowItems = grid.getAddedRowItems(); // 추가된 행 아이템들(배열)
+      let editedRowItems = grid.getEditedRowItems(); // 수정된 행 아이템들(배열) (수정되지 않은 칼럼들의 값도 가지고 있음)
+      let removedRowItems = grid.getRemovedItems(); // 삭제된 행 아이템들(배열)
+
+      // console.log("addedRowItems===", JSON.stringify(addedRowItems))
+      // console.log("editedRowItems===", JSON.stringify(editedRowItems))
+      // console.log("removedRowItems===", JSON.stringify(removedRowItems))
+
+      let data = [];
+      if (addedRowItems.length > 0) {
+        for(let i=0;i<addedRowItems.length; i++){
+          let addItem = addedRowItems[i]
+          Object.assign(addItem, {['_rowStatus']: 'I'})
+          Object.assign(addItem, {['regId']: this.$store.state.account.user.username})
+          Object.assign(addItem, {['modId']: this.$store.state.account.user.username})
+          //console.log("editedItem==", editedItem)
+          data.push(addItem)
+        }
+        //data.add = addedRowItems;
+      }
+      if (editedRowItems.length > 0) {
+        for(let i=0;i<editedRowItems.length; i++){
+          let editedItem = editedRowItems[i]
+          Object.assign(editedItem, {['_rowStatus']: 'U'})
+          Object.assign(editedItem, {['modId']: this.$store.state.account.user.username})
+          //console.log("editedItem==", editedItem)
+          data.push(editedItem)
+        }
+        //data.update = editedRowItems;
+      }
+      if (removedRowItems.length > 0) {
+        for(let i=0;i<removedRowItems.length; i++){
+          let removeItem = removedRowItems[i]
+          Object.assign(removeItem, {['_rowStatus']: 'D'})
+          //console.log("editedItem==", editedItem)
+          data.push(removeItem)
+        }
+        //data.remove = removedRowItems;
+      }
+      // if (data.add || data.update || data.remove) {
+      if (data.length > 0) {
+        //alert("저장 로직 작성하세요");
+      console.log("data===", JSON.stringify(data))
+        saveCmCodeGrp({saveList:JSON.stringify(data)}).then(
+            (res) => {
+              console.log('res====',res)
+              // this.$refs.myGrid1.setGridData(res.data);
+              //return res.data;
+            }
+        )
+      } else {
+        this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
+      }
+    },saveDetail(){
 
     }
+
   }
 }
 

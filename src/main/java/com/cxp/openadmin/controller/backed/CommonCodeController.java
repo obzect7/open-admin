@@ -1,15 +1,14 @@
 package com.cxp.openadmin.controller.backed;
 
 import com.cxp.openadmin.controller.BaseController;
+import com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto;
 import com.cxp.openadmin.service.backed.CommonCodeService;
 import com.cxp.openadmin.util.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,5 +28,11 @@ public class CommonCodeController extends BaseController {
     public HttpResponse getCmCodeList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
 
         return HttpResponse.success(commonCodeService.getCmCodeList(map));
+    }
+
+    @PostMapping("/saveCmCodeGrp")
+    public HttpResponse saveCmCodeGrp(@RequestBody List<SaveCmCodeGrpDto> list, HttpServletRequest request){
+
+        return HttpResponse.success(commonCodeService.saveCmCodeGrp(list));
     }
 }
