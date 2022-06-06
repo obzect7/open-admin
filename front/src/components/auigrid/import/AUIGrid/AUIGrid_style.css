@@ -9,6 +9,22 @@
  * www.auisoft.net
  */
 
+/* aui grid 필수입력 css */
+.aui-grid-required-header {
+	font-weight: bold;
+	color:#000000;
+	position:relative;
+}
+.aui-grid-required-header:after {
+	position: absolute;
+	content: "";
+	top: 0;
+	left: 0;
+	width:100%;
+	height:100%;
+	background-image: linear-gradient(-135deg,#ff0000 5px,transparent 0);
+}
+
 /* 그리드 메인 외곽 DIV */
 .aui-grid {
 	font-family: 'Malgun Gothic', '맑은 고딕', AppleSDGothicNeo-Light,	sans-serif;
