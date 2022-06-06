@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.CustomerMapper">
+
+    <select id="getCustomerList" resultType="com.cxp.openadmin.domain.dto.front.CustomerDto" parameterType="Map">
+        SELECT A.PLANT_CD
+            , A.OWNER_CD
+            , A.CUST_CD
+            , A.CUST_NM
+            , A.CUST_DESC
+            , A.CEO
+            , A.BUSINESS_NO
+            , A.CORP_NO
+            , A.TEL
+            , A.POST_NO
+            , A.ADDR1
+            , A.ADDR2
+            , A.FAX
+            , A.EMAIL
+            , A.CONDITION
+            , A.CATEGORIE
+            , A.FIRST_DAY
+            , A.REMARK
+            , A.USE_YN
+            , A.REG_ID
+            , A.REG_DT
+            , A.MOD_ID
+            , A.MOD_DT
+        FROM MST_CUSTOMER A
+        where 1=1
+
+        <if test="paramsMap.custCd != null and paramsMap.custCd != ''">
+            AND A.CUST_CD like concat('%',#{paramsMap.custCd},'%')
+        </if>
+
+        <if test="paramsMap.custNm != null and paramsMap.custNm != ''">
+            AND A.CUST_NM like concat('%',#{paramsMap.custNm},'%')
+        </if>
+
+        <if test="paramsMap.useYn != null and paramsMap.useYn != ''">
+            AND A.USE_YN = #{paramsMap.useYn}
+        </if>
+
+        ORDER BY A.PLANT_CD, A.OWNER_CD, A.CUST_CD
+
+    </select>
+
+</mapper>
