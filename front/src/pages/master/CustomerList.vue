@@ -121,7 +121,7 @@ export default {
     this.columnLayout = [
       {dataField : "plant_cd",    headerText : "사업장",   width : 120, visible : false},
       {dataField : "owner_cd",    headerText : "화주코드",  width : 140, visible : false},
-      {dataField : "cust_cd",     headerText : "거래처코드", width : 140 },
+      {dataField : "cust_cd",     headerText : "거래처코드", width : 140 ,headerStyle : "aui-grid-required-header",},
       {dataField : "cust_nm",     headerText : "거래처명",    width : 140, style: "left-text "},
       {dataField : "cust_desc",   headerText : "거래처약어", width : 140, style: "left-text "},
       {dataField : "ceo",         headerText : "대표자명",    width : 140, style: "left-text "},

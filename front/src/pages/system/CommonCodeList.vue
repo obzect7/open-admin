@@ -35,7 +35,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="3" :sm="24" >
-              <a-button type="primary" @click="search">조회</a-button>
+              <a-button type="primary" @click="search" style="margin-left: 4px;margin-bottom: 4px; background-color: #A50000; color: white" >조회</a-button>
               <a-button style="margin-left: 8px">초기화</a-button>
             </a-col>
           </a-row>
@@ -48,9 +48,9 @@
 
         <a-col :md="9" :sm="24">
           <div>
-            <a-button type="primary" @click="masterAddRow">추가</a-button>
-            <a-button type="primary" @click="masterRemoveRow">삭제</a-button>
-            <a-button type="primary" @click="saveMaster">저장</a-button>
+            <a-button type="primary" @click="masterAddRow" style="margin-left: 4px;margin-bottom: 4px" >추가</a-button>
+            <a-button type="primary" @click="masterRemoveRow" style="margin-left: 4px;margin-bottom: 4px" >삭제</a-button>
+            <a-button type="primary" @click="saveMaster" style="margin-left: 4px;margin-bottom: 4px" >저장</a-button>
           </div>
           <AUIGrid ref="myGrid1" class="grid-wrap"
                    @cellClick="cellClickHandler">
@@ -61,9 +61,9 @@
         </a-col>
         <a-col :md="14" :sm="24">
           <div>
-            <a-button type="primary" @click="detailAddRow">추가</a-button>
-            <a-button type="primary" @click="detailRemoveRow">삭제</a-button>
-            <a-button type="primary" @click="saveDetail">저장</a-button>
+            <a-button type="primary" @click="detailAddRow" style="margin-left: 4px;margin-bottom: 4px" >추가</a-button>
+            <a-button type="primary" @click="detailRemoveRow" style="margin-left: 4px;margin-bottom: 4px" >삭제</a-button>
+            <a-button type="primary" @click="saveDetail" style="margin-left: 4px;margin-bottom: 4px" >저장</a-button>
           </div>
           <AUIGrid ref="myGrid2" class="grid-wrap">
           </AUIGrid>
@@ -143,8 +143,9 @@ export default {
       dataField : "group_nm",
       headerText : "그룹코드명",
       headerStyle : "aui-grid-required-header",
-      style: "my-right-column",
-      width : 140
+
+      width : 140,
+      style: "left-text "
     }, {
       dataField : "use_yn",
       headerText : "사용여부",
@@ -364,5 +365,19 @@ export default {
 }
 .my-right-column {
   text-align:right;
+}
+</style>
+
+<style>
+.left-text {
+  text-align: left;
+}
+
+.right-text {
+  text-align: right;
+}
+
+.showcase2-complete-red {
+  color: #ff0000;
 }
 </style>

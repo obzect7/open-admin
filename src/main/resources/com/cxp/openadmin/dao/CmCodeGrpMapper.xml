@@ -59,7 +59,7 @@
         </if>
     </select>
 
-    <insert id="insertCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto">
+    <insert id="insertCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" statementType="PREPARED">
         /* CmCodeGrpMapper.xml ,  insertCmCodeGrp */
         insert into cm_code_grp
         (
@@ -76,29 +76,29 @@
         )
         values
         (
-              #{group_cd}
-            , #{group_nm}
-            , #{group_nm_en}
-            , #{code_type}
-            , #{rem}
-            , #{use_yn}
-            , #{reg_id}
+              #{paramsMap.group_cd}
+            , #{paramsMap.group_nm}
+            , #{paramsMap.group_nm_en}
+            , #{paramsMap.code_type}
+            , #{paramsMap.rem}
+            , #{paramsMap.use_yn}
+            , #{paramsMap.reg_id}
             , now()
-            , #{mod_id}
+            , #{paramsMap.mod_id}
             , now()
         )
     </insert>
 
-    <update id="updateCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto">
+    <update id="updateCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" statementType="PREPARED">
         update cm_code_grp set
-               group_nm    = #{group_nm}
-             , group_nm_en = #{group_nm_en}
-             , code_type   = #{code_type}
-             , rem         = #{rem}
-             , use_yn      = #{use_yn}
-             , mod_id      = #{mod_id}
+               group_nm    = #{paramsMap.group_nm}
+             , group_nm_en = #{paramsMap.group_nm_en}
+             , code_type   = #{paramsMap.code_type}
+             , rem         = #{paramsMap.rem}
+             , use_yn      = #{paramsMap.use_yn}
+             , mod_id      = #{paramsMap.mod_id}
              , mod_dt      = now()
-        where group_cd = #{group_cd}
+        where group_cd = #{paramsMap.group_cd}
     </update>
     <delete id="deleteCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto">
         delete from cm_code_grp
