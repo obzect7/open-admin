@@ -46,16 +46,18 @@
     <div>
       <a-row>
 
-        <a-col :md="10" :sm="24">
+        <a-col :md="9" :sm="24">
           <div>
-            <a-button type="primary">추가</a-button>
+            <a-button type="primary" @click="masterAddRow">추가</a-button>
             <a-button type="primary">삭제</a-button>
             <a-button type="primary">저장</a-button>
           </div>
           <AUIGrid ref="myGrid1" class="grid-wrap">
           </AUIGrid>
         </a-col>
-
+        <a-col :md="1" :sm="24">
+          <a-divider />
+        </a-col>
         <a-col :md="14" :sm="24">
           <div>
             <a-button type="primary">추가</a-button>
@@ -93,19 +95,33 @@ export default {
     return {
       // 쿼리 매개변수
       queryParam: {},
+      useYnList:[],
       // 그리드 칼럼 레이아웃 정의
       columnLayoutHD : [{
-        dataField : "groupCd",
+        dataField : "group_cd",
         headerText : "그룹코드",
         width : 120
       }, {
-        dataField : "groupNm",
+        dataField : "group_nm",
         headerText : "그룹코드명",
         width : 140
       }, {
-        dataField : "useYn",
+        dataField : "use_yn",
         headerText : "사용여부",
-        width : 120
+        width : 120,
+        editRenderer : {
+          type : "ComboBoxRenderer",
+          list : this.useYnList, //key-value Object 로 구성된 리스트
+          keyField : "code", // key 에 해당되는 필드명
+          valueField : "value", // value 에 해당되는 필드명
+        },
+        labelFunction : function(rowIndex, columnIndex, value, item) {
+          if(value == "Y")
+            return "사용";
+          else
+            return "미사용";
+        },
+
       }, {
         dataField : "rem",
         headerText : "비고",
@@ -117,7 +133,7 @@ export default {
         headerText : "코드ID",
         width : 120
       }, {
-        dataField : "codeNm",
+        dataField : "code_nm",
         headerText : "코드명",
         width : 140
       }, {
@@ -158,6 +174,16 @@ export default {
       // 그리드 속성 정의
 
       auigridProps : {
+
+        // 엑스트라 체크박스 표시 설정
+        showRowCheckColumn : true,
+
+        // 엑스트라 체크박스에 shiftKey + 클릭으로 다중 선택 할지 여부 (기본값 : false)
+        enableRowCheckShiftKey : true,
+
+        // 전체 체크박스 표시 설정
+        showRowAllCheckBox : true,
+
         // 편집 가능 여부 (기본값 : false)
         editable : true,
         // 셀 선택모드 (기본값: singleCell)
@@ -186,18 +212,25 @@ export default {
     grid1.setGridData(this.gridDataHD);
     grid2.setGridData(this.gridDataDT);
 
+  },created() {
+    this.useYnList = [{"code":"", "value":"전체"}, {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
   },
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
-      return getCmCodeGrpList().then(
+      return getCmCodeGrpList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====',res)
             this.$refs.myGrid1.setGridData(res.data);
             //return res.data;
           }
-      );
-
+      )
+    },
+    masterAddRow(){
+      // 하단에 1행 추가
+      console.log('행추가 !!')
+      let item = {};
+      this.$refs.myGrid1.addRow(item, "last");
     }
   }
 }

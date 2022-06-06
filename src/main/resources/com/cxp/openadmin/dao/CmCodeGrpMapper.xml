@@ -15,6 +15,16 @@
              , t.MOD_ID
              , t.MOD_DT
         from cm_code_grp t
+        where 1=1
+        <if test="paramsMap.groupCd != null and paramsMap.groupCd != ''">
+            AND t.GROUP_CD like concat('%',#{paramsMap.groupCd},'%')
+        </if>
+        <if test="paramsMap.useYn != null and paramsMap.useYn != ''">
+            AND t.USE_YN = #{paramsMap.useYn}
+        </if>
+        <if test="paramsMap.groupNm != null and paramsMap.groupNm != ''">
+            AND t.GROUP_NM = #{paramsMap.groupNm}
+        </if>
     </select>
 
 </mapper>

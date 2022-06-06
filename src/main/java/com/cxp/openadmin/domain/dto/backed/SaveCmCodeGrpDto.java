@@ -7,14 +7,14 @@ import java.sql.Timestamp;
 @Data
 public class SaveCmCodeGrpDto {
 
-    private String groupCd;
-    private String groupNm;
-    private String groupNmEn;
-    private String codeType;
+    private String group_cd;
+    private String group_nm;
+    private String group_nm_en;
+    private String code_type;
     private String rem;
-    private String useYn;
-    private String regId;
-    private Timestamp regDt;
-    private String modId;
-    private Timestamp modDt;
+    private String use_yn;
+    private String reg_id;
+    private Timestamp reg_dt;
+    private String mod_id;
+    private Timestamp mod_dt;
 }

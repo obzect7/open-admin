@@ -26,10 +26,8 @@ public class CommonCodeController extends BaseController {
     private CommonCodeService commonCodeService;
 
     @PostMapping("/getCmCodeGrpList")
-    public HttpResponse getCmCodeGrpList(@RequestBody(required = false) Map<String, Object> map, HttpServletRequest request){
+    public HttpResponse getCmCodeGrpList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
 
         return HttpResponse.success(commonCodeService.getCmCodeGrpList(map));
     }
-
-
 }
