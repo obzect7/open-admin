@@ -1,21 +1,15 @@
 package com.cxp.openadmin.controller.backed;
 
 import com.cxp.openadmin.controller.BaseController;
-import com.cxp.openadmin.domain.dto.backed.*;
-import com.cxp.openadmin.domain.entity.SysUser;
-import com.cxp.openadmin.exception.http.ParamException;
 import com.cxp.openadmin.service.backed.CommonCodeService;
-import com.cxp.openadmin.service.backed.SystemService;
 import com.cxp.openadmin.util.HttpResponse;
-import com.cxp.openadmin.util.PagedGridResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,5 +23,11 @@ public class CommonCodeController extends BaseController {
     public HttpResponse getCmCodeGrpList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
 
         return HttpResponse.success(commonCodeService.getCmCodeGrpList(map));
+    }
+
+    @PostMapping("/getCmCodeList")
+    public HttpResponse getCmCodeList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
+
+        return HttpResponse.success(commonCodeService.getCmCodeList(map));
     }
 }

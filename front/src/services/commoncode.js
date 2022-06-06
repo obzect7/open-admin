@@ -10,3 +10,12 @@ export function getCmCodeGrpList(params) {
   });
 }
 
+export function getCmCodeList(params) {
+  console.log('getCmCodeList===',params)
+  return axios({
+    url: "/backed/commoncode/getCmCodeList",
+    method: "post",
+    params,
+  });
+}
+

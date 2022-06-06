@@ -49,10 +49,11 @@
         <a-col :md="9" :sm="24">
           <div>
             <a-button type="primary" @click="masterAddRow">추가</a-button>
-            <a-button type="primary">삭제</a-button>
+            <a-button type="primary" @click="masterRemoveRow">삭제</a-button>
             <a-button type="primary">저장</a-button>
           </div>
-          <AUIGrid ref="myGrid1" class="grid-wrap">
+          <AUIGrid ref="myGrid1" class="grid-wrap"
+                   @cellClick="cellClickHandler">
           </AUIGrid>
         </a-col>
         <a-col :md="1" :sm="24">
@@ -60,8 +61,8 @@
         </a-col>
         <a-col :md="14" :sm="24">
           <div>
-            <a-button type="primary">추가</a-button>
-            <a-button type="primary">삭제</a-button>
+            <a-button type="primary" @click="detailAddRow">추가</a-button>
+            <a-button type="primary" @click="detailRemoveRow">삭제</a-button>
             <a-button type="primary">저장</a-button>
           </div>
           <AUIGrid ref="myGrid2" class="grid-wrap">
@@ -84,8 +85,8 @@
 // AUIGrid 컴포넌트
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getCmCodeGrpList} from "@/services/commoncode";
-
+import {getCmCodeGrpList, getCmCodeList} from "@/services/commoncode";
+const useYnList= []
 export default {
 
   components : {
@@ -93,83 +94,12 @@ export default {
   },
   data: function () {
     return {
+      useYnList,
       // 쿼리 매개변수
       queryParam: {},
-      useYnList:[],
       // 그리드 칼럼 레이아웃 정의
-      columnLayoutHD : [{
-        dataField : "group_cd",
-        headerText : "그룹코드",
-        width : 120
-      }, {
-        dataField : "group_nm",
-        headerText : "그룹코드명",
-        width : 140
-      }, {
-        dataField : "use_yn",
-        headerText : "사용여부",
-        width : 120,
-        editRenderer : {
-          type : "ComboBoxRenderer",
-          list : this.useYnList, //key-value Object 로 구성된 리스트
-          keyField : "code", // key 에 해당되는 필드명
-          valueField : "value", // value 에 해당되는 필드명
-        },
-        labelFunction : function(rowIndex, columnIndex, value, item) {
-          if(value == "Y")
-            return "사용";
-          else
-            return "미사용";
-        },
-
-      }, {
-        dataField : "rem",
-        headerText : "비고",
-        width : 120
-      }
-      ]
-      ,columnLayoutDT : [{
-        dataField : "code",
-        headerText : "코드ID",
-        width : 120
-      }, {
-        dataField : "code_nm",
-        headerText : "코드명",
-        width : 140
-      }, {
-        dataField : "sort",
-        headerText : "정렬순서",
-        width : 120
-      },{
-        dataField : "data1",
-        headerText : "속성1",
-        width : 120
-      },{
-        dataField : "data2",
-        headerText : "정렬순서",
-        width : 120
-      },{
-        dataField : "data3",
-        headerText : "정렬순서",
-        width : 120
-      },{
-        dataField : "data4",
-        headerText : "정렬순서",
-        width : 120
-      },{
-        dataField : "data5",
-        headerText : "정렬순서",
-        width : 120
-      },{
-        dataField : "data5",
-        headerText : "정렬순서",
-        width : 120
-      },{
-        dataField : "data6",
-        headerText : "정렬순서",
-        width : 120
-      },
-      ],
+      columnLayoutHD : []
+      ,columnLayoutDT : [],
 
       // 그리드 속성 정의
 
@@ -198,7 +128,90 @@ export default {
     }
 
   },
+
+  beforeMount() {
+    this.useYnList = [ {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
+  },
   mounted(){
+    this.columnLayoutHD = [{
+      dataField : "group_cd",
+      headerText : "그룹코드",
+      style: "left-text",
+      width : 120
+    }, {
+      dataField : "group_nm",
+      headerText : "그룹코드명",
+      style: "my-right-column",
+      width : 140
+    }, {
+      dataField : "use_yn",
+      headerText : "사용여부",
+      width : 120,
+      renderer : {
+        type : "DropDownListRenderer",
+        list : this.useYnList, //key-value Object 로 구성된 리스트
+        keyField : "code", // key 에 해당되는 필드명
+        valueField : "value" // value 에 해당되는 필드명
+      },
+
+    }, {
+      dataField : "rem",
+      headerText : "비고",
+      width : 120
+    }]
+
+    this.columnLayoutDT = [{
+      dataField : "code",
+      headerText : "코드ID",
+      width : 120
+    }, {
+      dataField : "code_nm",
+      headerText : "코드명",
+      width : 140
+    }, {
+      dataField : "sort",
+      headerText : "정렬순서",
+      width : 120
+    }, {
+      dataField : "use_yn",
+      headerText : "사용여부",
+      width : 120,
+      renderer : {
+        type : "DropDownListRenderer",
+        list : this.useYnList, //key-value Object 로 구성된 리스트
+        keyField : "code", // key 에 해당되는 필드명
+        valueField : "value" // value 에 해당되는 필드명
+      },
+    },{
+      dataField : "data1",
+      headerText : "속성1",
+      width : 120
+    },{
+      dataField : "data2",
+      headerText : "속성2",
+      width : 120
+    },{
+      dataField : "data3",
+      headerText : "속성3",
+      width : 120
+    },{
+      dataField : "data4",
+      headerText : "속성4",
+      width : 120
+    },{
+      dataField : "data5",
+      headerText : "속성5",
+      width : 120
+    },{
+      dataField : "data6",
+      headerText : "속성6",
+      width : 120
+    },{
+      dataField : "data7",
+      headerText : "속성7",
+      width : 120
+    },
+        ]
 
     let grid1 = this.$refs.myGrid1;
     let grid2 = this.$refs.myGrid2;
@@ -213,12 +226,12 @@ export default {
     grid2.setGridData(this.gridDataDT);
 
   },created() {
-    this.useYnList = [{"code":"", "value":"전체"}, {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
+
   },
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
-      return getCmCodeGrpList(Object.assign(this.queryParam)).then(
+      getCmCodeGrpList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====',res)
             this.$refs.myGrid1.setGridData(res.data);
@@ -231,6 +244,31 @@ export default {
       console.log('행추가 !!')
       let item = {};
       this.$refs.myGrid1.addRow(item, "last");
+    },
+    masterRemoveRow(){
+      // 체크된 행 삭제 처리
+      this.$refs.myGrid1.removeCheckedRows();
+    },
+    detailAddRow(){
+      // 하단에 1행 추가
+      console.log('행추가 !!')
+      let item = {};
+      this.$refs.myGrid2.addRow(item, "last");
+    },
+    detailRemoveRow(){
+      // 체크된 행 삭제 처리
+      this.$refs.myGrid2.removeCheckedRows();
+    }, cellClickHandler(event) {
+      // 셀클릭 이벤트 핸들링
+      console.log('cell click ===' , event.type + " (" + event.rowIndex + ", " + event.columnIndex + ") vaule : " + event.value)
+      getCmCodeList(Object.assign(event.item)).then(
+          (res) => {
+            console.log('res====@@@@@',res)
+            this.$refs.myGrid2.setGridData(res.data);
+            //return res.data;
+          }
+      )
+
     }
   }
 }
@@ -248,9 +286,14 @@ export default {
 .operator{
   margin-bottom: 18px;
 }
-@media screen and (max-width: 900px) {
-  .fold {
-    width: 100%;
-  }
+.left-text {
+  text-align: left;
+}
+
+.right-text {
+  text-align: right;
+}
+.my-right-column {
+  text-align:right;
 }
 </style>

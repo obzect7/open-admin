@@ -3,6 +3,7 @@
 <mapper namespace="com.cxp.openadmin.dao.CmCodeGrpMapper">
 
     <select id="getCmCodeGrpList" resultType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" parameterType="Map">
+        /* CmCodeGrpMapper.xml ,  getCmCodeGrpList */
         select
                t.GROUP_CD
              , t.GROUP_NM
@@ -26,5 +27,38 @@
             AND t.GROUP_NM = #{paramsMap.groupNm}
         </if>
     </select>
+
+    <select id="getCmCodeList" resultType="com.cxp.openadmin.domain.dto.backed.CmCodeDto" parameterType="Map">
+        /* CmCodeGrpMapper.xml ,  getCmCodeList */
+        select
+              t.GROUP_CD
+            , t.CODE
+            , t.CODE_NM
+            , t.CODE_NM_EN
+            , t.SORT
+            , t.DATA1
+            , t.DATA2
+            , t.DATA3
+            , t.DATA4
+            , t.DATA5
+            , t.DATA6
+            , t.DATA7
+            , t.DATA8
+            , t.DATA9
+            , t.DATA10
+            , t.REM
+            , t.USE_YN
+            , t.REG_ID
+            , t.REG_DT
+            , t.MOD_ID
+            , t.MOD_DT
+        from cm_code t
+        where 1=1
+        <if test="paramsMap.group_cd != null and paramsMap.group_cd != ''">
+            AND t.GROUP_CD like concat('%',#{paramsMap.group_cd},'%')
+        </if>
+    </select>
+
+
 
 </mapper>
