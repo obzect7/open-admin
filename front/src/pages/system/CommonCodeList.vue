@@ -53,7 +53,9 @@
             <a-button type="primary" @click="saveMaster" style="margin-left: 4px;margin-bottom: 4px" >저장</a-button>
           </div>
           <AUIGrid ref="myGrid1" class="grid-wrap"
-                   @cellClick="cellClickHandler">
+                   @cellClick="cellClickHandler"
+                   @cellEditBegin = "CodecellEditBegin"
+          >
           </AUIGrid>
         </a-col>
         <a-col :md="1" :sm="24">
@@ -246,7 +248,7 @@ export default {
     masterAddRow(){
       // 하단에 1행 추가
       console.log('행추가 !!')
-      let item = {};
+      let item = {use_yn : "Y", rowStatus : 'I'};
       this.$refs.myGrid1.addRow(item, "last");
     },
     masterRemoveRow(){
@@ -272,6 +274,24 @@ export default {
             //return res.data;
           }
       )
+    },
+    CodecellEditBegin(event){
+
+      // console.log('event===', event)
+      // console.log('event.dataField===', event.dataField)
+      //return false
+
+      const grid = this.$refs.myGrid1;
+      let rowIdField = event.dataField;
+      let rowIndex = event.rowIndex;
+      let rowStatus = grid.getCellValue(rowIndex, 'rowStatus')
+
+      // console.log("rowStatus===", rowStatus)
+
+      if(rowIdField == 'group_cd' && rowStatus != 'I'){
+        return false
+      }
+      return true
     },saveMaster() {
       const isValid = this.$refs.myGrid1.validateChangedGridData(["group_cd", "group_nm","use_yn"], "필수입력 입니다.");
 
