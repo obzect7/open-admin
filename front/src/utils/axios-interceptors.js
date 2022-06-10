@@ -2,12 +2,12 @@ import Cookie from 'js-cookie'
 
 const xsrfCookieName = "Authorization";
 import {logout} from '@/services/system'
-// 401拦截
+// 401 가로채기
 const resp401 = {
   /**
-   * 响应数据之前做点什么
-   * @param response 响应对象
-   * @param options 应用配置 包含: {router, i18n, store, message}
+   * 데이터에 응답하기 전에 무언가를 하십시오
+   * @param response 응답 객체
+   * @param options 애플리케이션 구성에는 다음이 포함됩니다.: {router, i18n, store, message}
    * @returns {*}
    */
   onFulfilled(response, options) {
@@ -18,16 +18,16 @@ const resp401 = {
     return response
   },
   /**
-   * 响应出错时执行
-   * @param error 错误对象
-   * @param options 应用配置 包含: {router, i18n, store, message}
+   * 오류 시 실행
+   * @param error 오류 개체
+   * @param options 애플리케이션 구성에는 다음이 포함됩니다.: {router, i18n, store, message}
    * @returns {Promise<never>}
    */
   onRejected(error, options) {
     const {message} = options
     const {response} = error
     if (response.status === 401) {
-      message.error('无此权限')
+      message.error('해당 권한이 없습니다')
     }
     return Promise.reject(error)
   }
@@ -37,7 +37,7 @@ const resp403 = {
   onFulfilled(response, options) {
     const {message} = options
     if (response.code === 403) {
-      message.error('请求被拒绝')
+      message.error('요청 거부')
     }
     return response
   },
@@ -45,7 +45,7 @@ const resp403 = {
     const {message} = options
     const {response} = error
     if (response.status === 403) {
-      message.error('请求被拒绝')
+      message.error('요청 거부')
     }
     return Promise.reject(error)
   }
@@ -53,16 +53,16 @@ const resp403 = {
 
 const reqCommon = {
   /**
-   * 发送请求之前做些什么
+   * 요청을 보내기 전에 해야 할 일
    * @param config axios config
-   * @param options 应用配置 包含: {router, i18n, store, message}
+   * @param options 애플리케이션 구성에는 다음이 포함됩니다.: {router, i18n, store, message}
    * @returns {*}
    */
   onFulfilled(config, options) {
     const {message} = options
     const {url} = config
     if (url.indexOf('login') === -1 && !Cookie.get(xsrfCookieName)) {
-      message.warning('认证 token 已过期，请重新登录',() => {
+      message.warning('인증 토큰이 만료되었습니다. 다시 로그인하십시오.',() => {
         logout().then(() => {
           window.location.reload();
         })
@@ -73,9 +73,9 @@ const reqCommon = {
     return config
   },
   /**
-   * 请求出错时做点什么
-   * @param error 错误对象
-   * @param options 应用配置 包含: {router, i18n, store, message}
+   * 요청이 잘못되었을 때 해야 할 일
+   * @param error 오류 개체
+   * @param options 애플리케이션 구성에는 다음이 포함됩니다.: {router, i18n, store, message}
    * @returns {Promise<never>}
    */
   onRejected(error, options) {
@@ -86,6 +86,6 @@ const reqCommon = {
 }
 
 export default {
-  request: [reqCommon], // 请求拦截
-  response: [resp401, resp403] // 响应拦截
+  request: [reqCommon], // 차단 요청
+  response: [resp401, resp403] // 응답 가로채기
 }

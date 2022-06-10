@@ -280,6 +280,7 @@ export default {
       this.$refs["ruleForm"].form.validateFields((err, values) => {
         if (!err) {
           if (this.formFlag == 1) {
+            console.log('values ====',values)
             createSysUser(values).then((res) => {
               if (res.code == 200) {
                 this.$message.success("사용자 생성 성공");

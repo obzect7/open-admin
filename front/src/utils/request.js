@@ -3,15 +3,15 @@ import Cookie from "js-cookie";
 
 const xsrfHeaderName = "Authorization";
 
-// 创建 axios 实例
+// axios 인스턴스 생성
 const service = axios.create({
   withCredentials: true,
   baseURL: process.env.VUE_APP_API_BASE_URL, // api base_url
-  timeout: 6000, // 请求超时时间
+  timeout: 6000, // 요청 시간 초과
 });
 
 /**
- * 设置认证信息
+ * 인증 정보 설정
  * @param auth {Object}
  */
 function setAuthorization(auth) {
@@ -19,14 +19,14 @@ function setAuthorization(auth) {
 }
 
 /**
- * 移出认证信息
+ * 인증 정보 제거
  */
 function removeAuthorization() {
   Cookie.remove(xsrfHeaderName);
 }
 
 /**
- * 检查认证信息
+ * 인증 정보 확인
  * @param authType
  * @returns {boolean}
  */
@@ -39,13 +39,13 @@ function checkAuthorization() {
 }
 
 /**
- * 加载 axios 拦截器
+ * axios 인터셉터 로드
  * @param interceptors
  * @param options
  */
 function loadInterceptors(interceptors, options) {
   const { request, response } = interceptors;
-  // 加载请求拦截器
+  // 로드 요청 인터셉터
   request.forEach((item) => {
     let { onFulfilled, onRejected } = item;
     if (!onFulfilled || typeof onFulfilled !== "function") {
@@ -59,7 +59,7 @@ function loadInterceptors(interceptors, options) {
       (error) => onRejected(error, options)
     );
   });
-  // 加载响应拦截器
+  // 로드 응답 인터셉터
   response.forEach((item) => {
     let { onFulfilled, onRejected } = item;
     if (!onFulfilled || typeof onFulfilled !== "function") {
@@ -82,7 +82,7 @@ function loadInterceptors(interceptors, options) {
 }
 
 /**
- * 解析 url 中的参数
+ * URL의 파라미터 구문 분석
  * @param url
  * @returns {Object}
  */

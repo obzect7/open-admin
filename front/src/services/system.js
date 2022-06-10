@@ -57,6 +57,7 @@ export function updateSysUser(data) {
 }
 
 export function createSysUser(data) {
+  console.log('data@@@@@@',data)
   return axios({
     url: "/backed/system/create-sysuser",
     method: "post",

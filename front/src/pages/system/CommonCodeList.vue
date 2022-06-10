@@ -266,7 +266,7 @@ export default {
       this.$refs.myGrid2.removeCheckedRows();
     }, cellClickHandler(event) {
       // 셀클릭 이벤트 핸들링
-      console.log('cell click ===' , event.type + " (" + event.rowIndex + ", " + event.columnIndex + ") vaule : " + event.value)
+      console.log('cell click ===' , event)
       getCmCodeList(Object.assign(event.item)).then(
           (res) => {
             console.log('res====@@@@@',res)
@@ -343,8 +343,22 @@ export default {
         // if (data.add || data.update || data.remove) {
         if (data.length > 0) {
           //alert("저장 로직 작성하세요");
-          console.log("data===", JSON.stringify(data))
-          saveCmCodeGrp(data).then(
+          console.log("data===", data)
+          saveCmCodeGrp(
+              {
+                list:
+              [{
+            "use_yn": "Y",
+               "rowStatus": "I",
+              "_$uid": "B5255F35-0F63-5523-C900-4D5ED0F463AC",
+              "group_cd": "ㅅㅅㅅㅅㅅ",
+              "group_nm": "ㅅㅅㅅㅅㅅ",
+              "_rowStatus": "I",
+              "regId": "admin",
+              "modId": "admin"
+          }]
+              }
+          ).then(
               (res) => {
                 console.log('res====',res)
                 // this.$refs.myGrid1.setGridData(res.data);
