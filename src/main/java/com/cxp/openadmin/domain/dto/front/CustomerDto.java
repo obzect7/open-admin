@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 @Data
 public class CustomerDto {
 
+    private String rowStatus;  //row 상태
     private String plant_cd;
     private String owner_cd;
     private String cust_cd;
@@ -21,8 +22,8 @@ public class CustomerDto {
     private String addr2;
     private String fax;
     private String email;
-    private String condition;
-    private String categorie;
+    private String business_type;
+    private String business_item;
     private String first_day;
     private String remark;
     private String use_yn;
