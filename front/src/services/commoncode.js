@@ -22,13 +22,14 @@ export function getCmCodeList(params) {
 export function saveCmCodeGrp(params) {
   console.log('saveCmCodeGrp===',params)
 
-  // return axios.post("/backed/commoncode/saveCmCodeGrp", params, config)
-  return axios({
-    url: "/backed/commoncode/saveCmCodeGrp",
-    method: "post",
-    params,
-  });
-
+  return axios.post("/backed/commoncode/saveCmCodeGrp", params, {})
+  // return axios({
+  //   url: "/backed/commoncode/saveCmCodeGrp",
+  //   method: "post",
+  //   params,
+  // },{
+  //   'Content-Type' : 'application/json'
+  // });
 
 /*
   return axios({
