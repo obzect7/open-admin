@@ -1,4 +1,5 @@
 <template>
+  <a-spin :spinning="loading" size="large">
   <div :bordered="false" :style="{ minHeight: '800px' }">
     <div >
       <a-form layout="horizontal" >
@@ -55,6 +56,7 @@
           <AUIGrid ref="myGrid1" class="grid-wrap"
                    @cellClick="cellClickHandler"
                    @cellEditBegin = "CodecellEditBegin"
+                   :loading="loading"
           >
           </AUIGrid>
         </a-col>
@@ -67,7 +69,9 @@
             <a-button type="primary" @click="detailRemoveRow" style="margin-left: 4px;margin-bottom: 4px" >삭제</a-button>
             <a-button type="primary" @click="saveDetail" style="margin-left: 4px;margin-bottom: 4px" >저장</a-button>
           </div>
-          <AUIGrid ref="myGrid2" class="grid-wrap">
+          <AUIGrid ref="myGrid2" class="grid-wrap"
+                   :loading="loading"
+          >
           </AUIGrid>
         </a-col>
       </a-row>
@@ -75,7 +79,7 @@
 
 
   </div>
-
+  </a-spin>
 </template>
 
 
@@ -96,6 +100,8 @@ export default {
   },
   data: function () {
     return {
+      loading: false,   //로딩바 유무
+      delayTime:1000,    //로딩 딜레이
       useYnList,
       // 쿼리 매개변수
       queryParam: {},
@@ -237,10 +243,13 @@ export default {
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
+      this.loading = true
       getCmCodeGrpList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====',res)
             this.$refs.myGrid1.setGridData(res.data);
+            // 실제로 새로 고침은 매우 빠르며, 이 지연을 추가하는 것은 순전히 로딩 상태를 잠시 동안 표시하여 사용자가 새로 고침 과정을 인지할 수 있도록 하기 위한 것입니다.
+            setTimeout(() => this.loading = false, 500)
             //return res.data;
           }
       )
@@ -248,7 +257,7 @@ export default {
     masterAddRow(){
       // 하단에 1행 추가
       console.log('행추가 !!')
-      let item = {use_yn : "Y", rowStatus : 'I'};
+      let item = {use_yn : "Y", _row_status : 'I'};
       this.$refs.myGrid1.addRow(item, "last");
     },
     masterRemoveRow(){
@@ -267,13 +276,19 @@ export default {
     }, cellClickHandler(event) {
       // 셀클릭 이벤트 핸들링
       console.log('cell click ===' , event)
-      getCmCodeList(Object.assign(event.item)).then(
-          (res) => {
-            console.log('res====@@@@@',res)
-            this.$refs.myGrid2.setGridData(res.data);
-            //return res.data;
-          }
-      )
+      if(event.dataField == "group_cd"){
+        this.loading = true
+        getCmCodeList(Object.assign(event.item)).then(
+            (res) => {
+              console.log('res====@@@@@',res)
+              this.$refs.myGrid2.setGridData(res.data);
+              // this.loading = false
+              setTimeout(() => this.loading = false, 500)
+              //return res.data;
+            }
+        )
+      }
+
     },
     CodecellEditBegin(event){
 
@@ -284,11 +299,11 @@ export default {
       const grid = this.$refs.myGrid1;
       let rowIdField = event.dataField;
       let rowIndex = event.rowIndex;
-      let rowStatus = grid.getCellValue(rowIndex, 'rowStatus')
+      let _row_status = grid.getCellValue(rowIndex, '_row_status')
 
-      // console.log("rowStatus===", rowStatus)
+      // console.log("_row_status===", _row_status)
 
-      if(rowIdField == 'group_cd' && rowStatus != 'I'){
+      if(rowIdField == 'group_cd' && _row_status != 'I'){
         return false
       }
       return true
@@ -313,7 +328,7 @@ export default {
         if (addedRowItems.length > 0) {
           for(let i=0;i<addedRowItems.length; i++){
             let addItem = addedRowItems[i]
-            Object.assign(addItem, {['_rowStatus']: 'I'})
+            Object.assign(addItem, {['_row_status']: 'I'})
             Object.assign(addItem, {['regId']: this.$store.state.account.user.username})
             Object.assign(addItem, {['modId']: this.$store.state.account.user.username})
             //console.log("editedItem==", editedItem)
@@ -324,7 +339,7 @@ export default {
         if (editedRowItems.length > 0) {
           for(let i=0;i<editedRowItems.length; i++){
             let editedItem = editedRowItems[i]
-            Object.assign(editedItem, {['_rowStatus']: 'U'})
+            Object.assign(editedItem, {['_row_status']: 'U'})
             Object.assign(editedItem, {['modId']: this.$store.state.account.user.username})
             //console.log("editedItem==", editedItem)
             data.push(editedItem)
@@ -334,7 +349,7 @@ export default {
         if (removedRowItems.length > 0) {
           for(let i=0;i<removedRowItems.length; i++){
             let removeItem = removedRowItems[i]
-            Object.assign(removeItem, {['_rowStatus']: 'D'})
+            Object.assign(removeItem, {['_row_status']: 'D'})
             //console.log("editedItem==", editedItem)
             data.push(removeItem)
           }
@@ -344,21 +359,7 @@ export default {
         if (data.length > 0) {
           //alert("저장 로직 작성하세요");
           console.log("data===", data)
-          saveCmCodeGrp(
-              {
-                list:
-              [{
-            "use_yn": "Y",
-               "rowStatus": "I",
-              "_$uid": "B5255F35-0F63-5523-C900-4D5ED0F463AC",
-              "group_cd": "ㅅㅅㅅㅅㅅ",
-              "group_nm": "ㅅㅅㅅㅅㅅ",
-              "_rowStatus": "I",
-              "regId": "admin",
-              "modId": "admin"
-          }]
-              }
-          ).then(
+          saveCmCodeGrp(data).then(
               (res) => {
                 console.log('res====',res)
                 // this.$refs.myGrid1.setGridData(res.data);

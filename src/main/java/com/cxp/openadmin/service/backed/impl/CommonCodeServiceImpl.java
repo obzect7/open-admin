@@ -31,22 +31,23 @@ public class CommonCodeServiceImpl implements CommonCodeService {
 
     @Override
     public int saveCmCodeGrp(List<SaveCmCodeGrpDto> list) {
+        int updateRow = 0;
         if(list.size()> 0){
             for(SaveCmCodeGrpDto dto : list){
-                if("I".equals(dto.get_rowStatus())){
-                    cmCodeGrpMapper.insertCmCodeGrp(dto);
+                if("I".equals(dto.get_row_status())){
+                    updateRow += cmCodeGrpMapper.insertCmCodeGrp(dto);
                     //insert
-                }else if("U".equals(dto.get_rowStatus())){
-                    cmCodeGrpMapper.updateCmCodeGrp(dto);
+                }else if("U".equals(dto.get_row_status())){
+                    updateRow += cmCodeGrpMapper.updateCmCodeGrp(dto);
                     //update
-                }else if("D".equals(dto.get_rowStatus())){
-                    cmCodeGrpMapper.deleteCmCodeGrp(dto);
+                }else if("D".equals(dto.get_row_status())){
+                    updateRow += cmCodeGrpMapper.deleteCmCodeGrp(dto);
                     //delete
                 }
             }
         }
 //        cmCodeGrpMapper.insertSelective(saveCmCodeGrpDto);
-        return 0;
+        return updateRow;
     }
 
 }

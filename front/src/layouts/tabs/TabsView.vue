@@ -127,7 +127,7 @@ export default {
       if (this.pageList.length === 1) {
         return this.$message.warning(this.$t('warn'))
       }
-      //清除缓存
+      //캐시 지우기
       let index = this.pageList.findIndex(item => item.fullPath === key)
       this.clearCaches = this.pageList.splice(index, 1).map(page => page.cachedKey)
       if (next) {
@@ -145,7 +145,7 @@ export default {
       if (key === this.activePage) {
         this.reloadContent(() => page.loading = false)
       } else {
-        // 其实刷新很快，加这个延迟纯粹为了 loading 状态多展示一会儿，让用户感知刷新这一过程
+        // 실제로 새로 고침은 매우 빠르며, 이 지연을 추가하는 것은 순전히 로딩 상태를 잠시 동안 표시하여 사용자가 새로 고침 과정을 인지할 수 있도록 하기 위한 것입니다.
         setTimeout(() => page.loading = false, 500)
       }
     },
@@ -166,11 +166,11 @@ export default {
       }
     },
     closeOthers (pageKey) {
-      // 清除缓存
+      // 캐시 지우기
       const clearPages = this.pageList.filter(item => item.fullPath !== pageKey && !item.unclose)
       this.clearCaches = clearPages.map(item => item.cachedKey)
       this.pageList = this.pageList.filter(item => !clearPages.includes(item))
-      // 判断跳转
+      // 심판 점프
       if (this.activePage != pageKey) {
         this.activePage = pageKey
         this.$router.push(this.activePage)
@@ -178,23 +178,23 @@ export default {
     },
     closeLeft (pageKey) {
       const index = this.pageList.findIndex(item => item.fullPath === pageKey)
-      // 清除缓存
+      // 캐시 지우기
       const clearPages = this.pageList.filter((item, i) => i < index && !item.unclose)
       this.clearCaches = clearPages.map(item => item.cachedKey)
       this.pageList = this.pageList.filter(item => !clearPages.includes(item))
-      // 判断跳转
+      // 심판 점프
       if (!this.pageList.find(item => item.fullPath === this.activePage)) {
         this.activePage = pageKey
         this.$router.push(this.activePage)
       }
     },
     closeRight (pageKey) {
-      // 清除缓存
+      // 캐시 지우기
       const index = this.pageList.findIndex(item => item.fullPath === pageKey)
       const clearPages = this.pageList.filter((item, i) => i > index && !item.unclose)
       this.clearCaches = clearPages.map(item => item.cachedKey)
       this.pageList = this.pageList.filter(item => !clearPages.includes(item))
-      // 判断跳转
+      // 심판 점프
       if (!this.pageList.find(item => item.fullPath === this.activePage)) {
         this.activePage = pageKey
         this.$router.push(this.activePage)
@@ -222,7 +222,7 @@ export default {
       return this.$t(getI18nKey(page.keyPath))
     },
     /**
-     * 添加监听器
+     * 리스너 추가
      */
     addListener() {
       window.addEventListener('page:close', this.closePageListener)
@@ -230,7 +230,7 @@ export default {
       window.addEventListener('unload', this.unloadListener)
     },
     /**
-     * 移出监听器
+     * 리스너 제거
      */
     removeListener() {
       window.removeEventListener('page:close', this.closePageListener)
@@ -238,8 +238,8 @@ export default {
       window.removeEventListener('unload', this.unloadListener)
     },
     /**
-     * 页签关闭事件监听
-     * @param event 页签关闭事件
+     * 탭 닫기 이벤트 리스너
+     * @param event 탭 닫기 이벤트
      */
     closePageListener(event) {
       const {closeRoute, nextRoute} = event.detail
@@ -247,15 +247,15 @@ export default {
       this.remove(closePath, nextRoute)
     },
     /**
-     * 页面刷新事件监听
-     * @param event 页签关闭事件
+     * 페이지 새로고침 이벤트 리스너
+     * @param event 탭 닫기 이벤트
      */
     refreshPageListener(event) {
       const {pageKey} = event.detail
       this.refresh(pageKey)
     },
     /**
-     * 页面 unload 事件监听器，添加页签到 session 缓存，用于刷新时保留页签
+     * 페이지 언로드 이벤트 리스너, 새로 고칠 때 탭을 유지하기 위해 세션 캐시에 탭 추가
      */
     unloadListener() {
       const tabs = this.pageList.map(item => ({...item, _init_: false}))
@@ -270,8 +270,8 @@ export default {
       }
     },
     /**
-     * 设置页面缓存的key
-     * @param route 页面对应的路由
+     * 페이지 캐시 키 설정
+     * @param route 페이지에 해당하는 경로
      */
     setCachedKey(route) {
       let page = this.pageList.find(item => item.fullPath === route.fullPath)
@@ -286,7 +286,7 @@ export default {
       }
     },
     /**
-     * 加载缓存的 tabs
+     * 캐시된 로드 tabs
      */
     loadCachedTabs() {
       const cachedTabsStr = sessionStorage.getItem(process.env.VUE_APP_TBAS_KEY)
