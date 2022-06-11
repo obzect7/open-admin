@@ -6,20 +6,20 @@
           <a-row >
             <a-col :md="7" :sm="24" >
               <a-form-item
-                  label="거래처코드"
+                  label="품번"
                   :labelCol="{span: 5}"
                   :wrapperCol="{span: 18, offset: 1}"
               >
-                <a-input v-model="queryParam.custCd" placeholder="입력하세요." />
+                <a-input v-model="queryParam.item_cd" placeholder="입력하세요." />
               </a-form-item>
             </a-col>
             <a-col :md="7" :sm="24" >
               <a-form-item
-                  label="거래처명"
+                  label="품명"
                   :labelCol="{span: 5}"
                   :wrapperCol="{span: 18, offset: 1}"
               >
-                <a-input v-model="queryParam.custNm" placeholder="입력하세요." />
+                <a-input v-model="queryParam.item_nm" placeholder="입력하세요." />
               </a-form-item>
             </a-col>
             <a-col :md="7" :sm="24" >
@@ -28,7 +28,7 @@
                   :labelCol="{span: 5}"
                   :wrapperCol="{span: 18, offset: 1}"
               >
-                <a-select v-model="queryParam.useYn" placeholder="선택하세요.">
+                <a-select v-model="queryParam.use_yn" placeholder="선택하세요.">
                   <a-select-option value="Y">사용</a-select-option>
                   <a-select-option value="N">미사용</a-select-option>
                 </a-select>
@@ -47,15 +47,7 @@
       <a-row>
 
         <a-col :md="24" :sm="24">
-          <div>
-            <a-button type="primary" @click="addRow" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
-            <a-button type="primary" @click="removeRow" style="margin-left: 4px;margin-bottom: 4px">삭제</a-button>
-            <a-button type="primary" @click="saveRow" style="margin-left: 4px;margin-bottom: 4px">저장</a-button>
-          </div>
-          <AUIGrid ref="custGrid" class="grid-wrap"
-                   @cellEditBegin = "CellEditBegin"
-          >
-          </AUIGrid>
+          <AUIGrid ref="itemGrid" class="grid-wrap" />
         </a-col>
       </a-row>
     </div>
@@ -74,7 +66,7 @@
 // AUIGrid 컴포넌트
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getCustomerList} from "@/services/customer";
+import {getItemList} from "@/services/item";
 const useYnList= []
 
 export default {
@@ -121,23 +113,25 @@ export default {
     this.columnLayout = [
       {dataField : "plant_cd",    headerText : "사업장",   width : 120, visible : false},
       {dataField : "owner_cd",    headerText : "화주코드",  width : 140, visible : false},
-      {dataField : "cust_cd",     headerText : "거래처코드", width : 140 },
-      {dataField : "cust_nm",     headerText : "거래처명",    width : 140, style: "left-text "},
-      {dataField : "cust_desc",   headerText : "거래처약어", width : 140, style: "left-text "},
-      {dataField : "ceo",         headerText : "대표자명",    width : 140, style: "left-text "},
-      {dataField : "business_no", headerText : "사업자번호",   width : 140},
-      {dataField : "corp_no",     headerText : "법인번호",    width : 140},
-      {dataField : "tel",         headerText : "대표번호",    width : 140},
-      {dataField : "post_no",     headerText : "우편번호",    width : 140},
-      {dataField : "addr1",       headerText : "주소1",     width : 140, style: "left-text "},
-      {dataField : "addr2",       headerText : "주소2",     width : 140, style: "left-text "},
-      {dataField : "fax",         headerText : "팩스번호",    width : 140},
-      {dataField : "email",       headerText : "이메일",     width : 140, style: "left-text "},
-      {dataField : "condition",   headerText : "업태",      width : 140, style: "left-text "},
-      {dataField : "categorie",   headerText : "종목",      width : 140, style: "left-text "},
-      {dataField : "first_day",   headerText : "최초거래일", width : 140},
-      {dataField : "remark",      headerText : "비고",      width : 140, style: "left-text "},
-      {dataField : "use_yn",      headerText : "사용여부",   width : 140,
+
+      {dataField : "item_cd",   headerText : "품번",      width : 120, visible : true },
+      {dataField : "item_nm",   headerText : "품명",      width : 120, visible : true, style: "left-text "},
+      {dataField : "spec",      headerText : "규격",      width : 120, visible : true, style: "left-text "},
+      {dataField : "unit",      headerText : "단위",      width : 120, visible : true },
+      {dataField : "class1",    headerText : "구분1",     width : 120, visible : true },
+      {dataField : "class2",    headerText : "구분2",     width : 120, visible : true },
+      {dataField : "class3",    headerText : "구분3",      width : 120, visible : true},
+      {dataField : "boxqty",    headerText : "Box/Qty",   width : 120, visible : true, style: "right-text "},
+      {dataField : "pltqty",    headerText : "Plt/Qty",   width : 120, visible : true, style: "right-text "},
+      {dataField : "in_price1", headerText : "입고단가",    width : 120, visible : true, style: "right-text "},
+      {dataField : "out_price", headerText : "출고단가",    width : 120, visible : true, style: "right-text "},
+      {dataField : "lot_yn",    headerText : "LOT관리여부", width : 120, visible : true },
+      {dataField : "fifo_yn",   headerText : "선입선출여부", width : 120, visible : true },
+      {dataField : "appro_inv", headerText : "적정재고",    width : 120, visible : true, style: "right-text "},
+      {dataField : "in_wh_cd",  headerText : "입고창고",    width : 120, visible : true },
+      {dataField : "in_lc_cd",  headerText : "입고로케이션", width : 120, visible : true },
+      {dataField : "remark",    headerText : "비고",        width : 140, style: "left-text "},
+      {dataField : "use_yn",    headerText : "사용여부",    width : 140,
         renderer : {
           type : "DropDownListRenderer",
           list : this.useYnList, //key-value Object 로 구성된 리스트
@@ -152,7 +146,7 @@ export default {
     ]
 
 
-    let grid = this.$refs.custGrid;
+    let grid = this.$refs.itemGrid;
 
     // 그리드 생성
 
@@ -165,92 +159,14 @@ export default {
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
-      return getCustomerList(Object.assign(this.queryParam)).then(
+      return getItemList(Object.assign(this.queryParam)).then(
 
           (res) => {
             console.log('res====',res)
-            this.$refs.custGrid.setGridData(res.data);
+            this.$refs.itemGrid.setGridData(res.data);
             //return res.data;
           }
       )
-    },
-    CellEditBegin(event){
-
-      // console.log('event===', event)
-      // console.log('event.dataField===', event.dataField)
-      //return false
-
-      const grid = this.$refs.custGrid;
-      let rowIdField = event.dataField;
-      let rowIndex = event.rowIndex;
-      let rowStatus = grid.getCellValue(rowIndex, 'rowStatus')
-
-      // console.log("rowIndex===", rowIndex)
-      // console.log("rowIdField===", rowIdField)
-      // console.log("rowStatus===", rowStatus)
-
-      if(rowIdField == 'cust_cd' && rowStatus != 'I'){
-        return false
-      }
-      return true
-    },
-    addRow(){
-      // 하단에 1행 추가
-      // console.log('행추가 !!')
-      let item = {plant_cd : 10000, owner_cd : 10000, use_yn : "Y", rowStatus : 'I'};
-
-
-      this.$refs.custGrid.addRow(item, "last");
-    },
-    removeRow(){
-      this.$refs.custGrid.removeCheckedRows();
-    },
-    saveRow(){
-      const grid = this.$refs.custGrid;
-
-      let addedRowItems = grid.getAddedRowItems(); // 추가된 행 아이템들(배열)
-      let editedRowItems = grid.getEditedRowItems(); // 수정된 행 아이템들(배열) (수정되지 않은 칼럼들의 값도 가지고 있음)
-      let removedRowItems = grid.getRemovedItems(); // 삭제된 행 아이템들(배열)
-
-      let data = [];
-      if (addedRowItems.length > 0) {
-        for(let i=0;i<addedRowItems.length; i++){
-          let addItem = addedRowItems[i]
-          Object.assign(addItem, {['rowStatus']: 'I'})
-          // Object.assign(addItem, {['regId']: user})
-          // Object.assign(addItem, {['modId']: user})
-          //console.log("editedItem==", editedItem)
-          data.push(addItem)
-        }
-        //data.add = addedRowItems;
-      }
-      if (editedRowItems.length > 0) {
-        for(let i=0;i<editedRowItems.length; i++){
-          let editedItem = editedRowItems[i]
-          Object.assign(editedItem, {['rowStatus']: 'U'})
-          // Object.assign(editedItem, {['modId']: user})
-          //console.log("editedItem==", editedItem)
-          data.push(editedItem)
-        }
-        //data.update = editedRowItems;
-      }
-      if (removedRowItems.length > 0) {
-        for(let i=0;i<removedRowItems.length; i++){
-          let removeItem = removedRowItems[i]
-          Object.assign(removeItem, {['rowStatus']: 'D'})
-          //console.log("editedItem==", editedItem)
-          data.push(removeItem)
-        }
-        //data.remove = removedRowItems;
-      }
-      // if (data.add || data.update || data.remove) {
-      if (data.length > 0) {
-        //alert("저장 로직 작성하세요");
-        //console.log("data===", JSON.stringify(data))
-        //savecodeCode(data).then(this.aftersavecodeCode)
-      } else {
-        this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
-      }
     }
   }
 }
