@@ -102,7 +102,7 @@
     </update>
     <delete id="deleteCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto">
         delete from cm_code_grp
-        where group_cd = #{group_cd}
+        where group_cd = #{paramsMap.group_cd}
     </delete>
 
     <insert id="insertCmCode" parameterType="com.cxp.openadmin.domain.dto.backed.CmCodeDto">
@@ -133,58 +133,58 @@
         )
         VALUES
         (
-              #{group_cd}
-            , #{code}
-            , #{code_nm}}
-            , #{code_nm_en}
-            , #{sort}
-            , #{data1}
-            , #{data2}
-            , #{data3}
-            , #{data4}
-            , #{data5}
-            , #{data6}
-            , #{data7}
-            , #{data8}
-            , #{data9}
-            , #{data10}
-            , #{rem}
-            , #{use_yn}
-            , #{reg_id}
+              #{paramsMap.group_cd}
+            , #{paramsMap.code}
+            , #{paramsMap.code_nm}
+            , #{paramsMap.code_nm_en}
+            , #{paramsMap.sort}
+            , #{paramsMap.data1}
+            , #{paramsMap.data2}
+            , #{paramsMap.data3}
+            , #{paramsMap.data4}
+            , #{paramsMap.data5}
+            , #{paramsMap.data6}
+            , #{paramsMap.data7}
+            , #{paramsMap.data8}
+            , #{paramsMap.data9}
+            , #{paramsMap.data10}
+            , #{paramsMap.rem}
+            , #{paramsMap.use_yn}
+            , #{paramsMap.reg_id}
             , now()
-            , #{mod_id}
+            , #{paramsMap.mod_id}
             , now()
         )
     </insert>
 
     <update id="updateCmCode" parameterType="com.cxp.openadmin.domain.dto.backed.CmCodeDto">
         update cm_code set
-              group_cd = #{group_cd}
-            , code = #{code}
-            , code_nm = #{code_nm}
-            , code_nm_en = #{code_nm_en}
-            , sort = #{sort}
-            , data1 = #{data1}
-            , data2 = #{data2}
-            , data3 = #{data3}
-            , data4 = #{data4 =}
-            , data5 = #{data5}
-            , data6 = #{data6}
-            , data7 = #{data7}
-            , data8 = #{data8}
-            , data9 = #{data9}
-            , data10 = #{data10}
-            , rem = #{rem}
-            , use_yn = #{use_yn}
-            , mod_id = #{mod_id}
+              group_cd = #{paramsMap.group_cd}
+            , code = #{paramsMap.code}
+            , code_nm = #{paramsMap.code_nm}
+            , code_nm_en = #{paramsMap.code_nm_en}
+            , sort = #{paramsMap.sort}
+            , data1 = #{paramsMap.data1}
+            , data2 = #{paramsMap.data2}
+            , data3 = #{paramsMap.data3}
+            , data4 = #{paramsMap.data4 =}
+            , data5 = #{paramsMap.data5}
+            , data6 = #{paramsMap.data6}
+            , data7 = #{paramsMap.data7}
+            , data8 = #{paramsMap.data8}
+            , data9 = #{paramsMap.data9}
+            , data10 = #{paramsMap.data10}
+            , rem = #{paramsMap.rem}
+            , use_yn = #{paramsMap.use_yn}
+            , mod_id = #{paramsMap.mod_id}
             , mod_dt = now()
-        where group_cd = #{group_cd}
-          and code     = #{code}
+        where group_cd = #{paramsMap.group_cd}
+          and code     = #{paramsMap.code}
     </update>
     <delete id="deleteCmCode" parameterType="com.cxp.openadmin.domain.dto.backed.CmCodeDto">
         delete from cm_code
-        where group_cd = #{group_cd}
-          and code     = #{code}
+        where group_cd = #{paramsMap.group_cd}
+          and code     = #{paramsMap.code}
     </delete>
 
 

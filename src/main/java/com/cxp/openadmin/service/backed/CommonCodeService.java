@@ -15,4 +15,6 @@ public interface CommonCodeService {
 
     int saveCmCodeGrp(List<SaveCmCodeGrpDto> list);
 
+    int saveCmCode(List<CmCodeDto> list);
+
 }

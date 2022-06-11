@@ -1,6 +1,7 @@
 package com.cxp.openadmin.controller.backed;
 
 import com.cxp.openadmin.controller.BaseController;
+import com.cxp.openadmin.domain.dto.backed.CmCodeDto;
 import com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto;
 import com.cxp.openadmin.service.backed.CommonCodeService;
 import com.cxp.openadmin.util.HttpResponse;
@@ -33,9 +34,11 @@ public class CommonCodeController extends BaseController {
 
     @PostMapping("/saveCmCodeGrp")
     public HttpResponse saveCmCodeGrp(@RequestBody(required = false) List<SaveCmCodeGrpDto> list, HttpServletRequest request){
-
-//        list.size();
         return HttpResponse.success(commonCodeService.saveCmCodeGrp(list));
+    }
+    @PostMapping("/saveCmCode")
+    public HttpResponse saveCmCode(@RequestBody List<CmCodeDto> list){
+        return HttpResponse.success(commonCodeService.saveCmCode(list));
     }
 
 }

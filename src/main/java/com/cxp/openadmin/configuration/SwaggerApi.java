@@ -21,7 +21,7 @@ public class SwaggerApi {
     public Docket createRestApi(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .select().apis(RequestHandlerSelectors.basePackage("com.talent.controller"))
+                .select().apis(RequestHandlerSelectors.basePackage("com.cxp.openadmin.controller"))
                 .paths(PathSelectors.any())
                 .build().securityContexts(Lists.newArrayList(securityContext())).securitySchemes(Lists.<SecurityScheme>newArrayList(apiKey()));
     }

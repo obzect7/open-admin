@@ -40,3 +40,9 @@ export function saveCmCodeGrp(params) {
 */
 }
 
+export function saveCmCode(params) {
+  console.log('saveCmCode===',params)
+
+  return axios.post("/backed/commoncode/saveCmCode", params, {})
+}
+

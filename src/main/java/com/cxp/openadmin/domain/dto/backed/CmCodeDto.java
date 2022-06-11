@@ -3,16 +3,19 @@ package com.cxp.openadmin.domain.dto.backed;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
 public class CmCodeDto {
 
-    private String _row_status;  //row status 컬럼
+    private String row_status;  //row status 컬럼
 
+    @NotNull
     @NotBlank(message = "그룹코드는 필수입력입니다.")
     private String group_cd;
 
+    @NotNull
     @NotBlank(message = "코드ID는 필수입력입니다.")
     private String code;
 

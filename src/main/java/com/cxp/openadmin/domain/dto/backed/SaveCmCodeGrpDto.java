@@ -1,14 +1,18 @@
 package com.cxp.openadmin.domain.dto.backed;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @Data
+@Getter
+@Setter
 public class SaveCmCodeGrpDto {
 
-    private String _row_status;  //row 상태
+    private String row_status;  //row 상태
 
     @NotBlank(message = "그룹코드는 필수입력입니다.")
     private String group_cd;

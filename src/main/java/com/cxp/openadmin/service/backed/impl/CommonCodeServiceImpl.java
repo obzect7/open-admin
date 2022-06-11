@@ -34,19 +34,36 @@ public class CommonCodeServiceImpl implements CommonCodeService {
         int updateRow = 0;
         if(list.size()> 0){
             for(SaveCmCodeGrpDto dto : list){
-                if("I".equals(dto.get_row_status())){
+                if("I".equals(dto.getRow_status())){
                     updateRow += cmCodeGrpMapper.insertCmCodeGrp(dto);
                     //insert
-                }else if("U".equals(dto.get_row_status())){
+                }else if("U".equals(dto.getRow_status())){
                     updateRow += cmCodeGrpMapper.updateCmCodeGrp(dto);
                     //update
-                }else if("D".equals(dto.get_row_status())){
+                }else if("D".equals(dto.getRow_status())){
                     updateRow += cmCodeGrpMapper.deleteCmCodeGrp(dto);
                     //delete
                 }
             }
         }
-//        cmCodeGrpMapper.insertSelective(saveCmCodeGrpDto);
+        return updateRow;
+    }
+    public int saveCmCode(List<CmCodeDto> list) {
+        int updateRow = 0;
+        if(list.size()> 0){
+            for(CmCodeDto dto : list){
+                if("I".equals(dto.getRow_status())){
+                    updateRow += cmCodeGrpMapper.insertCmCode(dto);
+                    //insert
+                }else if("U".equals(dto.getRow_status())){
+                    updateRow += cmCodeGrpMapper.updateCmCode(dto);
+                    //update
+                }else if("D".equals(dto.getRow_status())){
+                    updateRow += cmCodeGrpMapper.deleteCmCode(dto);
+                    //delete
+                }
+            }
+        }
         return updateRow;
     }
 

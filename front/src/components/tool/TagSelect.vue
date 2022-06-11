@@ -2,7 +2,7 @@
   <div class="tag-select">
     <tag-select-option @click="toggleCheck">전체</tag-select-option>
     <slot></slot>
-    <a @click="toggle" v-show="showTrigger" ref="trigger" class="trigger">展开<a-icon style="margin-left: 5px" :type="collapsed ? 'down' : 'up'"/></a>
+    <a @click="toggle" v-show="showTrigger" ref="trigger" class="trigger">펼치기<a-icon style="margin-left: 5px" :type="collapsed ? 'down' : 'up'"/></a>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   },
   mounted () {
     let _this = this
-    // 此处延迟执行，是为解决mouted未完全完成情况下引发的trigger显示bug
+    // 여기서 지연된 실행은 mouted의 불완전한 완료로 인한 트리거 표시 버그를 해결하기 위한 것입니다.
     setTimeout(() => {
       _this.showTrigger = _this.needTrigger()
       _this.$refs.trigger.style.display = _this.showTrigger ? 'inline' : 'none'

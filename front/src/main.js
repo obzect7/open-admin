@@ -20,6 +20,19 @@ import {
 } from '@/utils/request'
 const router = initRouter(false, checkAuthorization() ? true : false);
 const i18n = initI18n("KO", "US");
+import { library } from '@fortawesome/fontawesome-svg-core'
+/*
+   import specific icons
+   원하는 아이콘을 개별적으로 import
+*/
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons'
+/* import font awesome 컴포넌트 */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faSquarePlus)
+
+/* font awesome 컴포넌트를 전역으로 등록 */
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(Antd);
 Vue.config.productionTip = false;
