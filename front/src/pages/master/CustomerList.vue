@@ -254,6 +254,7 @@ export default {
               (res) => {
                 console.log('res====',res)
                 this.search()
+                this.$message.success('저장 완료되었습니다.', 3)
               }
           )
         } else {
