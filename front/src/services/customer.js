@@ -10,3 +10,14 @@ export function getCustomerList(params) {
   });
 }
 
+export function saveCustomer(params) {
+  console.log('saveCustomer===', params)
+
+   return axios.post("/front/customer/saveCustomer", params)
+  // return axios({
+  //   url: "/backed/commoncode/saveCmCodeGrp",
+  //   method: "post",
+  //   params,
+  // })
+}
+

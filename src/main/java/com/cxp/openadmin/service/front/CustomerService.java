@@ -8,4 +8,6 @@ import java.util.Map;
 public interface CustomerService {
 
     List<CustomerDto> getCustomerList(Map<String, Object> map);
+
+    int saveCustomer(List<CustomerDto> list);
 }

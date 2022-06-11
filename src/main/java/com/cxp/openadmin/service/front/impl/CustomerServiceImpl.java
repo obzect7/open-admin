@@ -20,4 +20,21 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.getCustomerList(map);
     }
 
+    @Override
+    public int saveCustomer(List<CustomerDto> list) {
+        if(list.size()> 0){
+            for(CustomerDto dto : list){
+                if("I".equals(dto.getRowStatus())){
+                    customerMapper.insertCustomer(dto);
+                }else if("U".equals(dto.getRowStatus())){
+                    customerMapper.updateCustomer(dto);
+                }else if("D".equals(dto.getRowStatus())){
+                    customerMapper.deleteCustomer(dto);
+                }
+            }
+        }
+//        customerMapper.getCustomerList(map);
+        return 0;
+    }
+
 }

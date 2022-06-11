@@ -3,6 +3,7 @@
 <mapper namespace="com.cxp.openadmin.dao.CustomerMapper">
 
     <select id="getCustomerList" resultType="com.cxp.openadmin.domain.dto.front.CustomerDto" parameterType="Map">
+        /* CustomerMapper.xml ,  getCustomerList */
         SELECT A.PLANT_CD
             , A.OWNER_CD
             , A.CUST_CD
@@ -17,8 +18,8 @@
             , A.ADDR2
             , A.FAX
             , A.EMAIL
-            , A.CONDITION
-            , A.CATEGORIE
+            , A.BUSINESS_TYPE
+            , A.BUSINESS_ITEM
             , A.FIRST_DAY
             , A.REMARK
             , A.USE_YN
@@ -44,5 +45,97 @@
         ORDER BY A.PLANT_CD, A.OWNER_CD, A.CUST_CD
 
     </select>
+
+    <insert id="insertCustomer" parameterType="com.cxp.openadmin.domain.dto.front.CustomerDto">
+        /* CustomerMapper.xml ,  insertCustomer */
+        insert into mst_customer
+        (
+             plant_cd
+            ,owner_cd
+            ,cust_cd
+            ,cust_nm
+            ,cust_desc
+            ,ceo
+            ,business_no
+            ,corp_no
+            ,tel
+            ,post_no
+            ,addr1
+            ,addr2
+            ,fax
+            ,email
+            ,business_type
+            ,business_item
+            ,first_day
+            ,remark
+            ,use_yn
+            ,reg_id
+            ,reg_dt
+            ,mod_id
+            ,mod_dt
+        )
+        VALUES
+        (
+             #{paramsMap.plant_cd}
+            ,#{paramsMap.owner_cd}
+            ,#{paramsMap.cust_cd}
+            ,#{paramsMap.cust_nm}
+            ,#{paramsMap.cust_desc}
+            ,#{paramsMap.ceo}
+            ,#{paramsMap.business_no}
+            ,#{paramsMap.corp_no}
+            ,#{paramsMap.tel}
+            ,#{paramsMap.post_no}
+            ,#{paramsMap.addr1}
+            ,#{paramsMap.addr2}
+            ,#{paramsMap.fax}
+            ,#{paramsMap.email}
+            ,#{paramsMap.business_type}
+            ,#{paramsMap.business_item}
+            ,#{paramsMap.first_day}
+            ,#{paramsMap.remark}
+            ,#{paramsMap.use_yn}
+            ,#{paramsMap.reg_id}
+            ,now()
+            ,#{paramsMap.mod_id}
+            ,now()
+        )
+    </insert>
+
+    <update id="updateCustomer" parameterType="com.cxp.openadmin.domain.dto.front.CustomerDto">
+        /* CustomerMapper.xml ,  updateCustomer */
+        update mst_customer
+           set  cust_nm     = #{paramsMap.cust_nm}
+               ,cust_desc   = #{paramsMap.cust_desc}
+               ,ceo         = #{paramsMap.ceo}
+               ,business_no = #{paramsMap.business_no}
+               ,corp_no     = #{paramsMap.corp_no}
+               ,tel         = #{paramsMap.tel}
+               ,post_no     = #{paramsMap.post_no}
+               ,addr1       = #{paramsMap.addr1}
+               ,addr2       = #{paramsMap.addr2}
+               ,fax         = #{paramsMap.fax}
+               ,email       = #{paramsMap.email}
+               ,business_type   = #{paramsMap.business_type}
+               ,business_item   = #{paramsMap.business_item}
+               ,first_day   = #{paramsMap.first_day}
+               ,remark      = #{paramsMap.remark}
+               ,use_yn      = #{paramsMap.use_yn}
+               ,mod_id      = #{paramsMap.mod_id}
+               ,mod_dt      = now()
+         where plant_cd = #{paramsMap.plant_cd}
+           and owner_cd = #{paramsMap.owner_cd}
+           and cust_cd  = #{paramsMap.cust_cd}
+
+
+    </update>
+
+    <delete id="deleteCustomer" parameterType="com.cxp.openadmin.domain.dto.front.CustomerDto">
+        /* CustomerMapper.xml ,  deleteCustomer */
+        delete from mst_customer
+         where plant_cd = #{paramsMap.plant_cd}
+           and owner_cd = #{paramsMap.owner_cd}
+           and cust_cd  = #{paramsMap.cust_cd}
+    </delete>
 
 </mapper>
