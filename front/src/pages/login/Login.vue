@@ -107,6 +107,7 @@ import { login } from "@/services/system";
 import { setAuthorization } from "@/utils/request";
 import { mapMutations } from "vuex";
 import { mapState } from "vuex";
+import {getCmCodeListAllUseStore} from "@/services/commoncode";
 export default {
   name: "Login",
   components: { CommonLayout },
@@ -132,6 +133,9 @@ export default {
       "setPermissions",
       "setRole",
       "setMenus",
+    ]),
+    ...mapMutations("commcd", [
+      "setCommoncodes",
     ]),
     newVerCode() {
       this.verCode =
@@ -161,7 +165,7 @@ export default {
       });
     },
     afterLogin(loginRes) {
-      this.logging = false;
+
       if (loginRes.code == 200) {
         let { user, permissions, menus } = loginRes.data;
         permissions = this.translatePermission(permissions);
@@ -175,7 +179,26 @@ export default {
           token: loginRes.data.token,
           expireAt: new Date(loginRes.data.tokenExpireAt),
         });
-        window.location.reload();
+
+        this.$message.loading('잠시만 기다려주세요... 기준정보 로딩중입니다...', 10)
+        getCmCodeListAllUseStore({}).then(
+            (res) => {
+              console.log('res == ',res);
+              // alert('@@@@@@@@@@@@',JSON.parse(res.data[0].cm_code_list))
+              const cm_list = res.data
+              const result1 = cm_list.filter(cm => cm.group_cd == "GENDER");
+              const result2 = cm_list.filter(cm => cm.group_cd == "USEYN");
+              const result3 = cm_list.filter(cm => cm.group_cd == "USERGB");
+
+
+              console.log('result1===',result1[0])
+              console.log('result2===',result2[0])
+              console.log('result3===',result3[0])
+              this.setCommoncodes(cm_list);
+              this.logging = false;
+              window.location.reload();
+            }
+        )
       } else {
         this.error = loginRes.message;
       }

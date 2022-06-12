@@ -50,6 +50,7 @@ export default {
   },
   computed: {
     ...mapState('setting', ['layout', 'theme', 'weekMode', 'lang'])
+
   },
   methods: {
     ...mapMutations('setting', ['setDevice']),

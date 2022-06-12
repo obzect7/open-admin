@@ -25,6 +25,10 @@ public class CommonCodeServiceImpl implements CommonCodeService {
         return cmCodeGrpMapper.getCmCodeGrpList(map);
     }
     @Override
+    public List<SaveCmCodeGrpDto> getCmCodeListAllUseStore(Map<String, Object> map) {
+        return cmCodeGrpMapper.getCmCodeListAllUseStore(map);
+    }
+    @Override
     public List<CmCodeDto> getCmCodeList(Map<String, Object> map) {
         return cmCodeGrpMapper.getCmCodeList(map);
     }

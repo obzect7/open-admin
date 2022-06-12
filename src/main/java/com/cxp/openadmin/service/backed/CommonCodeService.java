@@ -10,6 +10,7 @@ public interface CommonCodeService {
 
 
     List<SaveCmCodeGrpDto> getCmCodeGrpList(Map<String, Object> map);
+    List<SaveCmCodeGrpDto> getCmCodeListAllUseStore(Map<String, Object> map);
 
     List<CmCodeDto> getCmCodeList(Map<String, Object> map);
 

@@ -25,6 +25,13 @@ public class CommonCodeController extends BaseController {
         return HttpResponse.success(commonCodeService.getCmCodeGrpList(map));
     }
 
+    //store 에서 사용할 형태의 전체 공통코드를 가져온다. 22.06.11
+    @PostMapping("/getCmCodeListAllUseStore")
+    public HttpResponse getCmCodeListAllUseStore(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
+
+        return HttpResponse.success(commonCodeService.getCmCodeListAllUseStore(map));
+    }
+
     @PostMapping("/getCmCodeList")
     public HttpResponse getCmCodeList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
 

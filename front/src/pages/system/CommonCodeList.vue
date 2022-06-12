@@ -130,6 +130,10 @@ export default {
   },
 
   beforeMount() {
+    // let test = this.$store.state.commcd.commoncodes
+    let test = this.$store.getters["commcd/commoncodes"];
+    // test = JSON.parse(test.filter(cm => cm.group_cd == "USEYN"))
+    console.log('test === ',test)
     this.useYnList = [{"code": "Y", "value": "사용"}, {"code": "N", "value": "미사용"}]
   },
   mounted() {
@@ -195,8 +199,8 @@ export default {
     grid2.setGridData(this.gridDataDT);
 
   }, created() {
-    this.$refs.myGrid1.resize(null,1200)
-    this.$refs.myGrid2.resize(null,1200)
+    // this.$refs.myGrid1.resize(null,1200)
+    // this.$refs.myGrid2.resize(null,1200)
   },
   methods: {
     searchMaster() {
@@ -283,49 +287,9 @@ export default {
 
       if (isValid) {
         console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
-        const grid = this.$refs.myGrid1;
-        // let items = grid.getCheckedRowItems();
-        // console.log("items===", JSON.stringify(items))
+        // const grid = this.$refs.myGrid1;
+        const data = this.$getCrdData(this.$refs.myGrid1)
 
-        let addedRowItems = grid.getAddedRowItems(); // 추가된 행 아이템들(배열)
-        let editedRowItems = grid.getEditedRowItems(); // 수정된 행 아이템들(배열) (수정되지 않은 칼럼들의 값도 가지고 있음)
-        let removedRowItems = grid.getRemovedItems(); // 삭제된 행 아이템들(배열)
-
-        // console.log("addedRowItems===", JSON.stringify(addedRowItems))
-        // console.log("editedRowItems===", JSON.stringify(editedRowItems))
-        // console.log("removedRowItems===", JSON.stringify(removedRowItems))
-
-        let data = [];
-        if (addedRowItems.length > 0) {
-          for (let i = 0; i < addedRowItems.length; i++) {
-            let addItem = addedRowItems[i]
-            Object.assign(addItem, {['row_status']: 'I'})
-            Object.assign(addItem, {['regId']: this.$store.state.account.user.username})
-            Object.assign(addItem, {['modId']: this.$store.state.account.user.username})
-            //console.log("editedItem==", editedItem)
-            data.push(addItem)
-          }
-          //data.add = addedRowItems;
-        }
-        if (editedRowItems.length > 0) {
-          for (let i = 0; i < editedRowItems.length; i++) {
-            let editedItem = editedRowItems[i]
-            Object.assign(editedItem, {['row_status']: 'U'})
-            Object.assign(editedItem, {['modId']: this.$store.state.account.user.username})
-            //console.log("editedItem==", editedItem)
-            data.push(editedItem)
-          }
-          //data.update = editedRowItems;
-        }
-        if (removedRowItems.length > 0) {
-          for (let i = 0; i < removedRowItems.length; i++) {
-            let removeItem = removedRowItems[i]
-            Object.assign(removeItem, {['row_status']: 'D'})
-            //console.log("editedItem==", editedItem)
-            data.push(removeItem)
-          }
-          //data.remove = removedRowItems;
-        }
         // if (data.add || data.update || data.remove) {
         if (data.length > 0) {
           //alert("저장 로직 작성하세요");
@@ -351,49 +315,7 @@ export default {
 
       if (isValid) {
         console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
-        const grid = this.$refs.myGrid2;
-        // let items = grid.getCheckedRowItems();
-        // console.log("items===", JSON.stringify(items))
-
-        let addedRowItems = grid.getAddedRowItems(); // 추가된 행 아이템들(배열)
-        let editedRowItems = grid.getEditedRowItems(); // 수정된 행 아이템들(배열) (수정되지 않은 칼럼들의 값도 가지고 있음)
-        let removedRowItems = grid.getRemovedItems(); // 삭제된 행 아이템들(배열)
-
-        // console.log("addedRowItems===", JSON.stringify(addedRowItems))
-        // console.log("editedRowItems===", JSON.stringify(editedRowItems))
-        // console.log("removedRowItems===", JSON.stringify(removedRowItems))
-
-        let data = [];
-        if (addedRowItems.length > 0) {
-          for (let i = 0; i < addedRowItems.length; i++) {
-            let addItem = addedRowItems[i]
-            Object.assign(addItem, {['row_status']: 'I'})
-            Object.assign(addItem, {['regId']: this.$store.state.account.user.username})
-            Object.assign(addItem, {['modId']: this.$store.state.account.user.username})
-            //console.log("editedItem==", editedItem)
-            data.push(addItem)
-          }
-          //data.add = addedRowItems;
-        }
-        if (editedRowItems.length > 0) {
-          for (let i = 0; i < editedRowItems.length; i++) {
-            let editedItem = editedRowItems[i]
-            Object.assign(editedItem, {['row_status']: 'U'})
-            Object.assign(editedItem, {['modId']: this.$store.state.account.user.username})
-            //console.log("editedItem==", editedItem)
-            data.push(editedItem)
-          }
-          //data.update = editedRowItems;
-        }
-        if (removedRowItems.length > 0) {
-          for (let i = 0; i < removedRowItems.length; i++) {
-            let removeItem = removedRowItems[i]
-            Object.assign(removeItem, {['row_status']: 'D'})
-            //console.log("editedItem==", editedItem)
-            data.push(removeItem)
-          }
-          //data.remove = removedRowItems;
-        }
+        const data = this.$getCrdData(this.$refs.myGrid2)
         // if (data.add || data.update || data.remove) {
         if (data.length > 0) {
           //alert("저장 로직 작성하세요");

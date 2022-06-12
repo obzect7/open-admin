@@ -28,6 +28,22 @@
         </if>
     </select>
 
+    <select id="getCmCodeListAllUseStore" resultType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" parameterType="Map">
+        /* CmCodeGrpMapper.xml ,  getCmCodeListAllUseStore */
+        select
+            a.GROUP_CD
+             , a.GROUP_NM
+             , a.GROUP_NM_EN
+             , (
+            SELECT
+                concat("[",group_concat(JSON_OBJECT("code", cc.CODE , "code_nm", cc.CODE_NM,"code_nm_en",cc.CODE_NM_EN,"sort",cc.SORT,"use_yn",cc.USE_YN,"data1",cc.DATA1,"data2",cc.DATA2,"data3",cc.DATA3,"data4",cc.DATA4,"data5",cc.DATA5)),"]")
+            from cm_code cc
+            where GROUP_CD = a.GROUP_CD
+              and USE_YN   = 'Y'
+        ) as cm_code_list
+        from cm_code_grp a
+    </select>
+
     <select id="getCmCodeList" resultType="com.cxp.openadmin.domain.dto.backed.CmCodeDto" parameterType="Map">
         /* CmCodeGrpMapper.xml ,  getCmCodeList */
         select

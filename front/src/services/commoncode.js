@@ -10,6 +10,15 @@ export function getCmCodeGrpList(params) {
   });
 }
 
+export function getCmCodeListAllUseStore(params) {
+  console.log('getCmCodeListAllUseStore===',params)
+  return axios({
+    url: "/backed/commoncode/getCmCodeListAllUseStore",
+    method: "post",
+    params,
+  });
+}
+
 export function getCmCodeList(params) {
   console.log('getCmCodeList===',params)
   return axios({

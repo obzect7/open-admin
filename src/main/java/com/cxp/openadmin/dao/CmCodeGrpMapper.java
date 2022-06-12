@@ -12,6 +12,8 @@ import java.util.Map;
 public interface CmCodeGrpMapper extends Mapper<CmCodeGrp> {
 
     List<SaveCmCodeGrpDto> getCmCodeGrpList(@Param("paramsMap") Map<String, Object> map);
+
+    List<SaveCmCodeGrpDto> getCmCodeListAllUseStore(@Param("paramsMap") Map<String, Object> map);
     List<CmCodeDto> getCmCodeList(@Param("paramsMap") Map<String, Object> map);
     int insertCmCodeGrp(@Param("paramsMap") SaveCmCodeGrpDto dto);
     int updateCmCodeGrp(@Param("paramsMap") SaveCmCodeGrpDto dto);
