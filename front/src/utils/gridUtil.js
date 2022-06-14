@@ -1,6 +1,6 @@
 export default {
     install(Vue){
-        Vue.prototype.$getCrdData = function(grid){
+        Vue.prototype.$getCudData = function(grid){
             // let items = grid.getCheckedRowItems();
             // console.log("items===", JSON.stringify(items))
 

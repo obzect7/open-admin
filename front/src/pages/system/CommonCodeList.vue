@@ -288,7 +288,7 @@ export default {
       if (isValid) {
         console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
         // const grid = this.$refs.myGrid1;
-        const data = this.$getCrdData(this.$refs.myGrid1)
+        const data = this.$getCudData(this.$refs.myGrid1)
 
         // if (data.add || data.update || data.remove) {
         if (data.length > 0) {
