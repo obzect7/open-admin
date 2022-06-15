@@ -27,16 +27,16 @@ public class CustomerServiceImpl implements CustomerService {
         if(list.size()> 0){
             for(CustomerDto dto : list){
                 if("I".equals(dto.getRow_status())){
-                    customerMapper.insertCustomer(dto);
+                    updateRow += customerMapper.insertCustomer(dto);
                 }else if("U".equals(dto.getRow_status())){
-                    customerMapper.updateCustomer(dto);
+                    updateRow += customerMapper.updateCustomer(dto);
                 }else if("D".equals(dto.getRow_status())){
-                    customerMapper.deleteCustomer(dto);
+                    updateRow += customerMapper.deleteCustomer(dto);
                 }
             }
         }
 //        customerMapper.getCustomerList(map);
-        return 0;
+        return updateRow;
     }
 
 }

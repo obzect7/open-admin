@@ -20,21 +20,24 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.getItemList(map);
     }
 
-//    @Override
-//    public int saveCustomer(List<CustomerDto> list) {
-//        if(list.size()> 0){
-//            for(CustomerDto dto : list){
-//                if("I".equals(dto.getRowStatus())){
-//                    customerMapper.insertCustomer(dto);
-//                }else if("U".equals(dto.getRowStatus())){
-//                    customerMapper.updateCustomer(dto);
-//                }else if("D".equals(dto.getRowStatus())){
-//                    customerMapper.deleteCustomer(dto);
-//                }
-//            }
-//        }
-////        customerMapper.getCustomerList(map);
-//        return 0;
-//    }
+    @Override
+    public int saveItem(List<ItemDto> list) {
+
+        int updateRow = 0;
+        if(list.size()> 0){
+            for(ItemDto dto : list){
+                if("I".equals(dto.getRow_status())){
+                    updateRow += itemMapper.insertItem(dto);
+                }else if("U".equals(dto.getRow_status())){
+                    updateRow += itemMapper.updateItem(dto);
+                }else if("D".equals(dto.getRow_status())){
+                    updateRow += itemMapper.deleteItem(dto);
+                }
+            }
+        }
+        return updateRow;
+    }
+
+
 
 }

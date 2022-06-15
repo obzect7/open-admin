@@ -1,59 +1,74 @@
 <template>
-  <div :bordered="false" :style="{ minHeight: '800px' }">
-    <div >
-      <a-form layout="horizontal" >
-        <div >
-          <a-row >
-            <a-col :md="7" :sm="24" >
-              <a-form-item
-                  label="품번"
-                  :labelCol="{span: 5}"
-                  :wrapperCol="{span: 18, offset: 1}"
-              >
-                <a-input v-model="queryParam.item_cd" placeholder="입력하세요." />
-              </a-form-item>
-            </a-col>
-            <a-col :md="7" :sm="24" >
-              <a-form-item
-                  label="품명"
-                  :labelCol="{span: 5}"
-                  :wrapperCol="{span: 18, offset: 1}"
-              >
-                <a-input v-model="queryParam.item_nm" placeholder="입력하세요." />
-              </a-form-item>
-            </a-col>
-            <a-col :md="7" :sm="24" >
-              <a-form-item
-                  label="사용여부"
-                  :labelCol="{span: 5}"
-                  :wrapperCol="{span: 18, offset: 1}"
-              >
-                <a-select v-model="queryParam.use_yn" placeholder="선택하세요.">
-                  <a-select-option value="Y">사용</a-select-option>
-                  <a-select-option value="N">미사용</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="3" :sm="24" >
-              <a-button  @click="search" style="margin-left: 4px;margin-bottom: 4px; background-color: #A50000; color: white">조회</a-button>
-              <a-button style="margin-left: 8px">초기화</a-button>
-            </a-col>
-          </a-row>
-        </div>
-      </a-form>
-    </div>
-
+  <a-spin :spinning="loading" size="large">
     <div>
-      <a-row>
-
-        <a-col :md="24" :sm="24">
-          <AUIGrid ref="itemGrid" class="grid-wrap" />
-        </a-col>
-      </a-row>
+      <PopItem v-if="isPopUp" @closepop="closePopItem" :popinit="this.popinit" />
     </div>
+    <div :bordered="false" :style="{ minHeight: '800px' }"  v-show="!isPopUp">
+      <div >
+        <a-form layout="horizontal" >
+          <div >
+            <a-row >
+              <a-col :md="7" :sm="24" >
+                <a-form-item
+                    label="품번"
+                    :labelCol="{span: 5}"
+                    :wrapperCol="{span: 18, offset: 1}"
+                >
+                  <a-input v-model="queryParam.item_cd" placeholder="입력하세요." />
+                </a-form-item>
+              </a-col>
+              <a-col :md="7" :sm="24" >
+                <a-form-item
+                    label="품명"
+                    :labelCol="{span: 5}"
+                    :wrapperCol="{span: 18, offset: 1}"
+                >
+                  <a-input v-model="queryParam.item_nm" placeholder="입력하세요." />
+                </a-form-item>
+              </a-col>
+              <a-col :md="7" :sm="24" >
+                <a-form-item
+                    label="사용여부"
+                    :labelCol="{span: 5}"
+                    :wrapperCol="{span: 18, offset: 1}"
+                >
+                  <a-select v-model="queryParam.use_yn" placeholder="선택하세요.">
+                    <a-select-option value="Y">사용</a-select-option>
+                    <a-select-option value="N">미사용</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :md="3" :sm="24" >
+                <span style="float: right; margin-top: 3px;">
+                  <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
+                <a-button style="margin-left: 8px">초기화</a-button>
+                </span>
+              </a-col>
+            </a-row>
+          </div>
+        </a-form>
+      </div>
+
+      <div>
+        <a-row>
+          <div>
+            <a-button-group>
+              <a-button type="primary" @click="addItem"> <a-icon type="plus-square" />추가 </a-button>
+            </a-button-group>
+          </div>
+
+          <a-col :md="24" :sm="24">
+            <AUIGrid ref="itemGrid" class="grid-wrap"
+                     @cellDoubleClick="cellDoubleClickHandler"
+            >
+            </AUIGrid>
+          </a-col>
+        </a-row>
+      </div>
 
 
-  </div>
+    </div>
+  </a-spin>
 
 </template>
 
@@ -67,17 +82,50 @@
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getItemList} from "@/services/item";
+import PopItem from "@/pages/master/PopItem";
 const useYnList= []
 
 export default {
 
   components : {
+    PopItem,
     AUIGrid
   },
   data: function () {
     return {
+      loading: false,     //로딩바 유무
+      delayTime: 1000,    //로딩 딜레이
+      isPopUp : false,    //팝업호출여부
       useYnList,
 
+      popinit : {
+
+        plant_cd : '10000',
+        owner_cd : '10000',
+        item_cd : '',
+        item_nm : '',
+        spec : '',
+        unit : '',
+        class1 : '',
+        class2 : '',
+        class3 : '',
+        boxqty : '',
+        pltqty : '',
+        in_price1 : '',
+        out_price1 : '',
+        lot_yn : '',
+        fifo_yn : '',
+        appro_inv : '',
+        in_wh_cd : '',
+        in_lc_cd : '',
+        remark : '',
+        use_yn : '',
+        reg_id : '',
+        reg_dt : '',
+        mod_id : '',
+        mod_dt : '',
+        isNew : null,
+      },
       // 쿼리 매개변수
       queryParam: {useYn : "Y"},
 
@@ -86,23 +134,21 @@ export default {
       // 그리드 속성 정의
       auigridProps : {
         // 편집 가능 여부 (기본값 : false)
-        editable : true,
+        editable : false,
 
         // 엑스트라 체크박스 표시 설정
-        showRowCheckColumn : true,
+        showRowCheckColumn : false,
 
         // 전체 체크박스 표시 설정
-        showRowAllCheckBox : true,
+        showRowAllCheckBox : false,
 
         // 셀 선택모드 (기본값: singleCell)
         selectionMode : "multipleCells",
-        showStateColumn : true,
+        showStateColumn : false,
       },
-
       // 그리드 데이터
       gridData : []
     }
-
   },
   beforeMount() {
     this.useYnList = [ {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
@@ -159,14 +205,73 @@ export default {
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
+      this.loading = true
       return getItemList(Object.assign(this.queryParam)).then(
 
           (res) => {
             console.log('res====',res)
             this.$refs.itemGrid.setGridData(res.data);
             //return res.data;
+            setTimeout(() => this.loading = false, 500)
           }
       )
+    },
+    cellDoubleClickHandler(event){
+
+      console.log("event.item===", event.item)
+      //this.popinit = event.item;
+      //console.log("popinit===", this.popinit)
+      let POpParam = event.item;
+      Object.assign(POpParam, {['isNew']: false})
+
+      //console.log("POpParam===", POpParam)
+
+      this.openPopItem(POpParam)
+      this.isPopUp = true
+    },
+    openPopItem(param){
+      // this.popinit = {};
+      this.popinit = param;
+
+      console.log("param===", param)
+
+      this.isPopUp = true
+    },
+    closePopItem(){
+      //console.log('sssss')
+      this.isPopUp = false
+      this.search()
+      //this.$router.go()
+    },
+    addItem(){
+
+      const param =  {
+            plant_cd : '10000',
+            owner_cd : '10000',
+            item_cd : '',
+            item_nm : '',
+            spec : '',
+            unit : '',
+            class1 : '',
+            class2 : '',
+            class3 : '',
+            boxqty : '0',
+            pltqty : '0',
+            in_price1 : '0',
+            out_price1 : '0',
+            lot_yn : 'N',
+            fifo_yn : 'N',
+            appro_inv : '0',
+            in_wh_cd : '',
+            in_lc_cd : '',
+            remark : '',
+            use_yn : 'Y',
+            isNew : true,
+      }
+
+      this.openPopItem(param)
+      //this.popinit = param;
+      //this.isPopUp = true
     }
   }
 }

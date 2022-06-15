@@ -11,7 +11,7 @@ export function getItemList(params) {
 }
 
 export function saveItem(params) {
-    console.log('saveCustomer===', params)
+    console.log('saveItem===', params)
 
     return axios.post("/front/item/saveItem", params)
     // return axios({
@@ -20,4 +20,6 @@ export function saveItem(params) {
     //   params,
     // })
 }
+
+
 

@@ -12,7 +12,9 @@ public interface ItemMapper extends Mapper<Item> {
 
     List<ItemDto> getItemList(@Param("paramsMap") Map<String, Object> map);
 
-//    int insertCustomer(@Param("paramsMap") CustomerDto dto);
-//    int updateCustomer(@Param("paramsMap") CustomerDto dto);
-//    int deleteCustomer(@Param("paramsMap") CustomerDto dto);
+    int insertItem(@Param("paramsMap") ItemDto dto);
+
+    int updateItem(@Param("paramsMap") ItemDto dto);
+    int deleteItem(@Param("paramsMap") ItemDto dto);
+
 }
