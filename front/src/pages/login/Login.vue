@@ -194,7 +194,9 @@ export default {
               console.log('result1===',result1[0])
               console.log('result2===',result2[0])
               console.log('result3===',result3[0])
-              this.setCommoncodes(cm_list);
+              console.log('cm_list===',cm_list)
+              this.setCommoncodes(JSON.stringify(cm_list));
+              // this.$store.commit('commcd/setCommoncodes', 'teststes')
               this.logging = false;
               window.location.reload();
             }

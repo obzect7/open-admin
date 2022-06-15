@@ -26,6 +26,7 @@
         <if test="paramsMap.groupNm != null and paramsMap.groupNm != ''">
             and t.group_nm = #{paramsMap.groupNm}
         </if>
+        order by t.group_cd asc
     </select>
 
     <select id="getCmCodeListAllUseStore" resultType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" parameterType="Map">
@@ -73,6 +74,7 @@
         <if test="paramsMap.group_cd != null and paramsMap.group_cd != ''">
             and t.group_cd like concat('%',#{paramsMap.group_cd},'%')
         </if>
+        order by t.sort
     </select>
 
     <insert id="insertCmCodeGrp" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" statementType="PREPARED">

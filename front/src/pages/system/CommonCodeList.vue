@@ -53,9 +53,23 @@
       <a-col :md="10" :sm="24">
         <div>
           <a-button-group>
-            <a-button type="primary" @click="masterAddRow"> <a-icon type="plus-square" />추가 </a-button>
-            <a-button type="primary" @click="masterRemoveRow"> <a-icon type="delete" />삭제 </a-button>
-            <a-button type="primary" @click="saveMaster"> <a-icon type="save" />저장 </a-button>
+            <a-button type="primary" @click="masterAddRow">
+              <a-icon type="plus-square"/>
+              추가
+            </a-button>
+            <a-button type="primary" @click="masterRemoveRow">
+              <a-icon type="delete"/>
+              삭제
+            </a-button>
+            <a-button type="primary" @click="saveMaster">
+              <a-icon type="save"/>
+              저장
+            </a-button>
+            <a-button type="primary" @click="downLoadExcel('grid1')">
+              <a-icon type="file-excel"/>
+              다운로드
+            </a-button>
+
           </a-button-group>
         </div>
         <AUIGrid ref="myGrid1" class="grid-wrap"
@@ -67,9 +81,22 @@
       </a-col>
       <a-col :md="14" :sm="24">
         <div>
-          <a-button type="primary" @click="detailAddRow"> <a-icon type="plus-square" />추가 </a-button>
-          <a-button type="primary" @click="detailRemoveRow"> <a-icon type="delete" />삭제 </a-button>
-          <a-button type="primary" @click="saveDetail"> <a-icon type="save" />저장 </a-button>
+          <a-button type="primary" @click="detailAddRow">
+            <a-icon type="plus-square"/>
+            추가
+          </a-button>
+          <a-button type="primary" @click="detailRemoveRow">
+            <a-icon type="delete"/>
+            삭제
+          </a-button>
+          <a-button type="primary" @click="saveDetail">
+            <a-icon type="save"/>
+            저장
+          </a-button>
+          <a-button type="primary" @click="downLoadExcel('grid2')">
+            <a-icon type="file-excel"/>
+            다운로드
+          </a-button>
         </div>
         <AUIGrid ref="myGrid2" class="grid-wrap"
                  style="height:65vh"
@@ -99,7 +126,7 @@ export default {
     return {
       loading: false,     //로딩바 유무
       delayTime: 1000,    //로딩 딜레이
-      masterRow:{},       //그룹코드 정보
+      masterRow: {},       //그룹코드 정보
       useYnList,
       // 쿼리 매개변수
       queryParam: {},
@@ -131,9 +158,11 @@ export default {
 
   beforeMount() {
     // let test = this.$store.state.commcd.commoncodes
-    let test = this.$store.getters["commcd/commoncodes"];
+    const test222 = this.$store.getters["commcd/commoncodes"];
+    const test55 = localStorage.getItem('commoncodes')
     // test = JSON.parse(test.filter(cm => cm.group_cd == "USEYN"))
-    console.log('test === ',test)
+    console.log('test222 === ', test222)
+    console.log('test55 === ', JSON.parse(test55))
     this.useYnList = [{"code": "Y", "value": "사용"}, {"code": "N", "value": "미사용"}]
   },
   mounted() {
@@ -211,18 +240,18 @@ export default {
             console.log('res====', res)
             this.$refs.myGrid1.setGridData(res.data);
             // 실제로 새로 고침은 매우 빠르며, 이 지연을 추가하는 것은 순전히 로딩 상태를 잠시 동안 표시하여 사용자가 새로 고침 과정을 인지할 수 있도록 하기 위한 것입니다.
-            setTimeout(() => this.loading = false, 500)
+            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
             //return res.data;
           }
       )
-    },searchDetail() {
+    }, searchDetail() {
       this.loading = true
       getCmCodeList(Object.assign(this.masterRow)).then(
           (res) => {
             console.log('res====@@@@@', res)
             this.$refs.myGrid2.setGridData(res.data);
             // this.loading = false
-            setTimeout(() => this.loading = false, 500)
+            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
             //return res.data;
           }
       )
@@ -245,7 +274,7 @@ export default {
 
         // 하단에 1행 추가
         console.log('행추가 !!')
-        let item = {use_yn: "Y", row_status: 'I',group_cd:master[0].group_cd};
+        let item = {use_yn: "Y", row_status: 'I', group_cd: master[0].group_cd};
         this.$refs.myGrid2.addRow(item, "last");
       } else {
         this.$message.warn('그룹코드를 선택하세요.', 3)
@@ -258,10 +287,10 @@ export default {
     }, cellClickHandler(event) {
       // 셀클릭 이벤트 핸들링
       console.log('cell click ===', event)
-      if (event.dataField == "group_cd" && event.item.row_status !="I") {
+      if (event.dataField == "group_cd" && event.item.row_status != "I") {
         this.masterRow = event.item
         this.searchDetail()
-      }else{
+      } else {
         this.$refs.myGrid2.clearGridData();
       }
     },
@@ -283,46 +312,36 @@ export default {
       }
       return true
     }, saveMaster() {
-      const isValid = this.$refs.myGrid1.validateChangedGridData(["group_cd", "group_nm", "use_yn"], "필수입력 입니다.");
-
-      if (isValid) {
-        console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
-        // const grid = this.$refs.myGrid1;
-        const data = this.$getCudData(this.$refs.myGrid1)
-
-        // if (data.add || data.update || data.remove) {
-        if (data.length > 0) {
-          //alert("저장 로직 작성하세요");
-          console.log("data===", data)
-          saveCmCodeGrp(data).then(
-              (res) => {
-                console.log('res====', res)
-                if (res.code == 200) {
-                  this.searchMaster()
-                } else {
-                  this.$message.error(res.message);
-                }
-                //return res.data;
+      const data = this.$getCudData(this.$refs.myGrid1,["group_cd", "code", "code_nm"])
+      // if (data.add || data.update || data.remove) {
+      //alert("저장 로직 작성하세요");
+      console.log("data===", data)
+      if(data.length){
+        saveCmCodeGrp(data).then(
+            (res) => {
+              console.log('res====', res)
+              if (res.code == 200) {
+                this.searchMaster()
+              } else {
+                this.$message.error(res.message);
               }
-          )
-        } else {
-          this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
-        }
+              //return res.data;
+            },
+            error => {
+              console.log('error ==== ', error)
+            }
+        )
       }
 
     }, saveDetail() {
-      const isValid = this.$refs.myGrid2.validateChangedGridData(["group_cd", "code", "code_nm"], "필수입력 입니다.");
-
-      if (isValid) {
         console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
-        const data = this.$getCrdData(this.$refs.myGrid2)
+        const data = this.$getCudData(this.$refs.myGrid2,["group_cd", "code", "code_nm"])
         // if (data.add || data.update || data.remove) {
-        if (data.length > 0) {
-          //alert("저장 로직 작성하세요");
-          console.log("data===", data)
+        //alert("저장 로직 작성하세요");
+        console.log("data===", data)
+        if(data.length){
           saveCmCode(data).then(
               (res) => {
-
                 console.log('res====', res)
                 if (res.code == 200) {
                   this.searchDetail()
@@ -332,14 +351,26 @@ export default {
                 //return res.data;
               },
               error => {
-                console.log('error ==== ',error)
+                console.log('error ==== ', error)
               }
           )
-        } else {
-          this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
         }
-      }
-    }
+
+    }, downLoadExcel() {
+
+      let grid = this.$refs.myGrid1;
+      console.log('grid ==',grid)
+      // 내보내기 실행
+      grid.exportToXlsx({
+        isRowStyleFront: false,
+      });
+      // if (grid == "grid1") {
+      //   this.$refs.myGrid2.exportToTxt({})
+
+      // } else {
+      //   this.$refs.myGrid2.exportToTxt({})
+      // }
+    },
   }
 }
 

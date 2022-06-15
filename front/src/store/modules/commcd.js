@@ -1,12 +1,13 @@
 export default {
   namespaced: true,
   state: {
-    commoncodes: []
+    commoncodes: null
   },
   getters: {
     commoncodes: (state) => {
       if (!state.commoncodes) {
         try {
+          console.log('state.commoncodes===',state.commoncodes)
           state.commoncodes = state.commoncodes ? state.commoncodes : [];
         } catch (e) {
           console.error(e.message);
@@ -17,6 +18,8 @@ export default {
   },
   mutations: {
     setCommoncodes(state, commoncodes) {
+      console.log('commoncodes@@@@@@@@@@@@',commoncodes)
+      localStorage.setItem('commoncodes', commoncodes);
       state.commoncodes = commoncodes;
     },
   },

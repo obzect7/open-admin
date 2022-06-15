@@ -2,6 +2,7 @@ import Cookie from 'js-cookie'
 
 const xsrfCookieName = "Authorization";
 import {logout} from '@/services/system'
+
 // 401 가로채기
 const resp401 = {
   /**
@@ -13,7 +14,7 @@ const resp401 = {
   onFulfilled(response, options) {
     const {message} = options
     if (response.code === 401) {
-      message.error('无此权限')
+      message.error('권한이 없습니다')
     }
     return response
   },
@@ -46,6 +47,25 @@ const resp403 = {
     const {response} = error
     if (response.status === 403) {
       message.error('요청 거부')
+    }
+    return Promise.reject(error)
+  }
+}
+
+const resp500 = {
+  onFulfilled(response, options) {
+    const {message} = options
+    if (response.code === 500) {
+      message.error('처리중 장애가 발생했습니다.\n'+response.data.message)
+    }
+    return response
+  },
+  onRejected(error, options) {
+    const {message} = options
+    const {response} = error
+    if (response.status === 500) {
+      message.error('처리중 장애가 발생했습니다.\n'+response.data.message)
+      // console.log('errrrrrrrrrrrrrr=',response)
     }
     return Promise.reject(error)
   }
@@ -87,5 +107,5 @@ const reqCommon = {
 
 export default {
   request: [reqCommon], // 차단 요청
-  response: [resp401, resp403] // 응답 가로채기
+  response: [ resp401, resp403,resp500] // 응답 가로채기
 }
