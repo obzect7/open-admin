@@ -1,6 +1,7 @@
 package com.cxp.openadmin.controller.front;
 
 import com.cxp.openadmin.controller.BaseController;
+import com.cxp.openadmin.domain.dto.front.CustomerDto;
 import com.cxp.openadmin.service.front.ItemService;
 import com.cxp.openadmin.util.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class ItemController extends BaseController {
         return HttpResponse.success(itemService.getItemList(map));
     }
 
-//    @PostMapping("/saveCustomer")
-//    public HttpResponse saveCustomer(@RequestBody List<CustomerDto> list, HttpServletRequest request){
-//
-//        return HttpResponse.success(itemService.saveCustomer(list));
-//    }
+    @PostMapping("/saveItem")
+    public HttpResponse saveItem(@RequestBody List<ItemDto> list, HttpServletRequest request){
+
+        return HttpResponse.success(itemService.saveItem(list));
+    }
+
+
 
 
 }

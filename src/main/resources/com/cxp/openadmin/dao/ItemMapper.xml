@@ -47,96 +47,97 @@
 
     </select>
 
-    <insert id="insertCustomer" parameterType="com.cxp.openadmin.domain.dto.front.CustomerDto">
-        /* CustomerMapper.xml ,  insertCustomer */
-        insert into mst_customer
+    <insert id="insertItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  insertItem */
+        insert into mst_item
         (
-            plant_cd
-        ,owner_cd
-        ,cust_cd
-        ,cust_nm
-        ,cust_desc
-        ,ceo
-        ,business_no
-        ,corp_no
-        ,tel
-        ,post_no
-        ,addr1
-        ,addr2
-        ,fax
-        ,email
-        ,business_type
-        ,business_item
-        ,first_day
-        ,remark
-        ,use_yn
-        ,reg_id
-        ,reg_dt
-        ,mod_id
-        ,mod_dt
+                 plant_cd
+                ,owner_cd
+                ,item_cd
+                ,item_nm
+                ,spec
+                ,unit
+                ,class1
+                ,class2
+                ,class3
+                ,boxqty
+                ,pltqty
+                ,in_price1
+                ,out_price1
+                ,lot_yn
+                ,fifo_yn
+                ,appro_inv
+                ,in_wh_cd
+                ,in_lc_cd
+                ,remark
+                ,use_yn
+                ,reg_id
+                ,reg_dt
+                ,mod_id
+                ,mod_dt
         )
         VALUES
             (
-                #{paramsMap.plant_cd}
-            ,#{paramsMap.owner_cd}
-            ,#{paramsMap.cust_cd}
-            ,#{paramsMap.cust_nm}
-            ,#{paramsMap.cust_desc}
-            ,#{paramsMap.ceo}
-            ,#{paramsMap.business_no}
-            ,#{paramsMap.corp_no}
-            ,#{paramsMap.tel}
-            ,#{paramsMap.post_no}
-            ,#{paramsMap.addr1}
-            ,#{paramsMap.addr2}
-            ,#{paramsMap.fax}
-            ,#{paramsMap.email}
-            ,#{paramsMap.business_type}
-            ,#{paramsMap.business_item}
-            ,#{paramsMap.first_day}
-            ,#{paramsMap.remark}
-            ,#{paramsMap.use_yn}
-            ,#{paramsMap.reg_id}
-            ,now()
-            ,#{paramsMap.mod_id}
-            ,now()
+                 #{paramsMap.plant_cd}
+                ,#{paramsMap.owner_cd}
+                ,#{paramsMap.item_cd}
+                ,#{paramsMap.item_nm}
+                ,#{paramsMap.spec}
+                ,#{paramsMap.unit}
+                ,#{paramsMap.class1}
+                ,#{paramsMap.class2}
+                ,#{paramsMap.class3}
+                ,#{paramsMap.boxqty}
+                ,#{paramsMap.pltqty}
+                ,#{paramsMap.in_price1}
+                ,#{paramsMap.out_price1}
+                ,#{paramsMap.lot_yn}
+                ,#{paramsMap.fifo_yn}
+                ,#{paramsMap.appro_inv}
+                ,#{paramsMap.in_wh_cd}
+                ,#{paramsMap.in_lc_cd}
+                ,#{paramsMap.remark}
+                ,#{paramsMap.use_yn}
+                ,#{paramsMap.reg_id}
+                ,now()
+                ,#{paramsMap.mod_id}
+                ,now()
             )
     </insert>
 
-    <update id="updateCustomer" parameterType="com.cxp.openadmin.domain.dto.front.CustomerDto">
-        /* CustomerMapper.xml ,  updateCustomer */
-        update mst_customer
-        set  cust_nm     = #{paramsMap.cust_nm}
-          ,cust_desc   = #{paramsMap.cust_desc}
-          ,ceo         = #{paramsMap.ceo}
-          ,business_no = #{paramsMap.business_no}
-          ,corp_no     = #{paramsMap.corp_no}
-          ,tel         = #{paramsMap.tel}
-          ,post_no     = #{paramsMap.post_no}
-          ,addr1       = #{paramsMap.addr1}
-          ,addr2       = #{paramsMap.addr2}
-          ,fax         = #{paramsMap.fax}
-          ,email       = #{paramsMap.email}
-          ,business_type   = #{paramsMap.business_type}
-          ,business_item   = #{paramsMap.business_item}
-          ,first_day   = #{paramsMap.first_day}
-          ,remark      = #{paramsMap.remark}
-          ,use_yn      = #{paramsMap.use_yn}
-          ,mod_id      = #{paramsMap.mod_id}
-          ,mod_dt      = now()
+    <update id="updateItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  updateItem */
+        update mst_item
+           set    item_nm       = #{paramsMap.item_nm}
+                 ,spec          = #{paramsMap.spec}
+                 ,unit          = #{paramsMap.unit}
+                 ,class1        = #{paramsMap.class1}
+                 ,class2        = #{paramsMap.class2}
+                 ,class3        = #{paramsMap.class3}
+                 ,boxqty        = #{paramsMap.boxqty}
+                 ,pltqty        = #{paramsMap.pltqty}
+                 ,in_price1     = #{paramsMap.in_price1}
+                 ,out_price1    = #{paramsMap.out_price1}
+                 ,lot_yn        = #{paramsMap.lot_yn}
+                 ,fifo_yn       = #{paramsMap.fifo_yn}
+                 ,appro_inv     = #{paramsMap.appro_inv}
+                 ,in_wh_cd      = #{paramsMap.in_wh_cd}
+                 ,in_lc_cd      = #{paramsMap.in_lc_cd}
+                 ,remark        = #{paramsMap.remark}
+                 ,use_yn        = #{paramsMap.use_yn}
+                 ,mod_id        = #{paramsMap.mod_id}
+                 ,mod_dt        = now()
         where plant_cd = #{paramsMap.plant_cd}
           and owner_cd = #{paramsMap.owner_cd}
-          and cust_cd  = #{paramsMap.cust_cd}
-
-
+          and item_cd  = #{paramsMap.item_cd}
     </update>
 
-    <delete id="deleteCustomer" parameterType="com.cxp.openadmin.domain.dto.front.CustomerDto">
-        /* CustomerMapper.xml ,  deleteCustomer */
-        delete from mst_customer
+    <delete id="deleteItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  deleteItem */
+        delete from mst_item
         where plant_cd = #{paramsMap.plant_cd}
           and owner_cd = #{paramsMap.owner_cd}
-          and cust_cd  = #{paramsMap.cust_cd}
+          and item_cd  = #{paramsMap.item_cd}
     </delete>
 
 </mapper>

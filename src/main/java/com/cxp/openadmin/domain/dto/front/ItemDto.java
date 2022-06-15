@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 @Data
 public class ItemDto {
 
-    private String rowStatus;  //row 상태
+    private String row_status;  //row 상태
     private String plant_cd;
     private String owner_cd;
     private String item_cd;
