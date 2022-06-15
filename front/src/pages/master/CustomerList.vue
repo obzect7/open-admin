@@ -1,4 +1,6 @@
 <template>
+  <a-spin :spinning="loading" size="large">
+
   <div :bordered="false" :style="{ minHeight: '800px' }">
     <div >
       <a-form layout="horizontal" >
@@ -35,8 +37,10 @@
               </a-form-item>
             </a-col>
             <a-col :md="3" :sm="24" >
-              <a-button  @click="search" style="margin-left: 4px;margin-bottom: 4px; background-color: #A50000; color: white">조회</a-button>
+              <span style="float: right; margin-top: 3px;">
+                <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
               <a-button style="margin-left: 8px">초기화</a-button>
+              </span>
             </a-col>
           </a-row>
         </div>
@@ -48,9 +52,12 @@
 
         <a-col :md="24" :sm="24">
           <div>
-            <a-button type="primary" @click="addRow" style="margin-left: 4px;margin-bottom: 4px">추가</a-button>
-            <a-button type="primary" @click="removeRow" style="margin-left: 4px;margin-bottom: 4px">삭제</a-button>
-            <a-button type="primary" @click="saveRow" style="margin-left: 4px;margin-bottom: 4px">저장</a-button>
+
+            <a-button-group>
+              <a-button type="primary" @click="addRow"> <a-icon type="plus-square" />추가 </a-button>
+              <a-button type="primary" @click="removeRow"> <a-icon type="delete" />삭제 </a-button>
+              <a-button type="primary" @click="saveRow"> <a-icon type="save" />저장 </a-button>
+            </a-button-group>
           </div>
           <AUIGrid ref="custGrid" class="grid-wrap"
             @cellEditBegin = "CellEditBegin"
@@ -62,7 +69,7 @@
 
 
   </div>
-
+  </a-spin>
 </template>
 
 
@@ -84,6 +91,8 @@ export default {
   },
   data: function () {
     return {
+      loading: false,     //로딩바 유무
+      delayTime: 1000,    //로딩 딜레이
       useYnList,
 
       // 쿼리 매개변수
@@ -165,12 +174,14 @@ export default {
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
+      this.loading = true
       return getCustomerList(Object.assign(this.queryParam)).then(
 
           (res) => {
             console.log('res====',res)
             this.$refs.custGrid.setGridData(res.data);
             //return res.data;
+            setTimeout(() => this.loading = false, 500)
           }
       )
     },
@@ -183,13 +194,13 @@ export default {
       const grid = this.$refs.custGrid;
       let rowIdField = event.dataField;
       let rowIndex = event.rowIndex;
-      let rowStatus = grid.getCellValue(rowIndex, 'rowStatus')
+      let row_status = grid.getCellValue(rowIndex, 'row_status')
 
       // console.log("rowIndex===", rowIndex)
       // console.log("rowIdField===", rowIdField)
-      // console.log("rowStatus===", rowStatus)
+      // console.log("row_status===", row_status)
 
-      if(rowIdField == 'cust_cd' && rowStatus != 'I'){
+      if(rowIdField == 'cust_cd' && row_status != 'I'){
         return false
       }
       return true
@@ -197,7 +208,7 @@ export default {
     addRow(){
       // 하단에 1행 추가
       // console.log('행추가 !!')
-      let item = {plant_cd : 10000, owner_cd : 10000, use_yn : "Y", rowStatus : 'I'};
+      let item = {plant_cd : 10000, owner_cd : 10000, use_yn : "Y", row_status : 'I'};
 
 
       this.$refs.custGrid.addRow(item, "last");
@@ -211,57 +222,22 @@ export default {
 
       if(isValid){
 
-        const grid = this.$refs.custGrid;
-        let userId  = this.$store.state.account.user.username;
+        const data = this.$getCrdData(this.$refs.custGrid)
 
-        let data = [];
-        let addedRowItems = grid.getAddedRowItems(); // 추가된 행 아이템들(배열)
-        let editedRowItems = grid.getEditedRowItems(); // 수정된 행 아이템들(배열) (수정되지 않은 칼럼들의 값도 가지고 있음)
-        let removedRowItems = grid.getRemovedItems(); // 삭제된 행 아이템들(배열)
-
-        if (addedRowItems.length > 0) {
-          for(let i=0;i<addedRowItems.length; i++){
-            let addItem = addedRowItems[i]
-            Object.assign(addItem, {['rowStatus']: 'I'})
-            Object.assign(addItem, {['regId']: userId})
-            Object.assign(addItem, {['modId']: userId})
-            data.push(addItem)
-          }
-          //data.add = addedRowItems;
-        }
-        if (editedRowItems.length > 0) {
-          for(let i=0;i<editedRowItems.length; i++){
-            let editedItem = editedRowItems[i]
-            Object.assign(editedItem, {['rowStatus']: 'U'})
-            // Object.assign(editedItem, {['modId']: user})
-            //console.log("editedItem==", editedItem)
-            data.push(editedItem)
-          }
-          //data.update = editedRowItems;
-        }
-        if (removedRowItems.length > 0) {
-          for(let i=0;i<removedRowItems.length; i++){
-            let removeItem = removedRowItems[i]
-            Object.assign(removeItem, {['rowStatus']: 'D'})
-            //console.log("editedItem==", editedItem)
-            data.push(removeItem)
-          }
-          //data.remove = removedRowItems;
-        }
-        // if (data.add || data.update || data.remove) {
         if (data.length > 0) {
+
+          console.log("data===", data)
           saveCustomer(data).then(
               (res) => {
-                console.log('res====',res)
-                this.search()
-                this.$message.success('저장 완료되었습니다.', 3)
+                if (res.code == 200) {
+                  this.search()
+                } else {
+                  this.$message.error(res.message);
+                }
               }
           )
-        } else {
-          this.$message.warn('추가, 수정, 삭제된 행이 없습니다.', 3)
         }
       }
-
     },
   }
 }

@@ -22,13 +22,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public int saveCustomer(List<CustomerDto> list) {
+
+        int updateRow = 0;
         if(list.size()> 0){
             for(CustomerDto dto : list){
-                if("I".equals(dto.getRowStatus())){
+                if("I".equals(dto.getRow_status())){
                     customerMapper.insertCustomer(dto);
-                }else if("U".equals(dto.getRowStatus())){
+                }else if("U".equals(dto.getRow_status())){
                     customerMapper.updateCustomer(dto);
-                }else if("D".equals(dto.getRowStatus())){
+                }else if("D".equals(dto.getRow_status())){
                     customerMapper.deleteCustomer(dto);
                 }
             }
