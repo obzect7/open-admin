@@ -10,10 +10,12 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-input name="item_cd"
+                       v-model="popinit.item_cd"
                        :readonly="!popinit.isNew"
-                       :v-model="popinit.item_cd"
-                       v-decorator="['item_cd', {initialValue: popinit.item_cd,rules: [{ required: true, message: '품번을 입력하세요.', whitespace: true}]}]"
+                       v-decorator="['item_cd', {initialValue: popinit.item_cd,rules: [{ required: true, message: '품번을 입력하세요.'}]}]"
               />
+
+
             </a-form-item>
           </a-col>
 
@@ -24,8 +26,8 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-input name="item_nm"
-                       :v-model="popinit.item_nm"
-                       v-decorator="['item_nm', {initialValue: popinit.item_nm,rules: [{ required: true, message: '품명을 입력하세요.', whitespace: true}]}]"
+                       v-model="popinit.item_nm"
+                       v-decorator="['item_nm', {initialValue: popinit.item_nm,rules: [{ required: true, message: '품명을 입력하세요.'}]}]"
               />
             </a-form-item>
           </a-col>
@@ -40,8 +42,7 @@
             >
 
               <a-input name="spec"
-                       :v-model="popinit.spec"
-                       v-decorator="['spec', {initialValue: popinit.spec,rules: [{ required: false, whitespace: true}]}]"
+                       v-model="popinit.spec"
               />
             </a-form-item>
           </a-col>
@@ -120,8 +121,7 @@
             >
               <a-input name="appro_inv"
                        type="number"
-                       :v-model="popinit.appro_inv"
-                       v-decorator="['적정재고', {initialValue: popinit.appro_inv,rules: [{ required: true, whitespace: true}]}]"
+                       v-model="popinit.appro_inv"
               />
             </a-form-item>
           </a-col>
@@ -136,8 +136,7 @@
             >
               <a-input name="pltqty"
                        type="number"
-                       :v-model="popinit.pltqty"
-                       v-decorator="['팔렛트당수량', {initialValue: popinit.pltqty,rules: [{ required: true, whitespace: true}]}]"
+                       v-model="popinit.pltqty"
               />
             </a-form-item>
           </a-col>
@@ -150,8 +149,7 @@
             >
               <a-input name="boxqty"
                        type="number"
-                       :v-model="popinit.boxqty"
-                       v-decorator="['박스당수량', {initialValue: popinit.boxqty,rules: [{ required: true, whitespace: true}]}]"
+                       v-model="popinit.boxqty"
               />
             </a-form-item>
           </a-col>
@@ -167,8 +165,7 @@
 
               <a-input name="in_price1"
                        type="number"
-                       :v-model="popinit.in_price1"
-                       v-decorator="['입고가', {initialValue: popinit.in_price1,rules: [{ required: true, whitespace: true}]}]"
+                       v-model="popinit.in_price1"
               />
             </a-form-item>
           </a-col>
@@ -182,8 +179,7 @@
 
               <a-input name="out_price1"
                        type="number"
-                       :v-model="popinit.out_price1"
-                       v-decorator="['출고가', {initialValue: popinit.out_price1,rules: [{ required: true, whitespace: true}]}]"
+                       v-model="popinit.out_price1"
               />
             </a-form-item>
           </a-col>
@@ -225,7 +221,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-input name="in_wh_cd"
-                       v-decorator="['in_wh_cd', {initialValue: popinit.in_wh_cd,rules: [{ required: false, whitespace: true}]}]"
+                       v-model="popinit.in_wh_cd"
               />
             </a-form-item>
           </a-col>
@@ -237,7 +233,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-input name="in_lc_cd"
-                       v-decorator="['in_lc_cd', {initialValue: popinit.in_lc_cd,rules: [{ required: false, whitespace: true}]}]"
+                       v-model="popinit.in_lc_cd"
               />
             </a-form-item>
           </a-col>
@@ -266,7 +262,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-textarea name="remark"
-                       v-decorator="['remark', {initialValue: popinit.remark,rules: [{ required: false, whitespace: true}]}]"
+                          v-model="popinit.remark"
               />
             </a-form-item>
           </a-col>
@@ -359,6 +355,14 @@ export default {
     }
   },
   created() {
+
+    if(this.popinit.item_cd == ''){
+      console.log('null임')
+    }
+    else
+    {
+      console.log('null 아님', this.popinit.item_cd)
+    }
   },
   mounted() {
   },
@@ -378,28 +382,6 @@ export default {
 
         if(!err) {
 
-          // let myForm = document.getElementById('PopItemfrm');
-          // let formData = new FormData(myForm);
-          // const param = {};
-          // // need to convert it before using not with XMLHttpRequest
-          // for (let [key, val] of formData.entries()) {
-          //   Object.assign(param, {[key]: val})
-          // }
-          //
-          // let insUserid = this.$store.state.account.user.username;
-          // Object.assign(param, {['reg_id']: insUserid})
-          // Object.assign(param, {['mod_id']: insUserid})
-          //
-          // if(this.popinit.isNew)
-          // {
-          //   Object.assign(param, {['row_status']: 'I'})
-          // }else
-          // {
-          //   Object.assign(param, {['row_status']: 'U'})
-          // }
-
-
-
           let insUserid = this.$store.state.account.user.username;
 
           this.popinit.reg_id = insUserid;
@@ -414,9 +396,11 @@ export default {
             this.popinit.row_status = "U";
           }
 
-           let data = [];
-           data.push(this.popinit);
-          //console.log("popinit===", this.popinit);
+          console.log('popinit.item_cd ==', this.popinit.item_cd);
+
+          let data = [];
+          data.push(this.popinit);
+          console.log("popinit===", this.popinit);
           saveItem(data).then(this.aftersaveuser)
         }
 
@@ -424,68 +408,22 @@ export default {
 
     },
     aftersaveuser(res) {
-      //console.log('res==', res)
-      const loginRes = res.data
-      if (loginRes.code == '200') {
+
+      if (res.code == '200') {
 
         this.$message.success('저장완료되었습니다.', 3)
         this.$emit("closepop", '')
 
       }
     },
-    deleteUser(){
-      //console.log('deleteUser')
-      //console.log('userid', this.userid)
-
-      const data = {};
-      let myForm = document.getElementById('PopItemfrm');
-      let formData = new FormData(myForm);
-      for (let [key, val] of formData.entries()) {
-        Object.assign(data, {[key]: val})
-      }
-
-      Object.assign(data, {['rowStatus']: 'D'})
-      // console.log('data', data)
-      //(data).then(this.aftersaveuser)
-
-    },
     deleteItem(){
-      console.log('saveItem')
-      this.form.validateFields((err) => {
+      //console.log('saveItem')
 
-        if(!err) {
-
-          // let myForm = document.getElementById('PopItemfrm');
-          // let formData = new FormData(myForm);
-          // const data = {};
-          // // need to convert it before using not with XMLHttpRequest
-          // for (let [key, val] of formData.entries()) {
-          //   Object.assign(data, {[key]: val})
-          // }
-
-
-
-          let insUserid = this.$store.state.account.user.username;
-
-          this.popinit.reg_id = insUserid;
-          this.popinit.mod_id = insUserid;
-          this.popinit.row_status = "D";
-
-
-          // Object.assign(data, {['reg_id']: insUserid})
-          // Object.assign(data, {['mod_id']: insUserid})
-          // Object.assign(data, {['row_status']: 'I'})
-
-          //console.log("popinit===", this.popinit);
-          let data = [];
-          data.push(this.popinit);
-
-          console.log("data===", data);
-
-          //saveItem(data).then(this.aftersaveuser)
-        }
-
-      })
+      this.popinit.row_status = "D";
+      let data = [];
+      data.push(this.popinit);
+      //console.log("popinit===", this.popinit);
+      saveItem(data).then(this.aftersaveuser)
 
     },
   }

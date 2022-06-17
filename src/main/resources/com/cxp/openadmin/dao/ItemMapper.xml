@@ -87,13 +87,13 @@
                 ,#{paramsMap.class1}
                 ,#{paramsMap.class2}
                 ,#{paramsMap.class3}
-                ,#{paramsMap.boxqty}
-                ,#{paramsMap.pltqty}
-                ,#{paramsMap.in_price1}
-                ,#{paramsMap.out_price1}
+                ,NVL(#{paramsMap.boxqty}, 0)
+                ,NVL(#{paramsMap.pltqty}, 0)
+                ,NVL(#{paramsMap.in_price1}, 0)
+                ,NVL(#{paramsMap.out_price1}, 0)
                 ,#{paramsMap.lot_yn}
                 ,#{paramsMap.fifo_yn}
-                ,#{paramsMap.appro_inv}
+                ,NVL(#{paramsMap.appro_inv}, 0)
                 ,#{paramsMap.in_wh_cd}
                 ,#{paramsMap.in_lc_cd}
                 ,#{paramsMap.remark}
