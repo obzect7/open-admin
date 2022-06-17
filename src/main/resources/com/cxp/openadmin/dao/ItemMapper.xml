@@ -134,7 +134,10 @@
 
     <delete id="deleteItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
         /* ItemMapper.xml ,  deleteItem */
-        delete from mst_item
+        update mst_item
+           set use_yn  = 'N'
+              ,mod_id        = #{paramsMap.mod_id}
+              ,mod_dt        = now()
         where plant_cd = #{paramsMap.plant_cd}
           and owner_cd = #{paramsMap.owner_cd}
           and item_cd  = #{paramsMap.item_cd}

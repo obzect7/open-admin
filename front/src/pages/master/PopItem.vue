@@ -418,6 +418,9 @@ export default {
     },
     deleteItem(){
       //console.log('saveItem')
+      let insUserid = this.$store.state.account.user.username;
+
+      this.popinit.mod_id = insUserid;
 
       this.popinit.row_status = "D";
       let data = [];
