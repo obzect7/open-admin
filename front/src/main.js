@@ -32,9 +32,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* grid용 유틸 import */
 import gridUtil from "@/utils/gridUtil";
 
-/* Modal import */
-import VModal from 'vue-js-modal'
-
 library.add(faSquarePlus)
 
 /* font awesome 컴포넌트를 전역으로 등록 */
@@ -45,7 +42,6 @@ Vue.config.productionTip = false;
 Vue.use(Viser);
 Vue.use(Plugins);
 Vue.use(gridUtil);
-Vue.use(VModal, { dynamic: true })
 
 bootstrap({
   router,
