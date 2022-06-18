@@ -69,6 +69,7 @@
           <a-col :md="24" :sm="24">
             <AUIGrid ref="itemGrid" class="grid-wrap"
                      @cellDoubleClick="cellDoubleClickHandler"
+                     style="height:65vh"
             >
             </AUIGrid>
           </a-col>

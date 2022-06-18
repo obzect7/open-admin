@@ -60,7 +60,8 @@
             </a-button-group>
           </div>
           <AUIGrid ref="custGrid" class="grid-wrap"
-            @cellEditBegin = "CellEditBegin"
+                   @cellEditBegin = "CellEditBegin"
+                   style="height:65vh"
           >
           </AUIGrid>
         </a-col>
