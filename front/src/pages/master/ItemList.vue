@@ -1,8 +1,16 @@
 <template>
   <a-spin :spinning="loading" size="large">
-    <div>
+<!--    <div >-->
+<!--      <PopItem v-if="isPopUp" @closepop="closePopItem" :popinit="this.popinit" />-->
+<!--    </div>-->
+    <a-modal
+        :title="'품번등록'"
+        style="top: 20px"
+        :width="1100"
+        v-model="isPopUp"
+    >
       <PopItem v-if="isPopUp" @closepop="closePopItem" :popinit="this.popinit" />
-    </div>
+    </a-modal>
     <div :bordered="false" :style="{ minHeight: '800px' }"  v-show="!isPopUp">
       <div >
         <a-form layout="horizontal" >
