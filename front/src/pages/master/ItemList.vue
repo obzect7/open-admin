@@ -8,7 +8,7 @@
         style="top: 5px"
         :width="1100"
         v-model="isPopUp"
-        hi
+        :footer="null"
     >
       <PopItem v-if="isPopUp" @closepop="closePopItem" :popinit="this.popinit" />
     </a-modal>
