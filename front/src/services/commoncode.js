@@ -28,6 +28,17 @@ export function getCmCodeList(params) {
   });
 }
 
+//화면 시작시 공통코드 로딩
+export async function getCmCodeLoad(group_cd) {
+  console.log('getCmCodeList===',group_cd)
+  const param = {
+    group_cd: group_cd
+  }
+  const response = await axios.post("/backed/commoncode/getCmCodeLoad", param, {})
+  console.log('response ==',response)
+  return response.data
+}
+
 export function saveCmCodeGrp(params) {
   console.log('saveCmCodeGrp===',params)
 

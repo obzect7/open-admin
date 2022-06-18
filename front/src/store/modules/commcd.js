@@ -19,7 +19,7 @@ export default {
   mutations: {
     setCommoncodes(state, commoncodes) {
       console.log('commoncodes@@@@@@@@@@@@',commoncodes)
-      localStorage.setItem('commoncodes', commoncodes);
+      localStorage.setItem('commoncodes', JSON.stringify(commoncodes));
       state.commoncodes = commoncodes;
     },
   },

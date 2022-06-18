@@ -61,7 +61,7 @@ public class UserController extends BaseController {
         userList.forEach(user -> {
             UserExcelProperty item = new UserExcelProperty();
             BeanUtils.copyProperties(user, item);
-            item.setGender(item.getGender().equals("1") ? "男" : item.getGender().equals("2") ? "女" : "未知");
+            item.setGender(item.getGender().equals("1") ? "남성" : item.getGender().equals("2") ? "여성" : "익명");
             item.setStatus(user.getStatus() == 1 ? "정상" : "비정상");
             list.add(item);
         });

@@ -39,6 +39,11 @@ public class CommonCodeController extends BaseController {
 
     }
 
+    @PostMapping("/getCmCodeLoad")
+    public HttpResponse getCmCodeLoad(@RequestBody(required = false) Map<String, Object> map, HttpServletRequest request){
+        return HttpResponse.success(commonCodeService.getCmCodeList(map));
+    }
+
     @PostMapping("/saveCmCodeGrp")
     public HttpResponse saveCmCodeGrp(@RequestBody(required = false) List<SaveCmCodeGrpDto> list, HttpServletRequest request){
         return HttpResponse.success(commonCodeService.saveCmCodeGrp(list));

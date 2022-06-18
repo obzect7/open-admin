@@ -34,7 +34,7 @@ const loginIgnore = {
 
 
 /**
- * 初始化路由实例
+ * 라우팅 인스턴스 초기화
  * @returns {VueRouter}
  */
 function initRouter(isSync, isAuth) {

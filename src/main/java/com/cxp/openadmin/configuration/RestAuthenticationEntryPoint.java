@@ -16,6 +16,6 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         httpServletResponse.setCharacterEncoding("UTF-8");
-        httpServletResponse.getWriter().write(JsonUtils.objectToJson(new ExceptionResponse(1003, "token失效",httpServletRequest.getMethod()+':'+httpServletRequest.getRequestURI())));
+        httpServletResponse.getWriter().write(JsonUtils.objectToJson(new ExceptionResponse(1003, "token무효화",httpServletRequest.getMethod()+':'+httpServletRequest.getRequestURI())));
     }
 }

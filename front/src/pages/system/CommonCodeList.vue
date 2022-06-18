@@ -21,8 +21,9 @@
                     :wrapperCol="{span: 18, offset: 1}"
                 >
                   <a-select v-model="queryParam.useYn" placeholder="선택하세요.">
-                    <a-select-option value="Y">사용</a-select-option>
-                    <a-select-option value="N">미사용</a-select-option>
+                    <a-select-option :key="index" :value="item.code" v-for="(item, index) in useYnList">{{item.code_nm}}</a-select-option>
+<!--                    <a-select-option value="Y">사용</a-select-option>-->
+<!--                    <a-select-option value="N">미사용</a-select-option>-->
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -114,7 +115,7 @@
 // AUIGrid 컴포넌트
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getCmCodeGrpList, getCmCodeList, saveCmCode, saveCmCodeGrp} from "@/services/commoncode";
+import {getCmCodeGrpList, getCmCodeList, getCmCodeLoad, saveCmCode, saveCmCodeGrp} from "@/services/commoncode";
 
 const useYnList = []
 export default {
@@ -156,16 +157,22 @@ export default {
 
   },
 
-  beforeMount() {
+  async beforeMount() {
     // let test = this.$store.state.commcd.commoncodes
-    const test222 = this.$store.getters["commcd/commoncodes"];
-    const test55 = localStorage.getItem('commoncodes')
-    // test = JSON.parse(test.filter(cm => cm.group_cd == "USEYN"))
-    console.log('test222 === ', test222)
-    console.log('test55 === ', JSON.parse(test55))
-    this.useYnList = [{"code": "Y", "value": "사용"}, {"code": "N", "value": "미사용"}]
+    // const test222 = this.$store.getters["commcd/commoncodes"];
+    // // const test55 = localStorage.getItem('commoncodes')
+    // // // test = JSON.parse(test.filter(cm => cm.group_cd == "USEYN"))
+    // console.log('test11111111 === ', test)
+    // // console.log('test55 === ', test55)
+    // // this.useYnList = [{"code": "Y", "value": "사용"}, {"code": "N", "value": "미사용"}]
+    // const useyn = await getCmCodeLoad('USEYN')
+    // console.log('useyn===', useyn)
+    // this.useYnList = useyn
+    // console.log('useYnList===', this.useYnList)
   },
-  mounted() {
+  async mounted() {
+    console.log('mounted @@@@@@@@@@####### = ')
+    this.useYnList = await getCmCodeLoad('USEYN')
     this.columnLayoutHD = [
       {
         dataField: "group_cd",
@@ -187,7 +194,7 @@ export default {
           type: "DropDownListRenderer",
           list: this.useYnList, //key-value Object 로 구성된 리스트
           keyField: "code", // key 에 해당되는 필드명
-          valueField: "value" // value 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
         },
       },
       {dataField: "rem", headerText: "비고"}
@@ -203,7 +210,7 @@ export default {
           type: "DropDownListRenderer",
           list: this.useYnList, //key-value Object 로 구성된 리스트
           keyField: "code", // key 에 해당되는 필드명
-          valueField: "value" // value 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
         },
       },
       {dataField: "data1", headerText: "속성1", width: 120},

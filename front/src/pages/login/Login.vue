@@ -134,9 +134,7 @@ export default {
       "setRole",
       "setMenus",
     ]),
-    ...mapMutations("commcd", [
-      "setCommoncodes",
-    ]),
+    ...mapMutations("commcd", ["setCommoncodes"]),
     newVerCode() {
       this.verCode =
         process.env.VUE_APP_API_BASE_URL +
@@ -195,10 +193,11 @@ export default {
               console.log('result2===',result2[0])
               console.log('result3===',result3[0])
               console.log('cm_list===',cm_list)
-              this.setCommoncodes(JSON.stringify(cm_list));
+              this.setCommoncodes(cm_list);
               // this.$store.commit('commcd/setCommoncodes', 'teststes')
               this.logging = false;
-              window.location.reload();
+              console.log('@@@@@@@@@@####### = ',this.$store.state.commcd.commoncodes)
+               // window.location.reload();
             }
         )
       } else {
