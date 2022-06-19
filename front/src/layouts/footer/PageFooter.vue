@@ -13,14 +13,14 @@
 
 <script>
 export default {
-  name: 'PageFooter',
+  name: 'er',
   props: ['copyright', 'linkList']
 }
 </script>
 
 <style lang="less" scoped>
   .footer{
-    padding: 48px 16px 24px;
+    padding: 10px 16px 10px;
     /*margin: 48px 0 24px;*/
     text-align: center;
     .copyright{
