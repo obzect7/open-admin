@@ -197,7 +197,7 @@ export default {
               // this.$store.commit('commcd/setCommoncodes', 'teststes')
               this.logging = false;
               console.log('@@@@@@@@@@####### = ',this.$store.state.commcd.commoncodes)
-               // window.location.reload();
+               window.location.reload();
             }
         )
       } else {

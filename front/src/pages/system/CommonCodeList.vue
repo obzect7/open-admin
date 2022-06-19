@@ -16,12 +16,23 @@
               </a-col>
               <a-col :md="7" :sm="24">
                 <a-form-item
+                    label="거래처"
+                    :labelCol="{span: 5}"
+                    :wrapperCol="{span: 18, offset: 1}"
+                >
+                  <a-input-search id="input_ackey" placeholder="선택하세요" enter-button @search="onSearchAckey" v-model="queryParam.ackey" />
+                  <item-popup v-if="this.$store.state.modal.modalstatus" :visible="this.$store.state.modal.modalstatus"
+                              :callType="'input'"></item-popup>
+                </a-form-item>
+              </a-col>
+              <a-col :md="7" :sm="24">
+                <a-form-item
                     label="사용여부"
                     :labelCol="{span: 5}"
                     :wrapperCol="{span: 18, offset: 1}"
                 >
-                  <a-select v-model="queryParam.useYn" placeholder="선택하세요.">
-                    <a-select-option :key="index" :value="item.code" v-for="(item, index) in useYnList">{{item.code_nm}}</a-select-option>
+                  <a-select v-model="queryParam.useYn"  >
+                    <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">{{item.code_nm}}</a-select-option>
 <!--                    <a-select-option value="Y">사용</a-select-option>-->
 <!--                    <a-select-option value="N">미사용</a-select-option>-->
                   </a-select>
@@ -116,17 +127,19 @@
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCmCodeGrpList, getCmCodeList, getCmCodeLoad, saveCmCode, saveCmCodeGrp} from "@/services/commoncode";
+import ItemPopup from "@/pages/components/modal/ItemPopup";
+import {mapMutations} from "vuex";
 
 const useYnList = []
 export default {
 
   components: {
+    ItemPopup,
     AUIGrid
   },
   data: function () {
     return {
       loading: false,     //로딩바 유무
-      delayTime: 1000,    //로딩 딜레이
       masterRow: {},       //그룹코드 정보
       useYnList,
       // 쿼리 매개변수
@@ -151,7 +164,8 @@ export default {
 
       // 그리드 데이터
       gridDataHD: [],
-      gridDataDT: []
+      gridDataDT: [],
+      visible: false,
 
     }
 
@@ -172,7 +186,7 @@ export default {
   },
   async mounted() {
     console.log('mounted @@@@@@@@@@####### = ')
-    this.useYnList = await getCmCodeLoad('USEYN')
+    this.useYnList = await getCmCodeLoad('USEYN','전체')
     this.columnLayoutHD = [
       {
         dataField: "group_cd",
@@ -239,6 +253,7 @@ export default {
     // this.$refs.myGrid2.resize(null,1200)
   },
   methods: {
+    ...mapMutations('modal', ['setModalstatus']),
     searchMaster() {
       console.log('조회를 시작합니다.', this.queryParam);
       this.loading = true
@@ -378,6 +393,10 @@ export default {
       //   this.$refs.myGrid2.exportToTxt({})
       // }
     },
+    onSearchAckey(){
+      console.log('팝업 띄우는 쌤플')
+      this.setModalstatus(true)
+    }
   }
 }
 

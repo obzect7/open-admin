@@ -74,8 +74,6 @@ module.exports = {
         security: {name: '보안 설정'},
         custom: {name: '커스텀 설정'},
       },
-
-
     }
   }
 }
