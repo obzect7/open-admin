@@ -78,4 +78,5 @@ export const constantRouterComponents = {
   CommonCodeList: () => import("@/pages/system/CommonCodeList"),
   CustomerList: () => import("@/pages/master/CustomerList"),
   ItemList: () => import("@/pages/master/ItemList"),
+  NoticeBoardList: () => import("@/pages/system/NoticeBoardList"),
 };

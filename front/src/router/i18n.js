@@ -26,6 +26,7 @@ module.exports = {
             logs: {name: '시스템로그'},
             commoncode: {name: '공통코드 관리'},
             commoncode_free: {name: '공통코드_무료그리드'},
+            board: {name: '게시판관리'},
           },
       },
       master : {
