@@ -165,7 +165,9 @@ export default {
       console.log('callid ==',this.callid)
       console.log('callType ==',this.callType)
 
-      this.setModalstatus(false)
+      this.$emit("closepopItem", event.item)
+
+      //this.setModalstatus(false)
     }
   }
 }

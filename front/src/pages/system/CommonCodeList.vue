@@ -22,7 +22,7 @@
                 >
                   <a-input-search id="input_ackey" placeholder="선택하세요" enter-button @search="onSearchAckey" v-model="queryParam.ackey" />
                   <item-popup v-if="this.$store.state.modal.modalstatus" :visible="this.$store.state.modal.modalstatus"
-                              :callType="'input'"></item-popup>
+                              :callType="'input'" @closepopItem="closepopItem"></item-popup>
                 </a-form-item>
               </a-col>
               <a-col :md="7" :sm="24">
@@ -396,6 +396,11 @@ export default {
     onSearchAckey(){
       console.log('팝업 띄우는 쌤플')
       this.setModalstatus(true)
+    },
+    closepopItem(event) {
+      console.log("event=======", event)
+      this.queryParam.ackey = event.item_cd
+      this.setModalstatus(false)
     }
   }
 }
