@@ -32,6 +32,6 @@
                              targetProject="src/main/java"
                              type="XMLMAPPER"/>
 
-        <table tableName="sys_menu"></table>
+        <table tableName="t_mst_plant"></table>
     </context>
 </generatorConfiguration>

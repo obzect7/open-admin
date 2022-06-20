@@ -10,4 +10,8 @@ import java.util.Map;
 
 public interface TMstPlantMapper extends Mapper<TMstPlant> {
     List<TmstPlantDto> getMstPlantList(@Param("paramsMap") Map<String, Object> map);
+
+    int insertMstPlant(@Param("paramsMap") TmstPlantDto dto);
+    int updateMstPlant(@Param("paramsMap") TmstPlantDto dto);
+    int deleteMstPlant(@Param("paramsMap") TmstPlantDto dto);
 }
