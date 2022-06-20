@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.BoardMapper">
+
+    <select id="getBoardList" resultType="com.cxp.openadmin.domain.dto.front.BoardDto" parameterType="Map">
+        /* BoardMapper.xml ,  getBoardList */
+        SELECT
+            *
+        FROM
+            (     SELECT A.BOARD_ID,
+                         A.POST_NO,
+                         A.POST_GRP_NO,
+                         A.POST_GRP_SN,
+                         A.POST_LVL,
+                         A.CATE_ID,
+                         A.POST_TIT,
+                         A.POST_CONT,
+                         A.POST_SD,
+                         A.POST_ED,
+                         A.REG_ID,
+                         A.REG_NM,
+                         A.REG_EMAIL,
+                         A.MOD_ID,
+                         A.MOD_NM,
+                         A.MOD_EMAIL,
+                         NVL(A.VIEW_CNT, 0) AS VIEW_CNT,
+                         (SELECT COUNT(*)
+                            FROM CM_FILE_MST
+                          WHERE FILE_GRP_SEQ = A.FILE_GRP_SEQ) AS ATTFILE_CNT,
+                         (SELECT COUNT(*)
+                            FROM CM_BOARD_COMT
+                           WHERE DEL_YN = 'N'
+                                 AND POST_NO = A.POST_NO) AS COMNT_CNT,
+                         A.NOTI_YN,
+                         A.MAIN_NOTI_YN,
+                         A.FILE_GRP_SEQ,
+                         A.DEL_YN,
+                         A.REG_DT,
+                         A.MOD_DT,
+                         A.SECRT_YN,
+                         CASE WHEN T.PRD_USE_YN = 'Y' THEN CASE WHEN DATE_FORMAT(NOW(), '%Y%m%d') BETWEEN NVL(A.POST_SD, '00000000') AND NVL(A.POST_ED, '99999999') THEN 'Y' ELSE 'N' END
+                              ELSE 'N' END AS SHOW_YN
+                  FROM CM_BOARD A
+                       JOIN  CM_BOARD_MGT T ON T.BOARD_ID = A.BOARD_ID
+                       LEFT JOIN CM_BOARD_MGR R ON R.BOARD_ID = A.BOARD_ID
+                                                AND R.USER_ID = 'SYSTEM'
+                 WHERE 1=1
+                       AND A.DEL_YN = 'N'
+                       AND A.BOARD_ID = '1'
+                       AND CASE WHEN NVL(T.PRD_USE_YN,'') != 'Y' THEN 'Y'
+                                WHEN NVL(R.USER_ID,'') != '' THEN 'Y'
+                                WHEN T.PRD_USE_YN = 'Y' THEN CASE WHEN NVL(A.POST_SD,'00000000') BETWEEN NVL(A.POST_SD,'00000000') AND NVL(A.POST_ED,'99999999') THEN 'Y' END
+                                ELSE 'N' END = 'Y'
+            ) M
+        WHERE 1=1
+        ORDER BY
+            CAST(POST_GRP_NO AS INTEGER) DESC,
+            CAST(POST_GRP_SN AS INTEGER)
+    </select>
+
+    <insert id="insertItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  insertItem */
+        insert into mst_item
+        (
+                 plant_cd
+                ,owner_cd
+                ,item_cd
+                ,item_nm
+                ,spec
+                ,unit
+                ,class1
+                ,class2
+                ,class3
+                ,boxqty
+                ,pltqty
+                ,in_price1
+                ,out_price1
+                ,lot_yn
+                ,fifo_yn
+                ,appro_inv
+                ,in_wh_cd
+                ,in_lc_cd
+                ,remark
+                ,use_yn
+                ,reg_id
+                ,reg_dt
+                ,mod_id
+                ,mod_dt
+        )
+        VALUES
+            (
+                 #{paramsMap.plant_cd}
+                ,#{paramsMap.owner_cd}
+                ,#{paramsMap.item_cd}
+                ,#{paramsMap.item_nm}
+                ,#{paramsMap.spec}
+                ,#{paramsMap.unit}
+                ,#{paramsMap.class1}
+                ,#{paramsMap.class2}
+                ,#{paramsMap.class3}
+                ,NVL(#{paramsMap.boxqty}, 0)
+                ,NVL(#{paramsMap.pltqty}, 0)
+                ,NVL(#{paramsMap.in_price1}, 0)
+                ,NVL(#{paramsMap.out_price1}, 0)
+                ,#{paramsMap.lot_yn}
+                ,#{paramsMap.fifo_yn}
+                ,NVL(#{paramsMap.appro_inv}, 0)
+                ,#{paramsMap.in_wh_cd}
+                ,#{paramsMap.in_lc_cd}
+                ,#{paramsMap.remark}
+                ,#{paramsMap.use_yn}
+                ,#{paramsMap.reg_id}
+                ,now()
+                ,#{paramsMap.mod_id}
+                ,now()
+            )
+    </insert>
+
+    <update id="updateItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  updateItem */
+        update mst_item
+           set    item_nm       = #{paramsMap.item_nm}
+                 ,spec          = #{paramsMap.spec}
+                 ,unit          = #{paramsMap.unit}
+                 ,class1        = #{paramsMap.class1}
+                 ,class2        = #{paramsMap.class2}
+                 ,class3        = #{paramsMap.class3}
+                 ,boxqty        = #{paramsMap.boxqty}
+                 ,pltqty        = #{paramsMap.pltqty}
+                 ,in_price1     = #{paramsMap.in_price1}
+                 ,out_price1    = #{paramsMap.out_price1}
+                 ,lot_yn        = #{paramsMap.lot_yn}
+                 ,fifo_yn       = #{paramsMap.fifo_yn}
+                 ,appro_inv     = #{paramsMap.appro_inv}
+                 ,in_wh_cd      = #{paramsMap.in_wh_cd}
+                 ,in_lc_cd      = #{paramsMap.in_lc_cd}
+                 ,remark        = #{paramsMap.remark}
+                 ,use_yn        = #{paramsMap.use_yn}
+                 ,mod_id        = #{paramsMap.mod_id}
+                 ,mod_dt        = now()
+        where plant_cd = #{paramsMap.plant_cd}
+          and owner_cd = #{paramsMap.owner_cd}
+          and item_cd  = #{paramsMap.item_cd}
+    </update>
+
+    <delete id="deleteItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  deleteItem */
+        update mst_item
+           set use_yn  = 'N'
+              ,mod_id        = #{paramsMap.mod_id}
+              ,mod_dt        = now()
+        where plant_cd = #{paramsMap.plant_cd}
+          and owner_cd = #{paramsMap.owner_cd}
+          and item_cd  = #{paramsMap.item_cd}
+    </delete>
+
+</mapper>

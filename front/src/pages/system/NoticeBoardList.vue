@@ -6,14 +6,14 @@
           <div name="filter" style="background: white; padding: 10px;">
             <a-row >
               <a-col :md="2" :sm="10" >
-                  <a-select v-model="queryParam.use_yn" placeholder="선택">
+                  <a-select v-model="queryParam.search_type" placeholder="선택" >
                     <a-select-option value="E">전체</a-select-option>
                     <a-select-option value="T">제목</a-select-option>
                     <a-select-option value="C">내용</a-select-option>
                   </a-select>
               </a-col>
               <a-col :md="5" :sm="10" style="padding-left: 5px">
-                <a-input v-model="queryParam.item_nm" placeholder="입력하세요." />
+                <a-input v-model="queryParam.search_comment" placeholder="입력하세요." />
               </a-col>
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
@@ -41,9 +41,8 @@
 <script>
 // AUIGrid 컴포넌트
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getItemList} from "@/services/item";
+import {getBoardList} from "@/services/board";
 import PopItem from "@/pages/master/PopItem";
-const useYnList= []
 
 export default {
   name: "NoticeBoardList",
@@ -57,7 +56,7 @@ export default {
       delayTime: 1000,    //로딩 딜레이
       isPopUp : false,    //팝업호출여부
       // 쿼리 매개변수
-      queryParam: {useYn : "Y"},
+      queryParam: {},
       columnLayout : [],
       // 그리드 속성 정의
       auigridProps : {
@@ -76,7 +75,7 @@ export default {
     }
   },
   beforeMount() {
-    this.useYnList = [ {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
+
   },
   mounted(){
     // 그리드 칼럼 레이아웃 정의
@@ -100,14 +99,13 @@ export default {
     // 그리드 데이터 삽입하기
     grid.setGridData(this.gridData);
     //그리드 사이즈 재조절
-    grid.resize();
+    //grid.resize();
   },
   methods : {
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
       this.loading = true
-      return getItemList(Object.assign(this.queryParam)).then(
-
+      return getBoardList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====',res)
             this.$refs.itemGrid.setGridData(res.data);
