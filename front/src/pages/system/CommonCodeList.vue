@@ -11,7 +11,7 @@
                     :labelCol="{span: 5}"
                     :wrapperCol="{span: 18, offset: 1}"
                 >
-                  <a-input v-model="queryParam.groupCd" placeholder="입력하세요."/>
+                  <a-input v-model="queryParam.groupCd" placeholde1="입력하세요."/>
                 </a-form-item>
               </a-col>
               <a-col :md="7" :sm="24">
