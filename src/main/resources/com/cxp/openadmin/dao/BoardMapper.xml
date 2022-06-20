@@ -39,7 +39,9 @@
                          A.MOD_DT,
                          A.SECRT_YN,
                          CASE WHEN T.PRD_USE_YN = 'Y' THEN CASE WHEN DATE_FORMAT(NOW(), '%Y%m%d') BETWEEN NVL(A.POST_SD, '00000000') AND NVL(A.POST_ED, '99999999') THEN 'Y' ELSE 'N' END
-                              ELSE 'N' END AS SHOW_YN
+                              ELSE 'N' END AS SHOW_YN,
+                         #{paramsMap.search_type} as yy,
+                         #{paramsMap.search_comment} as xx
                   FROM CM_BOARD A
                        JOIN  CM_BOARD_MGT T ON T.BOARD_ID = A.BOARD_ID
                        LEFT JOIN CM_BOARD_MGR R ON R.BOARD_ID = A.BOARD_ID
@@ -53,6 +55,20 @@
                                 ELSE 'N' END = 'Y'
             ) M
         WHERE 1=1
+        <if test="paramsMap.search_type != null and paramsMap.search_type != '' and paramsMap.search_comment != null and paramsMap.search_comment != ''">
+            <if test='paramsMap.search_type == "E"'>
+                AND (POST_TIT like concat('%',#{paramsMap.search_comment},'%')
+                     OR POST_CONT like concat('%',#{paramsMap.search_comment},'%'))
+            </if>
+
+            <if test='paramsMap.search_type == "T"'>
+                AND POST_TIT like concat('%',#{paramsMap.search_comment},'%')
+            </if>
+
+            <if test='paramsMap.search_type == "C"'>
+                AND POST_CONT like concat('%',#{paramsMap.search_comment},'%')
+            </if>
+        </if>
         ORDER BY
             CAST(POST_GRP_NO AS INTEGER) DESC,
             CAST(POST_GRP_SN AS INTEGER)
