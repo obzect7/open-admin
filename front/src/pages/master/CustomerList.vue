@@ -31,8 +31,9 @@
                   :wrapperCol="{span: 18, offset: 1}"
               >
                 <a-select v-model="queryParam.useYn" placeholder="선택하세요.">
-                  <a-select-option value="Y">사용</a-select-option>
-                  <a-select-option value="N">미사용</a-select-option>
+                  <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">{{item.code_nm}}</a-select-option>
+<!--                  <a-select-option value="Y">사용</a-select-option>-->
+<!--                  <a-select-option value="N">미사용</a-select-option>-->
                 </a-select>
               </a-form-item>
             </a-col>
@@ -83,6 +84,7 @@
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCustomerList, saveCustomer} from "@/services/customer";
+import {getCmCodeLoad} from "@/services/commoncode";
 const useYnList= []
 
 export default {
@@ -123,42 +125,51 @@ export default {
 
   },
   beforeMount() {
-    this.useYnList = [ {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
+    //this.useYnList = [ {"code":"Y", "value":"사용"}, {"code":"N", "value":"미사용"}]
   },
-  mounted(){
+  async mounted() {
+
+    this.useYnList = await getCmCodeLoad('USEYN', '전체')
 
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
-      {dataField : "plant_cd",      headerText : "사업장",   width : 120, visible : false},
-      {dataField : "owner_cd",      headerText : "화주코드",  width : 140, visible : false},
-      {dataField : "cust_cd",       headerText : "거래처코드", width : 140 ,headerStyle : "aui-grid-required-header",},
-      {dataField : "cust_nm",       headerText : "거래처명",    width : 140, style: "left-text ",headerStyle : "aui-grid-required-header",},
-      {dataField : "cust_desc",     headerText : "거래처약어", width : 140, style: "left-text "},
-      {dataField : "ceo",           headerText : "대표자명",    width : 140, style: "left-text "},
-      {dataField : "business_no",   headerText : "사업자번호",   width : 140},
-      {dataField : "corp_no",       headerText : "법인번호",    width : 140},
-      {dataField : "tel",           headerText : "대표번호",    width : 140},
-      {dataField : "post_no",       headerText : "우편번호",    width : 140},
-      {dataField : "addr1",         headerText : "주소1",     width : 140, style: "left-text "},
-      {dataField : "addr2",         headerText : "주소2",     width : 140, style: "left-text "},
-      {dataField : "fax",           headerText : "팩스번호",    width : 140},
-      {dataField : "email",         headerText : "이메일",     width : 140, style: "left-text "},
-      {dataField : "business_type", headerText : "업태",      width : 140, style: "left-text "},
-      {dataField : "business_item", headerText : "종목",      width : 140, style: "left-text "},
-      {dataField : "first_day",     headerText : "최초거래일", width : 140},
-      {dataField : "remark",        headerText : "비고",      width : 140, style: "left-text "},
-      {dataField : "use_yn",        headerText : "사용여부",   width : 140, headerStyle : "aui-grid-required-header",
-        renderer : {
-          type : "DropDownListRenderer",
-          list : this.useYnList, //key-value Object 로 구성된 리스트
-          keyField : "code", // key 에 해당되는 필드명
-          valueField : "value" // value 에 해당되는 필드명
+      {dataField: "plant_cd", headerText: "사업장", width: 120, visible: false},
+      {dataField: "owner_cd", headerText: "화주코드", width: 140, visible: false},
+      {dataField: "cust_cd", headerText: "거래처코드", width: 140, headerStyle: "aui-grid-required-header",},
+      {
+        dataField: "cust_nm",
+        headerText: "거래처명",
+        width: 140,
+        style: "left-text ",
+        headerStyle: "aui-grid-required-header",
+      },
+      {dataField: "cust_desc", headerText: "거래처약어", width: 140, style: "left-text "},
+      {dataField: "ceo", headerText: "대표자명", width: 140, style: "left-text "},
+      {dataField: "business_no", headerText: "사업자번호", width: 140},
+      {dataField: "corp_no", headerText: "법인번호", width: 140},
+      {dataField: "tel", headerText: "대표번호", width: 140},
+      {dataField: "post_no", headerText: "우편번호", width: 140},
+      {dataField: "addr1", headerText: "주소1", width: 140, style: "left-text "},
+      {dataField: "addr2", headerText: "주소2", width: 140, style: "left-text "},
+      {dataField: "fax", headerText: "팩스번호", width: 140},
+      {dataField: "email", headerText: "이메일", width: 140, style: "left-text "},
+      {dataField: "business_type", headerText: "업태", width: 140, style: "left-text "},
+      {dataField: "business_item", headerText: "종목", width: 140, style: "left-text "},
+      {dataField: "first_day", headerText: "최초거래일", width: 140},
+      {dataField: "remark", headerText: "비고", width: 140, style: "left-text "},
+      {
+        dataField: "use_yn", headerText: "사용여부", width: 140, headerStyle: "aui-grid-required-header",
+        renderer: {
+          type: "DropDownListRenderer",
+          list: this.useYnList, //key-value Object 로 구성된 리스트
+          keyField: "code", // key 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
         }
       },
-      {dataField : "reg_id",      headerText : "등록자",    width : 140, editable : false},
-      {dataField : "reg_dt",      headerText : "등록일자",  width : 140, editable : false},
-      {dataField : "mod_id",      headerText : "수정자",   width : 140, editable : false},
-      {dataField : "mod_dt",      headerText : "수정일자",  width : 140, editable : false}
+      {dataField: "reg_id", headerText: "등록자", width: 140, editable: false},
+      {dataField: "reg_dt", headerText: "등록일자", width: 140, editable: false},
+      {dataField: "mod_id", headerText: "수정자", width: 140, editable: false},
+      {dataField: "mod_dt", headerText: "수정일자", width: 140, editable: false}
     ]
 
 
