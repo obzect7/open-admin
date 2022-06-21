@@ -334,7 +334,7 @@ export default {
       }
       return true
     }, saveMaster() {
-      const data = this.$getCudData(this.$refs.myGrid1,["group_cd", "code", "code_nm"])
+      const data = this.$gridGetCudData(this.$refs.myGrid1,["group_cd", "code", "code_nm"])
       // if (data.add || data.update || data.remove) {
       //alert("저장 로직 작성하세요");
       console.log("data===", data)
@@ -357,7 +357,7 @@ export default {
 
     }, saveDetail() {
         console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
-        const data = this.$getCudData(this.$refs.myGrid2,["group_cd", "code", "code_nm"])
+        const data = this.$gridGetCudData(this.$refs.myGrid2,["group_cd", "code", "code_nm"])
         // if (data.add || data.update || data.remove) {
         //alert("저장 로직 작성하세요");
         console.log("data===", data)
@@ -421,29 +421,4 @@ export default {
   margin-bottom: 18px;
 }
 
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.my-right-column {
-  text-align: right;
-}
-</style>
-
-<style>
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.showcase2-complete-red {
-  color: #ff0000;
-}
 </style>

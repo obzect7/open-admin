@@ -33,7 +33,8 @@ module.exports = {
         name : '마스터관리',
         master:{
           CustomerList: {name: '거래처 관리'},
-          ItemList: {name: '품번 관리'}
+          ItemList: {name: '품번 관리'},
+          MstPlant: {name: '사업장 관리'},
         }
       },
       form: {

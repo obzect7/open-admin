@@ -8,6 +8,7 @@ import Antd from "ant-design-vue";
 import Viser from "viser-vue";
 import store from "./store";
 import "animate.css/source/animate.css";
+import "@/theme/auigrid_custom.css";
 import Plugins from "@/plugins";
 import {
   initI18n

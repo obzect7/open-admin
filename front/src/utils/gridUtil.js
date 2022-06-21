@@ -2,7 +2,14 @@ import {saveCmCode} from "@/services/commoncode";
 
 export default {
     install(Vue){
-        Vue.prototype.$getCudData = function(grid,requireArr){
+        /*
+         paramter 정의
+         grid = vue grid 객체
+         requireArr = 필수입력 dataField
+         해당 함수는 추가,수정,삭제 된 row 정보를 모두 담아서 배열로 return 한다.
+         행의 상태는 row_status 항목에 담겨져 있다.
+         */
+        Vue.prototype.$gridGetCudData = function(grid,requireArr){
             const isValid = grid.validateChangedGridData(requireArr, "필수입력 입니다.");
 
             if (isValid) {
@@ -58,6 +65,25 @@ export default {
                 }
 
             }
+        }
+
+        Vue.prototype.$gridEditable = function(grid,event,dataFields){
+            if(dataFields.indexOf(event.dataField) > -1) {
+                // rowIdField 설정 값 얻기
+                const rowIdField = grid.getProp("rowIdField");
+                console.log('rowIdField===',rowIdField)
+                console.log('event === ',event)
+                // 추가된 행 아이템인지 조사하여 추가된 행인 경우만 에디팅 진입 허용
+                if(grid.isAddedById(event.item[rowIdField])) {
+                    return true
+                } else {
+                    return false // false 반환하면 기본 행위 안함(즉, cellEditBegin 의 기본행위는 에디팅 진입임)
+                }
+            }else{
+                return true // 다른 필드들은 편집 허용
+            }
+
+
         }
     }
 }

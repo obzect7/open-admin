@@ -86,6 +86,8 @@ import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCustomerList, saveCustomer} from "@/services/customer";
 import {getCmCodeLoad} from "@/services/commoncode";
 const useYnList= []
+const business_item_list= []
+const business_type_list= []
 
 export default {
 
@@ -95,8 +97,9 @@ export default {
   data: function () {
     return {
       loading: false,     //로딩바 유무
-      delayTime: 1000,    //로딩 딜레이
       useYnList,
+      business_item_list, //업태
+      business_type_list, //종목
 
       // 쿼리 매개변수
       queryParam: {useYn : "Y"},
@@ -130,6 +133,8 @@ export default {
   async mounted() {
 
     this.useYnList = await getCmCodeLoad('USEYN', '전체')
+    this.business_item_list = await getCmCodeLoad('BUSINESS_ITEM')
+    this.business_type_list = await getCmCodeLoad('BUSINESS_TYPE')
 
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
@@ -153,8 +158,22 @@ export default {
       {dataField: "addr2", headerText: "주소2", width: 140, style: "left-text "},
       {dataField: "fax", headerText: "팩스번호", width: 140},
       {dataField: "email", headerText: "이메일", width: 140, style: "left-text "},
-      {dataField: "business_type", headerText: "업태", width: 140, style: "left-text "},
-      {dataField: "business_item", headerText: "종목", width: 140, style: "left-text "},
+      {dataField: "business_type", headerText: "업태", width: 140, style: "left-text ",
+        renderer: {
+          type: "DropDownListRenderer",
+          list: this.business_type_list, //key-value Object 로 구성된 리스트
+          keyField: "code", // key 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
+        }
+      },
+      {dataField: "business_item", headerText: "종목", width: 140, style: "left-text ",
+        renderer: {
+          type: "DropDownListRenderer",
+          list: this.business_item_list, //key-value Object 로 구성된 리스트
+          keyField: "code", // key 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
+        }
+      },
       {dataField: "first_day", headerText: "최초거래일", width: 140},
       {dataField: "remark", headerText: "비고", width: 140, style: "left-text "},
       {
@@ -193,7 +212,7 @@ export default {
             console.log('res====',res)
             this.$refs.custGrid.setGridData(res.data);
             //return res.data;
-            setTimeout(() => this.loading = false, 500)
+            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
           }
       )
     },
@@ -234,9 +253,11 @@ export default {
 
       if(isValid){
 
-        const data = this.$getCrdData(this.$refs.custGrid)
+        const data = this.$gridGetCudData(this.$refs.custGrid)
 
         if (data.length > 0) {
+
+          this.loading = true
 
           console.log("data===", data)
           saveCustomer(data).then(
@@ -248,6 +269,8 @@ export default {
                 }
               }
           )
+
+          this.loading = true
         }
       }
     },
@@ -271,19 +294,5 @@ export default {
   .fold {
     width: 100%;
   }
-}
-</style>
-
-<style>
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.showcase2-complete-red {
-  color: #ff0000;
 }
 </style>
