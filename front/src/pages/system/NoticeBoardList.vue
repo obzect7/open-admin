@@ -1,5 +1,14 @@
 <template>
   <a-spin :spinning="loading" size="large">
+    <a-modal
+        :title="'게시판 등록'"
+        style="top: 5px"
+        :width="1100"
+        v-model="isPopUp"
+        :footer="null"
+    >
+      <PopBoard v-if="isPopUp" @closepop="closePopBoard" :popinit="this.popinit" />
+    </a-modal>
     <div :bordered="false" v-show="!isPopUp">
       <div >
         <a-form layout="horizontal" >
@@ -8,12 +17,14 @@
               <a-col :md="2" :sm="10" >
                   <a-select v-model="queryParam.search_type" placeholder="선택" >
                     <a-select-option value="E">전체</a-select-option>
-                    <a-select-option value="T">제목</a-select-option>
+                    <a-select-option value="T" >제목</a-select-option>
                     <a-select-option value="C">내용</a-select-option>
                   </a-select>
               </a-col>
               <a-col :md="5" :sm="10" style="padding-left: 5px">
-                <a-input v-model="queryParam.search_comment" placeholder="입력하세요." />
+                <a-input v-model="queryParam.search_comment"
+                         placeholder="입력하세요."
+                         @keyup.enter="search"/>
               </a-col>
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
@@ -26,7 +37,7 @@
       <div name="grid" style="padding-top: 10px;">
           <div style="background: white; padding: 10px ">
             <a-button-group style="padding-bottom: 10px">
-              <a-button type="primary"> <a-icon type="plus-square" />글쓰기</a-button>
+              <a-button type="primary" @click="addBoard"> <a-icon type="plus-square" />글쓰기</a-button>
             </a-button-group>
             <AUIGrid ref="itemGrid" class="grid-wrap"
                      @cellDoubleClick="cellDoubleClickHandler"
@@ -42,12 +53,12 @@
 // AUIGrid 컴포넌트
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getBoardList} from "@/services/board";
-import PopItem from "@/pages/master/PopItem";
+import PopBoard from "@/pages/master/PopBoard";
 
 export default {
   name: "NoticeBoardList",
   components : {
-    PopItem,
+    PopBoard,
     AUIGrid
   },
   data: function () {
@@ -56,7 +67,7 @@ export default {
       delayTime: 1000,    //로딩 딜레이
       isPopUp : false,    //팝업호출여부
       // 쿼리 매개변수
-      queryParam: {},
+      queryParam: { search_type : "E" },
       columnLayout : [],
       // 그리드 속성 정의
       auigridProps : {
@@ -70,6 +81,7 @@ export default {
         selectionMode : "multipleCells",
         showStateColumn : false,
       },
+      popinit: {},
       // 그리드 데이터
       gridData : []
     }
@@ -85,12 +97,12 @@ export default {
 
       {dataField : "post_no",     headerText : "등록번호",   width : 100, visible : true },
       {dataField : "post_tit",    headerText : "제목",      width : 250, visible : true, style: "left-text "},
-      {dataField : "post_cout",   headerText : "조회수",    width : 100, visible : true },
-      {dataField : "attifile_cnt",headerText : "첨부문서",    width : 100, visible : true },
+      {dataField : "view_cnt",    headerText : "조회수",    width : 100, visible : true },
+      {dataField : "attfile_cnt", headerText : "첨부문서",    width : 100, visible : true },
       {dataField : "noti_yn",     headerText : "표시여부",    width : 100, visible : true },
-      {dataField : "reg_id",      headerText : "등록자",    width : 100, editable : false},
+      {dataField : "reg_nm",      headerText : "등록자",    width : 100, editable : false},
       {dataField : "reg_dt",      headerText : "등록일자",  width : 120, editable : false},
-      {dataField : "mod_id",      headerText : "수정자",   width : 100, editable : false},
+      {dataField : "mod_nm",      headerText : "수정자",   width : 100, editable : false},
       {dataField : "mod_dt",      headerText : "수정일자",  width : 120, editable : false}
     ]
     let grid = this.$refs.itemGrid;
@@ -98,8 +110,6 @@ export default {
     grid.create(this.columnLayout, this.auigridProps);
     // 그리드 데이터 삽입하기
     grid.setGridData(this.gridData);
-    //그리드 사이즈 재조절
-    //grid.resize();
   },
   methods : {
     search(){
@@ -116,24 +126,24 @@ export default {
     },
     cellDoubleClickHandler(event){
       console.log("event.item===", event.item)
-      //this.popinit = event.item;
-      //console.log("popinit===", this.popinit)
       let POpParam = event.item;
       Object.assign(POpParam, {['isNew']: false})
-      this.openPopItem(POpParam)
+      this.openPopBoard(POpParam)
       this.isPopUp = true
     },
-    openPopItem(param){
-      // this.popinit = {};
+    openPopBoard(param){
       this.popinit = param;
       this.isPopUp = true
     },
-    closePopItem(){
+    closePopBoard(){
       //console.log('sssss')
       this.isPopUp = false
       this.search()
       //this.$router.go()
     },
+    addBoard(){
+      this.openPopBoard({['isNew']: true});
+    }
   }
 }
 </script>
