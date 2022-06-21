@@ -55,10 +55,7 @@
             >
 
               <a-select v-model="popinit.unit" name="unit" placeholder="선택하세요.">
-                <a-select-option :value="'EA'" >EA</a-select-option>
-                <a-select-option :value="'BOX'" >BOX</a-select-option>
-                <a-select-option :value="'PLT'" >PLT</a-select-option>
-                <a-select-option :value="'KG'" >KG</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in unitList">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -72,10 +69,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-select v-model="popinit.class1" name="class1" placeholder="선택하세요.">
-                <a-select-option :value="'class11'" >대구분1</a-select-option>
-                <a-select-option :value="'class12'" >대구분2</a-select-option>
-                <a-select-option :value="'class13'" >대구분3</a-select-option>
-                <a-select-option :value="'class14'" >대구분4</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in class1List">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -87,10 +81,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-select v-model="popinit.class2" name="class2" placeholder="선택하세요.">
-                <a-select-option :value="'class21'" >중구분1</a-select-option>
-                <a-select-option :value="'class22'" >중구분2</a-select-option>
-                <a-select-option :value="'class23'" >중구분3</a-select-option>
-                <a-select-option :value="'class24'" >중구분4</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in class2List">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -104,10 +95,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-select v-model="popinit.class3" name="class3" placeholder="선택하세요.">
-                <a-select-option :value="'class31'" >소구분1</a-select-option>
-                <a-select-option :value="'class32'" >소구분2</a-select-option>
-                <a-select-option :value="'class33'" >소구분3</a-select-option>
-                <a-select-option :value="'class34'" >소구분4</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in class3List">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -193,8 +181,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-select v-model="popinit.lot_yn" name="lot_yn" placeholder="선택하세요.">
-                <a-select-option :value="'Y'" >관리</a-select-option>
-                <a-select-option :value="'N'" >미관리</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in manageYnList">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -206,8 +193,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-select v-model="popinit.fifo_yn" name="fifo_yn" placeholder="선택하세요.">
-                <a-select-option :value="'Y'" >관리</a-select-option>
-                <a-select-option :value="'N'" >미관리</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in manageYnList">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -247,8 +233,7 @@
                 :wrapperCol="{span: 18, offset: 1}"
             >
               <a-select v-model="popinit.use_yn" name="use_yn" placeholder="선택하세요.">
-                <a-select-option :value="'Y'" >사용</a-select-option>
-                <a-select-option :value="'N'" >미사용</a-select-option>
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">{{item.code_nm}}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -294,12 +279,26 @@
 
 <script>
 import {saveItem} from "@/services/item";
+import {getCmCodeLoad} from "@/services/commoncode";
 
+const unitList = [] //단위
+const class1List = [] // 구분1
+const class2List = [] // 구분2
+const class3List = [] // 구분3
+const manageYnList = [] //관리여부
+const useYnList = []
 
 export default {
 
   data () {
     return {
+
+      unitList,
+      class1List,
+      class2List,
+      class3List,
+      manageYnList,
+      useYnList,
 
       plant_cd : '',
       owner_cd : '',
@@ -364,7 +363,13 @@ export default {
       console.log('null 아님', this.popinit.item_cd)
     }
   },
-  mounted() {
+  async mounted() {
+    this.unitList = await getCmCodeLoad('UNIT', '전체')
+    this.class1List = await getCmCodeLoad('CLASS1', '선택')
+    this.class2List = await getCmCodeLoad('CLASS2', '선택')
+    this.class3List = await getCmCodeLoad('CLASS3', '선택')
+    this.manageYnList = await getCmCodeLoad('MANAGEYN', '선택')
+    this.useYnList = await getCmCodeLoad('USEYN', '선택')
   },
   computed: {
 
