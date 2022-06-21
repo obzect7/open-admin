@@ -307,17 +307,3 @@ export default {
   }
 }
 </style>
-
-<style>
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.showcase2-complete-red {
-  color: #ff0000;
-}
-</style>

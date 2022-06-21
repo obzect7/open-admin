@@ -130,7 +130,7 @@ export default {
     this.columnLayout = [
       {dataField: "plant_cd", headerText: "사업장코드", width: 120, headerStyle: "aui-grid-required-header"},
       {dataField: "plant_nm", headerText: "사업장명", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "addr", headerText: "주소"},
+      {dataField: "addr", headerText: "주소", style: "left-text"},
       {
         dataField: "use_yn", headerText: "사용여부", width: 140, headerStyle: "aui-grid-required-header",
         renderer: {
@@ -232,19 +232,5 @@ export default {
   .fold {
     width: 100%;
   }
-}
-</style>
-
-<style>
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.showcase2-complete-red {
-  color: #ff0000;
 }
 </style>

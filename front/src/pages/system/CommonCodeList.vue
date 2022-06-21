@@ -421,29 +421,4 @@ export default {
   margin-bottom: 18px;
 }
 
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.my-right-column {
-  text-align: right;
-}
-</style>
-
-<style>
-.left-text {
-  text-align: left;
-}
-
-.right-text {
-  text-align: right;
-}
-
-.showcase2-complete-red {
-  color: #ff0000;
-}
 </style>
