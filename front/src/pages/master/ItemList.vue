@@ -194,7 +194,7 @@ export default {
           type: "DropDownListRenderer",
           list: this.useYnList, //key-value Object 로 구성된 리스트
           keyField: "code", // key 에 해당되는 필드명
-          valueField: "value" // value 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
         }
       },
       {dataField: "reg_id", headerText: "등록자", width: 140, editable: false},
