@@ -253,7 +253,7 @@ export default {
 
       if(isValid){
 
-        const data = this.$getCudData(this.$refs.custGrid)
+        const data = this.$gridGetCudData(this.$refs.custGrid)
 
         if (data.length > 0) {
 

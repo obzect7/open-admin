@@ -2,30 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cxp.openadmin.dao.TMstPlantMapper">
 
-  <select id="getMstPlantList" parameterType="Map" resultType="com.cxp.openadmin.domain.dto.backed.TmstPlantDto">
-    /* CmCodeGrpMapper.xml ,  getCmCodeGrpList */
-    select
-       t.plant_cd
-       t.plant_nm
-       t.addr
-       t.use_yn
-       t.remark
-       t.reg_id
-       t.reg_dt
-       t.mod_id
-       t.mod_dt
-    from t_mst_plant t
-    where 1=1
-    <if test="paramsMap.plant_cd != null and paramsMap.plant_cd != ''">
-      and t.plant_cd like concat('%',#{paramsMap.plant_cd},'%')
-    </if>
-    <if test="paramsMap.plant_nm != null and paramsMap.plant_nm != ''">
-      and t.plant_nm = #{paramsMap.plant_nm}
-    </if>
-    <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
-      and t.use_yn = #{paramsMap.groupNm}
-    </if>
-    order by t.plant_cd asc
-  </select>
+    <select id="getMstPlantList" parameterType="Map" resultType="com.cxp.openadmin.domain.dto.backed.TmstPlantDto">
+        /* TMstPlantMapper.xml , getMstPlantList */
+        select
+        t.plant_cd
+        , t.plant_nm
+        , t.addr
+        , t.use_yn
+        , t.remark
+        , t.reg_id
+        , t.reg_dt
+        , t.mod_id
+        , t.mod_dt
+        from t_mst_plant t
+        where 1=1
+        <if test="paramsMap.plant_cd != null and paramsMap.plant_cd != ''">
+            and t.plant_cd like concat('%',#{paramsMap.plant_cd},'%')
+        </if>
+        <if test="paramsMap.plant_nm != null and paramsMap.plant_nm != ''">
+            and t.plant_nm = #{paramsMap.plant_nm}
+        </if>
+        <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
+            and t.use_yn = #{paramsMap.use_yn}
+        </if>
+        order by t.plant_cd asc
+    </select>
+
+    <insert id="insertMstPlant" parameterType="com.cxp.openadmin.domain.dto.backed.TmstPlantDto"
+            statementType="PREPARED">
+        /* TMstPlantMapper.xml ,  insertCmCodeGrp */
+        insert into t_mst_plant
+        (
+              plant_cd
+            , plant_nm
+            , addr
+            , use_yn
+            , remark
+            , reg_id
+            , reg_dt
+            , mod_id
+            , mod_dt
+        )
+        values
+        (
+             #{paramsMap.plant_cd}
+           , #{paramsMap.plant_nm}
+           , #{paramsMap.addr}
+           , #{paramsMap.use_yn}
+           , #{paramsMap.remark}
+           , #{paramsMap.reg_id}
+           , now()
+           , #{paramsMap.mod_id}
+           , now()
+        )
+    </insert>
+
+    <update id="updateMstPlant" parameterType="com.cxp.openadmin.domain.dto.backed.TmstPlantDto"
+            statementType="PREPARED">
+        /* TMstPlantMapper.xml ,  updateCmCodeGrp */
+        update t_mst_plant set
+            plant_nm = #{paramsMap.plant_nm}
+          , addr     = #{paramsMap.addr}
+          , use_yn   = #{paramsMap.use_yn}
+          , remark   = #{paramsMap.remark}
+          , mod_id   = #{paramsMap.mod_id}
+          , mod_dt   = now()
+        where plant_cd = #{paramsMap.plant_cd}
+    </update>
+    <delete id="deleteMstPlant" parameterType="com.cxp.openadmin.domain.dto.backed.TmstPlantDto">
+        /* TMstPlantMapper.xml ,  deleteMstPlant */
+        delete
+        from t_mst_plant
+        where plant_cd = #{paramsMap.plant_cd}
+    </delete>
 
 </mapper>
