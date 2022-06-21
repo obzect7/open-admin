@@ -166,8 +166,8 @@ export default {
       console.log('callType ==',this.callType)
 
       this.$emit("closepopItem", event.item)
+      //this.$emit(this.parent.queryParam.ackey = 'aaaa')
 
-      //this.setModalstatus(false)
     }
   }
 }
