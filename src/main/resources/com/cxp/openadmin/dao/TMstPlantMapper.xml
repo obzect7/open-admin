@@ -20,7 +20,7 @@
             and t.plant_cd like concat('%',#{paramsMap.plant_cd},'%')
         </if>
         <if test="paramsMap.plant_nm != null and paramsMap.plant_nm != ''">
-            and t.plant_nm = #{paramsMap.plant_nm}
+            and t.plant_nm like concat('%',#{paramsMap.plant_nm},'%')
         </if>
         <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
             and t.use_yn = #{paramsMap.use_yn}

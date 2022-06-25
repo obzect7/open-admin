@@ -16,6 +16,7 @@ import {
 import bootstrap from "@/bootstrap";
 import "moment/locale/zh-cn";
 import "moment/locale/ko"
+import "file-saver";
 import {
   checkAuthorization
 } from '@/utils/request'

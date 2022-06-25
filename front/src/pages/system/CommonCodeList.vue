@@ -16,11 +16,23 @@
               </a-col>
               <a-col :md="7" :sm="24">
                 <a-form-item
-                    label="거래처"
+                    label="품번"
                     :labelCol="{span: 5}"
                     :wrapperCol="{span: 18, offset: 1}"
                 >
-                  <a-input-search id="input_ackey" placeholder="선택하세요" enter-button @search="onSearchAckey" v-model="queryParam.ackey" />
+                  <a-input-group >
+                    <a-row :gutter="8">
+                      <a-col :span="10">
+                        <a-input-search placeholder="" enter-button @search="onSearchAckey" v-model="queryParam.item_cd" />
+                      </a-col>
+                      <a-col :span="14">
+                        <a-input default-value="" v-model="queryParam.item_nm">
+                        <a-icon slot="addonAfter" type="close-circle" @click="resetAckey" />
+                        </a-input>
+                      </a-col>
+                    </a-row>
+                  </a-input-group>
+
                   <item-popup v-if="this.$store.state.modal.modalstatus" :visible="this.$store.state.modal.modalstatus"
                               :callType="'input'" @closepopItem="closepopItem"></item-popup>
                 </a-form-item>
@@ -143,7 +155,10 @@ export default {
       masterRow: {},       //그룹코드 정보
       useYnList,
       // 쿼리 매개변수
-      queryParam: {},
+      queryParam: {
+        item_cd:"",
+        item_nm:"",
+      },
       // 그리드 칼럼 레이아웃 정의
       columnLayoutHD: [],
       columnLayoutDT: [],
@@ -262,7 +277,7 @@ export default {
             console.log('res====', res)
             this.$refs.myGrid1.setGridData(res.data);
             // 실제로 새로 고침은 매우 빠르며, 이 지연을 추가하는 것은 순전히 로딩 상태를 잠시 동안 표시하여 사용자가 새로 고침 과정을 인지할 수 있도록 하기 위한 것입니다.
-            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
+            setTimeout(() => this.loading = false, this.$gridDelayTime)
             //return res.data;
           }
       )
@@ -273,7 +288,7 @@ export default {
             console.log('res====@@@@@', res)
             this.$refs.myGrid2.setGridData(res.data);
             // this.loading = false
-            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
+            setTimeout(() => this.loading = false, this.$gridDelayTime)
             //return res.data;
           }
       )
@@ -396,10 +411,16 @@ export default {
     onSearchAckey(){
       console.log('팝업 띄우는 쌤플')
       this.setModalstatus(true)
+    },resetAckey(){
+      console.log('!@@@@@@@@@@@@')
+      this.queryParam.item_cd  = ''
+      this.queryParam.item_nm = ''
     },
+    //품번팝업에서 선택한 대상
     closepopItem(event) {
       console.log("event=======", event)
-      this.queryParam.ackey = event.item_cd
+      this.queryParam.item_cd = event.item_cd
+      this.queryParam.item_nm = event.item_nm
       this.setModalstatus(false)
     }
   }

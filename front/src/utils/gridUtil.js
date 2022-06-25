@@ -2,6 +2,9 @@ import {saveCmCode} from "@/services/commoncode";
 
 export default {
     install(Vue){
+        //GRID 호출시 DELAY TIME
+        Vue.prototype.$gridDelayTime = 500
+
         /*
          paramter 정의
          grid = vue grid 객체
@@ -30,8 +33,8 @@ export default {
                     for (let i = 0; i < addedRowItems.length; i++) {
                         let addItem = addedRowItems[i]
                         Object.assign(addItem, {['row_status']: 'I'})
-                        Object.assign(addItem, {['regId']: this.$store.state.account.user.username})
-                        Object.assign(addItem, {['modId']: this.$store.state.account.user.username})
+                        Object.assign(addItem, {['reg_id']: this.$store.state.account.user.username})
+                        Object.assign(addItem, {['mod_id']: this.$store.state.account.user.username})
                         //console.log("editedItem==", editedItem)
                         data.push(addItem)
                     }
@@ -41,7 +44,7 @@ export default {
                     for (let i = 0; i < editedRowItems.length; i++) {
                         let editedItem = editedRowItems[i]
                         Object.assign(editedItem, {['row_status']: 'U'})
-                        Object.assign(editedItem, {['modId']: this.$store.state.account.user.username})
+                        Object.assign(editedItem, {['mod_id']: this.$store.state.account.user.username})
                         //console.log("editedItem==", editedItem)
                         data.push(editedItem)
                     }
@@ -67,6 +70,12 @@ export default {
             }
         }
 
+        /*
+        그리드에서 pk dataField는 수정을 방지하기 위한 함수
+        grid = grid 객체
+        event = event 객체
+        dataField = Edit를 방지할 dataField 컬럼명
+        */
         Vue.prototype.$gridEditable = function(grid,event,dataFields){
             if(dataFields.indexOf(event.dataField) > -1) {
                 // rowIdField 설정 값 얻기
@@ -82,8 +91,6 @@ export default {
             }else{
                 return true // 다른 필드들은 편집 허용
             }
-
-
         }
     }
 }

@@ -41,7 +41,7 @@
                 <a-col :md="3" :sm="24">
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="searchData" :loading="loading">조회</a-button>
-              <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
+              <a-button style="margin-left: 8px" @click="pageReset">초기화</a-button>
               </span>
                 </a-col>
               </a-row>
@@ -54,15 +54,15 @@
         <a-col  :span="3.5">
           <a-button-group>
             <a-space>
-            <a-button type="primary" @click="addRow" size="small">
+            <a-button type="primary" @click="addRow">
               <a-icon type="plus-square"/>
               추가
             </a-button>
-            <a-button type="primary" @click="removeRow" size="small">
+            <a-button type="primary" @click="removeRow">
               <a-icon type="delete"/>
               삭제
             </a-button>
-            <a-button type="primary" @click="saveRow" size="small">
+            <a-button type="primary" @click="saveRow">
               <a-icon type="save"/>
               저장
             </a-button>

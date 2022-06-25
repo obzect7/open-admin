@@ -1,6 +1,6 @@
 <template>
   <a-modal title="품번 검색 팝업" :visible="this.modalstatus" :footer="null" @cancel="cancelEvent" :width="650"
-           :dialogStyle="{height:50}">
+           :dialogStyle="{height:50}" >
     <a-spin :spinning="loading" size="large">
       <a-row>
         <a-col :span="24">
@@ -13,7 +13,7 @@
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
-                    <a-input v-model="queryParam.item_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input ref="popSearchItemCd" v-model="queryParam.item_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="10" :sm="24">
@@ -22,7 +22,7 @@
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
-                    <a-input v-model="queryParam.item_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input ref="popSearchItemNm" v-model="queryParam.item_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="4" :sm="24">
@@ -137,27 +137,35 @@ export default {
 
     // 그리드 데이터 삽입하기
     // this.$refs.itemPopupGrid.setGridData(this.gridData);
+    this.$refs.popSearchItemCd.$el.focus();
 
   },
   created() {
     console.log('callid====',this.callid)
+    // this.$refs.popSearchItemCd.focus()
+
   },
   computed: {
     ...mapState('modal', ['modalstatus']),
   },
-  watch: {},
+  watch: {
+  },
   methods: {
     ...mapMutations('modal', ['setModalstatus']),
     cancelEvent() {
       this.setModalstatus(false)
     },
     searchData() {
-      console.log('조회를 합니다.')
+
       this.loading = true
       return getItemList(Object.assign(this.queryParam)).then(
           (res) => {
             this.$refs.itemPopupGrid.setGridData(res.data);
-            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
+            setTimeout(() => this.loading = false, this.$gridDelayTime)
+
+            if(res.data.length == 1){
+              this.$emit("closepopItem", res.data[0])
+            }
           }
       )
     },itemSelected(event){

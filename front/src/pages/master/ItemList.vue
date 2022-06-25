@@ -224,7 +224,7 @@ export default {
             console.log('res====',res)
             this.$refs.itemGrid.setGridData(res.data);
             //return res.data;
-            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
+            setTimeout(() => this.loading = false, this.$gridDelayTime)
           }
       )
     },

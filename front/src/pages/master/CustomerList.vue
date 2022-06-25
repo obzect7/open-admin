@@ -212,7 +212,7 @@ export default {
             console.log('res====',res)
             this.$refs.custGrid.setGridData(res.data);
             //return res.data;
-            setTimeout(() => this.loading = false, process.env.VUE_DELAY_TIME)
+            setTimeout(() => this.loading = false, this.$gridDelayTime)
           }
       )
     },
@@ -240,7 +240,6 @@ export default {
       // 하단에 1행 추가
       // console.log('행추가 !!')
       let item = {plant_cd : 10000, owner_cd : 10000, use_yn : "Y", row_status : 'I'};
-
 
       this.$refs.custGrid.addRow(item, "last");
     },
