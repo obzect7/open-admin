@@ -8,3 +8,12 @@ export function getBoardList(params) {
         params,
     });
 }
+
+export function saveBoard(params) {
+    console.log('saveItem===', params)
+    return axios({
+        url: "/front/board/saveBoard",
+        method: "post",
+        params,
+    });
+}

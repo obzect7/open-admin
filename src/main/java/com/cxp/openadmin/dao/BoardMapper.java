@@ -13,7 +13,7 @@ public interface BoardMapper extends Mapper<Board> {
     List<BoardDto> getBoardList(@Param("paramsMap") Map<String, Object> map);
 
     int insertItem(@Param("paramsMap") BoardDto dto);
-    int updateItem(@Param("paramsMap") BoardDto dto);
+    int updateBoard(@Param("paramsMap") BoardDto dto);
     int deleteItem(@Param("paramsMap") BoardDto dto);
 
 }

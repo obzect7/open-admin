@@ -9,5 +9,5 @@ public interface BoardService {
 
     List<BoardDto> getBoardList(Map<String, Object> map);
 
-    int saveItem(List<BoardDto> list);
+    int saveBoard(BoardDto dto);
 }

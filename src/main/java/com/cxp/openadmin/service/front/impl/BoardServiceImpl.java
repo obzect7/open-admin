@@ -21,21 +21,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int saveItem(List<BoardDto> list) {
+    public int saveBoard(BoardDto dto) {
 
-        int updateRow = 0;
-        if(list.size()> 0){
-            for(BoardDto dto : list){
-                if("I".equals(dto.getRow_status())){
-                    updateRow += boardMapper.insertItem(dto);
-                }else if("U".equals(dto.getRow_status())){
-                    updateRow += boardMapper.updateItem(dto);
-                }else if("D".equals(dto.getRow_status())){
-                    updateRow += boardMapper.deleteItem(dto);
-                }
-            }
+        int save = 0;
+        if(dto.getRow_status().equals("U")){
+            save = boardMapper.updateBoard(dto);
+        }else if(dto.getRow_status().equals("I")){
+            save = boardMapper.updateBoard(dto);
+        }else if(dto.getRow_status().equals("D")){
+            save = boardMapper.updateBoard(dto);
         }
-        return updateRow;
+
+        return save;
     }
 
 
