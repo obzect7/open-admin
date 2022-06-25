@@ -132,31 +132,25 @@
             )
     </insert>
 
-    <update id="updateItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
-        /* ItemMapper.xml ,  updateItem */
-        update mst_item
-           set    item_nm       = #{paramsMap.item_nm}
-                 ,spec          = #{paramsMap.spec}
-                 ,unit          = #{paramsMap.unit}
-                 ,class1        = #{paramsMap.class1}
-                 ,class2        = #{paramsMap.class2}
-                 ,class3        = #{paramsMap.class3}
-                 ,boxqty        = #{paramsMap.boxqty}
-                 ,pltqty        = #{paramsMap.pltqty}
-                 ,in_price1     = #{paramsMap.in_price1}
-                 ,out_price1    = #{paramsMap.out_price1}
-                 ,lot_yn        = #{paramsMap.lot_yn}
-                 ,fifo_yn       = #{paramsMap.fifo_yn}
-                 ,appro_inv     = #{paramsMap.appro_inv}
-                 ,in_wh_cd      = #{paramsMap.in_wh_cd}
-                 ,in_lc_cd      = #{paramsMap.in_lc_cd}
-                 ,remark        = #{paramsMap.remark}
-                 ,use_yn        = #{paramsMap.use_yn}
-                 ,mod_id        = #{paramsMap.mod_id}
-                 ,mod_dt        = now()
-        where plant_cd = #{paramsMap.plant_cd}
-          and owner_cd = #{paramsMap.owner_cd}
-          and item_cd  = #{paramsMap.item_cd}
+    <update id="updateBoard" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  updateBoard */
+        UPDATE CM_BOARD
+        SET POST_GRP_NO    = #{paramsMap.post_grp_no},
+            POST_GRP_SN    = #{paramsMap.post_grp_sn},
+            POST_LVL       = #{paramsMap.post_lvl},
+            POST_TIT       = #{paramsMap.post_tit},
+            POST_CONT      = #{paramsMap.post_cont},
+            POST_SD        = REPLACE(#{paramsMap.post_sd}, '-', ''),
+            POST_ED        = REPLACE(#{paramsMap.post_ed}, '-', ''),
+            MOD_NM         = #{paramsMap.mod_nm},
+            MOD_EMAIL      = #{paramsMap.mod_email},
+            NOTI_YN        = IF(#{paramsMap.noti_yn} = 'TRUE', 'Y', 'N'),
+            MAIN_NOTI_YN   = NVL(#{paramsMap.main_noti_yn}, 'N'),
+            FILE_GRP_SEQ   = #{paramsMap.file_grp_seq},
+            mod_id         = #{paramsMap.mod_id},
+            mod_dt         = #{paramsMap.mod_dt}
+        where board_id     = #{paramsMap.board_id}
+          and post_no      = #{paramsMap.post_no}
     </update>
 
     <delete id="deleteItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">

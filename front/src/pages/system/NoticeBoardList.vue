@@ -113,7 +113,6 @@ export default {
   },
   methods : {
     search(){
-      console.log('조회를 시작합니다.',this.queryParam);
       this.loading = true
       return getBoardList(Object.assign(this.queryParam)).then(
           (res) => {

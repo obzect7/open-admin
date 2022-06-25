@@ -23,10 +23,10 @@ public class BoardController extends BaseController {
         return HttpResponse.success(boardService.getBoardList(map));
     }
 
-    @PostMapping("/saveItem")
-    public HttpResponse saveItem(@RequestBody List<BoardDto> list, HttpServletRequest request){
-
-        return HttpResponse.success(boardService.saveItem(list));
+    @PostMapping("/saveBoard")
+    public HttpResponse saveBoard(@ModelAttribute BoardDto dto, HttpServletRequest request){
+        return HttpResponse.success(boardService.saveBoard(dto));
+        //return HttpResponse.success(boardService.updateBoard(list));
     }
 
 

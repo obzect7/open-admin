@@ -3,44 +3,49 @@
     <a-form :form="form" id="PopBoard" layout="horizontal" >
       <div>
         <a-row >
-          <a-col :md="12" :sm="24" >
-            <a-form-item label="제목" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false layout="inline">
-              <a-input v-model="post_tit"/>
-            </a-form-item>
-          </a-col>
-          <a-col :md="12" :sm="24" >
-            <a-form-item label="작성일시" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
-              <a-input v-model="reg_dt"
-                       :readonly="true"/>
+          <a-col :md="24" :sm="24" >
+            <a-form-item label="제목" :labelCol="{span: 2}" :wrapperCol="{span: 21, offset: 1}" :colon=false layout="inline">
+              <a-input v-model="param.post_tit"/>
             </a-form-item>
           </a-col>
         </a-row>
         <a-row >
           <a-col :md="12" :sm="24" >
+            <a-form-item label="작성일시" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
+              <a-input v-model="param.reg_dt"
+                       disabled
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24" >
             <a-form-item label="작성자" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
-              <a-input v-model="reg_nm"
-                       :readonly="true"/>
+              <a-input v-model="param.reg_nm"
+                       disabled
+              />
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24" >
             <a-form-item label="게시기간" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
-              <a-range-picker/>
+              <a-range-picker
+                  :value="[moment(param.post_sd), moment(param.post_ed)]"
+                  style="width: 100%"
+                  @change="postDtChange"
+              />
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row >
           <a-col :md="12" :sm="24" >
             <a-form-item label="공지팝업여부" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
-              <a-checkbox :checked="noti_yn"/>
+              <a-checkbox v-model="param.noti_yn">
+              </a-checkbox>
             </a-form-item>
           </a-col>
         </a-row>
-        <a-row >
           <a-col>
-              <a-textarea name="remark"
-                          v-model="post_cont"
-              />
+            <a-textarea name="remark"
+                        v-model="param.post_cont"
+            />
           </a-col>
+        <a-row >
         </a-row>
       </div>
 
@@ -58,40 +63,62 @@
 </template>
 
 <script>
-import {saveItem} from "@/services/item";
+import {saveBoard} from "@/services/board";
+import moment from 'moment';
 
 export default {
   name : "PopBoard",
   data () {
     return {
-      plant_cd : '',
-      owner_cd : '',
+      param : {
+        plant_cd: '',
+        owner_cd: '',
+        row_status: '',
 
-      board_id : '',
-      post_tit : '',
-      post_cont : '',
-      noti_yn : '',
-      reg_dt : '',
-      reg_id : '',
-      reg_nm : '',
+        board_id: '',
+        post_no: '',
+        post_grp_no: '',
+        post_grp_sn: '',
+        post_lvl: '',
+        post_tit: '',
+        post_cont: '',
+        noti_yn: 'true',
+        reg_dt: '',
+        reg_id: '',
+        mod_id: '',
+        reg_nm: '',
+        post_sd: '',
+        post_ed: '',
+      },
       form: this.$form.createForm(this)
     }
   },
   props : {
-    popinit : {}
+    popinit: {}
   },
   created() {
     console.log(this.popinit);
-
-    //수정일시
+    console.log(this.$store.state.account.user);
+    //수정
     if(this.popinit.isNew === false) {
-      this.post_tit = this.popinit.post_tit;
-      this.post_cont = this.popinit.post_cont;
-      this.reg_dt = this.popinit.reg_dt;
-      this.reg_nm = this.popinit.reg_nm;
-      this.reg_id = this.popinit.reg_id;
-      this.noti_yn = this.popinit.noti_yn == 'Y' ? true : false;
+      this.param = this.popinit;
+      this.param.noti_yn = this.popinit.noti_yn == 'Y' ? true : false ;
+      this.param.row_status = 'U';
     }
+    //신규
+    else if(this.popinit.isNew === true) {
+      const date = new Date();
+      this.param.post_sd = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + '01';
+      this.param.post_ed = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate();
+      this.param.reg_dt  = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate()
+                     + ' ' +  ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+      this.param.reg_nm = this.$store.state.account.user.name
+      this.param.reg_id = this.$store.state.account.user.username
+      this.param.mod_id = this.$store.state.account.user.username
+      this.param.row_status = 'I';
+      this.param.noti_yn = true;
+    }
+
   },
   mounted() {
   },
@@ -100,66 +127,38 @@ export default {
   watch :{
   },
   methods : {
+    moment,
     close(){
       this.$emit("closepop", '')
     },
     saveBoard(){
-      console.log('saveItem')
       this.form.validateFields((err) => {
-
         if(!err) {
-
-          let insUserid = this.$store.state.account.user.username;
-
-          this.popinit.reg_id = insUserid;
-          this.popinit.mod_id = insUserid;
-          //console.log(this.popinit.isNew);
-
-          if(this.popinit.isNew)
-          {
-            this.popinit.row_status = "I";
-          }else
-          {
-            this.popinit.row_status = "U";
-          }
-
-          console.log('popinit.item_cd ==', this.popinit.item_cd);
-
-          let data = [];
-          data.push(this.popinit);
-          console.log("popinit===", this.popinit);
-          saveItem(data).then(this.aftersaveuser)
+          saveBoard(this.param).then(this.aftersaveuser)
+          console.log(this.param)
         }
-
       })
-
     },
     aftersaveuser(res) {
-
       if (res.code == '200') {
-
         this.$message.success('저장완료되었습니다.', 3)
         this.$emit("closepop", '')
-
       }
     },
     deleteItem(){
-      //console.log('saveItem')
-      let insUserid = this.$store.state.account.user.username;
-
-      this.popinit.mod_id = insUserid;
-
-      this.popinit.row_status = "D";
-      let data = [];
-      data.push(this.popinit);
-      //console.log("popinit===", this.popinit);
-      saveItem(data).then(this.aftersaveuser)
+      this.param.row_status = 'D';
+      saveBoard(this.param).then(this.aftersaveuser)
     },
-  }
-
+    postDtChange(event, dateString){
+      this.param.post_sd = dateString[0].replace(/-/g,'');
+      this.param.post_ed = dateString[1].replace(/-/g,'');
+    },
+  },
 }
 </script>
 
-<style scoped>
-
+<style>
+.ant-row{
+  margin-bottom: 0
+}
 </style>
