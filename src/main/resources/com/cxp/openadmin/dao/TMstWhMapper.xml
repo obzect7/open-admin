@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.TMstWhMapper">
+
+    <select id="getMstWhList" parameterType="Map" resultType="com.cxp.openadmin.domain.dto.backed.TmstWhDto">
+        /* TMstWhMapper.xml , getMstWhList */
+        select
+            t.plant_cd
+          , t.wh_cd
+          , t.wh_nm
+          , t.wh_type
+          , t.use_yn
+          , t.remark
+          , t.reg_id
+          , t.reg_dt
+          , t.mod_id
+          , t.mod_dt
+        from t_mst_wh t
+        where 1=1
+        <if test="paramsMap.plant_cd != null and paramsMap.plant_cd != ''">
+            and t.plant_cd like concat('%',#{paramsMap.plant_cd},'%')
+        </if>
+        <if test="paramsMap.plant_nm != null and paramsMap.plant_nm != ''">
+            and t.plant_nm like concat('%',#{paramsMap.plant_nm},'%')
+        </if>
+        <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
+            and t.use_yn = #{paramsMap.use_yn}
+        </if>
+        order by t.plant_cd asc
+    </select>
+
+    <insert id="insertMstWh" parameterType="com.cxp.openadmin.domain.dto.backed.TmstWhDto"
+            statementType="PREPARED">
+        /* TMstWhMapper.xml ,  insertCmCodeGrp */
+        insert into t_mst_wh
+        (
+              plant_cd
+            , wh_cd
+            , wh_nm
+            , wh_type
+            , use_yn
+            , remark
+            , reg_id
+            , reg_dt
+            , mod_id
+            , mod_dt
+        )
+        values
+        (
+              #{paramsMap.plant_cd}
+            , #{paramsMap.wh_cd}
+            , #{paramsMap.wh_nm}
+            , #{paramsMap.wh_type}
+            , #{paramsMap.use_yn}
+            , #{paramsMap.remark}
+            , #{paramsMap.reg_id}
+            , now()
+            , #{paramsMap.mod_id}
+            , now()
+        )
+    </insert>
+
+    <update id="updateMstWh" parameterType="com.cxp.openadmin.domain.dto.backed.TmstWhDto"
+            statementType="PREPARED">
+        /* TMstWhMapper.xml ,  updateCmCodeGrp */
+        update t_mst_wh set
+            wh_nm    = #{paramsMap.wh_nm}
+          , wh_type  = #{paramsMap.wh_type}
+          , use_yn   = #{paramsMap.use_yn}
+          , remark   = #{paramsMap.remark}
+          , mod_id   = #{paramsMap.mod_id}
+          , mod_dt   = now()
+        where plant_cd = #{paramsMap.plant_cd}
+          and wh_cd    = #{paramsMap.wh_cd}
+
+    </update>
+    <delete id="deleteMstWh" parameterType="com.cxp.openadmin.domain.dto.backed.TmstWhDto">
+        /* TMstWhMapper.xml ,  deleteMstWh */
+        delete
+        from t_mst_wh
+        where plant_cd = #{paramsMap.plant_cd}
+          and wh_cd    = #{paramsMap.wh_cd}
+    </delete>
+
+</mapper>

@@ -260,20 +260,28 @@
         <a-col :md="24" :sm="24" >
           <a-form-item style="margin-top: 24px" :wrapperCol="{span: 10, offset: 7}">
             <a-button type="primary" style="margin-left: 8px" @click="saveItem" > <a-icon type="save" />저장</a-button>
-            <a-button type="primary" style="margin-left: 8px" @click="deleteItem" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
+            <a-popconfirm
+                title="삭제하시겠습니까?"
+                ok-text="예"
+                cancel-text="아니요"
+                @confirm="deleteItem"
+                @cancel="cancel"
+            >
+              <a-icon slot="icon" type="question-circle-o" style="color: red" />
+              <a href="#" class="primary">
+                    <a-button type="primary" style="margin-left: 8px" v-show="!popinit.isNew" >
+                      <a-icon type="delete" />삭제
+                    </a-button>
+              </a>
+
+            </a-popconfirm>
+
             <a-button type="primary" style="margin-left: 8px" @click="close" > <a-icon type="close" />닫기</a-button>
           </a-form-item>
-
         </a-col>
-
-
       </a-row>
-
-
-
     </a-form>
   </a-card>
-
 
 </template>
 
@@ -391,7 +399,6 @@ export default {
 
           this.popinit.reg_id = insUserid;
           this.popinit.mod_id = insUserid;
-          //console.log(this.popinit.isNew);
 
           if(this.popinit.isNew)
           {
@@ -422,6 +429,7 @@ export default {
       }
     },
     deleteItem(){
+
       //console.log('saveItem')
       let insUserid = this.$store.state.account.user.username;
 

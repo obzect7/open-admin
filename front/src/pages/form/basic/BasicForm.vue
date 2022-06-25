@@ -61,7 +61,7 @@
         :required="false"
         :help="$t('disclosureDesc')"
       >
-        <a-radio-group v-model="value">
+        <a-radio-group v-model="value" @change="testChange">
           <a-radio :value="1">{{$t('public')}}</a-radio>
           <a-radio :value="2">{{$t('partially')}}</a-radio>
           <a-radio :value="3">{{$t('private')}}</a-radio>
@@ -92,6 +92,11 @@ export default {
   computed: {
     desc() {
       return this.$t('pageDesc')
+    }
+  },
+  methods:{
+    testChange(){
+      console.log('값 변경 ====',this.value)
     }
   }
 }

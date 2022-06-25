@@ -98,7 +98,7 @@
         </div>
         <AUIGrid ref="myGrid1" class="grid-wrap"
                  @cellClick="cellClickHandler"
-                 @cellEditBegin="CodecellEditBegin"
+                 @cellEditBegin="cellEditBeginMaster"
                  style="height:65vh"
         >
         </AUIGrid>
@@ -124,6 +124,7 @@
         </div>
         <AUIGrid ref="myGrid2" class="grid-wrap"
                  style="height:65vh"
+                 @cellEditBegin="cellEditBeginDetail"
         >
         </AUIGrid>
       </a-col>
@@ -141,6 +142,7 @@ import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCmCodeGrpList, getCmCodeList, getCmCodeLoad, saveCmCode, saveCmCodeGrp} from "@/services/commoncode";
 import ItemPopup from "@/pages/components/modal/ItemPopup";
 import {mapMutations} from "vuex";
+import {saveMstPlant} from "@/services/plant";
 
 const useYnList = []
 export default {
@@ -174,7 +176,9 @@ export default {
         // 편집 가능 여부 (기본값 : false)
         editable: true,
         // 셀 선택모드 (기본값: singleCell)
-        selectionMode: "multipleCells"
+        selectionMode: "multipleCells",
+        //필터사용유무
+        enableFilter : true,
       },
 
       // 그리드 데이터
@@ -230,9 +234,18 @@ export default {
     ]
 
     this.columnLayoutDT = [
-      {dataField: "code", headerText: "코드ID", width: 120},
-      {dataField: "code_nm", headerText: "코드명", width: 140},
-      {dataField: "sort", headerText: "정렬순서", width: 120},
+      {dataField: "code", headerText: "코드ID", filter : {showIcon : true}, width: 120 },
+      {dataField: "code_nm", headerText: "코드명", filter : {showIcon : true}, width: 140},
+      {dataField:"sort",			headerText:"정렬",			width:100,		dataType:"numeric",
+        renderer : {
+          type : "NumberStepRenderer",
+          min : 1,
+          max : 99,
+          step : 1,
+          inputHeight : 25, // input 높이 지정
+          textEditable : true
+        }
+      },
       {
         dataField: "use_yn", headerText: "사용여부", width: 120,
         renderer: {
@@ -331,28 +344,14 @@ export default {
         this.$refs.myGrid2.clearGridData();
       }
     },
-    CodecellEditBegin(event) {
-
-      // console.log('event===', event)
-      // console.log('event.dataField===', event.dataField)
-      //return false
-
-      const grid = this.$refs.myGrid1;
-      let rowIdField = event.dataField;
-      let rowIndex = event.rowIndex;
-      let row_status = grid.getCellValue(rowIndex, 'row_status')
-
-      // console.log("row_status===", row_status)
-
-      if (rowIdField == 'group_cd' && row_status != 'I') {
-        return false
-      }
-      return true
+    cellEditBeginMaster(event) {
+      //해당 필드는 update 불가, add 시 입력가능
+      return this.$gridEditable(this.$refs.myGrid1,event,["group_cd"])
+    },cellEditBeginDetail(event) {
+      //해당 필드는 update 불가, add 시 입력가능
+      return this.$gridEditable(this.$refs.myGrid2,event,["code"])
     }, saveMaster() {
       const data = this.$gridGetCudData(this.$refs.myGrid1,["group_cd", "code", "code_nm"])
-      // if (data.add || data.update || data.remove) {
-      //alert("저장 로직 작성하세요");
-      console.log("data===", data)
       if(data.length){
         saveCmCodeGrp(data).then(
             (res) => {
@@ -371,42 +370,39 @@ export default {
       }
 
     }, saveDetail() {
-        console.log(' this.$store.state.account.user.username===', this.$store.state.account.user.username)
-        const data = this.$gridGetCudData(this.$refs.myGrid2,["group_cd", "code", "code_nm"])
-        // if (data.add || data.update || data.remove) {
-        //alert("저장 로직 작성하세요");
-        console.log("data===", data)
-        if(data.length){
-          saveCmCode(data).then(
-              (res) => {
-                console.log('res====', res)
-                if (res.code == 200) {
-                  this.searchDetail()
-                } else {
-                  this.$message.error(res.message);
-                }
-                //return res.data;
-              },
-              error => {
-                console.log('error ==== ', error)
+
+      const data = this.$gridGetCudData(this.$refs.myGrid2,["code", "code_nm"])
+      if(data.length){
+        saveCmCodeGrp(data).then(
+            (res) => {
+              console.log('res====', res)
+              if (res.code == 200) {
+                this.searchMaster()
+              } else {
+                this.$message.error(res.message);
               }
-          )
-        }
+              //return res.data;
+            },
+            error => {
+              console.log('error ==== ', error)
+            }
+        )
+      }
 
-    }, downLoadExcel() {
-
-      let grid = this.$refs.myGrid1;
-      console.log('grid ==',grid)
+    },
+    downLoadExcel(id) {
       // 내보내기 실행
-      grid.exportToXlsx({
-        isRowStyleFront: false,
-      });
-      // if (grid == "grid1") {
-      //   this.$refs.myGrid2.exportToTxt({})
+      if(id == "grid1"){
+        this.$refs.myGrid1.exportToXlsx({
+          isRowStyleFront: false,
+        })
+      }else{
+        this.$refs.myGrid2.exportToXlsx({
+          isRowStyleFront: false,
+        })
+      }
 
-      // } else {
-      //   this.$refs.myGrid2.exportToTxt({})
-      // }
+
     },
     onSearchAckey(){
       console.log('팝업 띄우는 쌤플')
@@ -414,7 +410,7 @@ export default {
     },resetAckey(){
       console.log('!@@@@@@@@@@@@')
       this.queryParam.item_cd  = ''
-      this.queryParam.item_nm = ''
+      this.queryParam.item_nm  = ''
     },
     //품번팝업에서 선택한 대상
     closepopItem(event) {
@@ -429,17 +425,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.search {
-  margin-bottom: 54px;
-}
-
-.fold {
-  width: calc(100% - 216px);
-  display: inline-block
-}
-
-.operator {
-  margin-bottom: 18px;
-}
 
 </style>
