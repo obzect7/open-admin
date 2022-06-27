@@ -40,13 +40,11 @@
             </a-form-item>
           </a-col>
         </a-row>
-          <a-col>
-            <a-textarea name="remark"
-                        v-model="param.post_cont"
-            />
-          </a-col>
+        <a-divider/>
         <a-row >
+          <vue-editor v-model="param.post_cont"></vue-editor>
         </a-row>
+        <a-divider/>
       </div>
 
       <a-row>
@@ -65,9 +63,13 @@
 <script>
 import {saveBoard} from "@/services/board";
 import moment from 'moment';
+import { VueEditor } from "vue2-editor";
 
 export default {
   name : "PopBoard",
+  components: {
+    VueEditor
+  },
   data () {
     return {
       param : {
