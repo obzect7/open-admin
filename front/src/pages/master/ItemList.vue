@@ -1,8 +1,5 @@
 <template>
   <a-spin :spinning="loading" size="large">
-<!--    <div >-->
-<!--      <PopItem v-if="isPopUp" @closepop="closePopItem" :popinit="this.popinit" />-->
-<!--    </div>-->
     <a-modal
         :title="'품번등록'"
         style="top: 5px"

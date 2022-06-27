@@ -35,6 +35,8 @@ module.exports = {
           CustomerList: {name: '거래처 관리'},
           ItemList: {name: '품번 관리'},
           MstPlant: {name: '사업장 관리'},
+          MstWh: {name: '창고 관리'},
+          MstLc: {name: '로케이션 관리'},
         }
       },
       form: {

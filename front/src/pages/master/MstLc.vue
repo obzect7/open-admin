@@ -41,7 +41,7 @@
                 <a-col :md="3" :sm="24">
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="searchData" :loading="loading">조회</a-button>
-              <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
+              <a-button style="margin-left: 8px" @click="pageReset">초기화</a-button>
               </span>
                 </a-col>
               </a-row>
@@ -54,15 +54,15 @@
         <a-col  :span="3.5">
           <a-button-group>
             <a-space>
-            <a-button type="primary" @click="addRow" size="small">
+            <a-button type="primary" @click="addRow">
               <a-icon type="plus-square"/>
               추가
             </a-button>
-            <a-button type="primary" @click="removeRow" size="small">
+            <a-button type="primary" @click="removeRow">
               <a-icon type="delete"/>
               삭제
             </a-button>
-            <a-button type="primary" @click="saveRow" size="small">
+            <a-button type="primary" @click="saveRow">
               <a-icon type="save"/>
               저장
             </a-button>
@@ -73,7 +73,7 @@
 
       <a-row >
         <a-col :md="24" :sm="24" >
-          <AUIGrid ref="mstPlantGrid" class="grid-wrap"
+          <AUIGrid ref="mstLcGrid" class="grid-wrap"
                    @cellEditBegin="CellEditBegin"
                    style="height:65vh"
           >
@@ -88,7 +88,7 @@
 // AUIGrid 컴포넌트
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCustomerList, saveCustomer} from "@/services/customer";
-import {getCmCodeLoad, saveCmCodeGrp} from "@/services/commoncode";
+import {getCmCodeLoad} from "@/services/commoncode";
 import {getMstPlantList, saveMstPlant} from "@/services/plant";
 
 export default {
@@ -150,7 +150,7 @@ export default {
       {dataField: "mod_dt", headerText: "수정일자", width: 80, editable: false}
     ]
 
-    let grid = this.$refs.mstPlantGrid;
+    let grid = this.$refs.mstLcGrid;
 
     // 그리드 생성
     grid.create(this.columnLayout, this.auigridProps);
@@ -160,7 +160,7 @@ export default {
   },
   watch:{
     gridData: function (newVal, oldVal) {
-      this.$refs.mstPlantGrid.setGridData(newVal);
+      this.$refs.mstLcGrid.setGridData(newVal);
     },
   },
   methods: {
@@ -176,46 +176,41 @@ export default {
       return getMstPlantList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====', res)
-            this.$refs.mstPlantGrid.setGridData(res.data);
+            this.$refs.mstLcGrid.setGridData(res.data);
             setTimeout(() => this.loading = false, this.$gridDelayTime)
           }
       )
     },
     CellEditBegin(event) {
       //해당 필드는 update 불가, add 시 입력가능
-      return this.$gridEditable(this.$refs.mstPlantGrid,event,["plant_cd"])
+      return this.$gridEditable(this.$refs.mstLcGrid,event,["plant_cd"])
     },
     addRow() {
       // 하단에 1행 추가
       // console.log('행추가 !!')
-      let item = { use_yn: "Y", row_status: 'I'}
-      this.$refs.mstPlantGrid.addRow(item, "last");
+      let item = { use_yn: "Y", row_status: 'I'};
+      this.$refs.mstLcGrid.addRow(item, "last");
     },
     removeRow() {
-      const list = this.$refs.mstPlantGrid.getCheckedRowItemsAll()
-      if(list.length == 0){
-        this.$message.info('삭제할 행을 선택하세요.');
-        return
-      }
-      this.$refs.mstPlantGrid.removeCheckedRows()
+      this.$refs.mstLcGrid.removeCheckedRows();
     },
     saveRow() {
-      const data = this.$gridGetCudData(this.$refs.myGrid1,["plant_cd", "plant_nm", "use_yn"])
-      if(data.length){
-        saveMstPlant(data).then(
-            (res) => {
-              console.log('res====', res)
-              if (res.code == 200) {
-                this.searchMaster()
-              } else {
-                this.$message.error(res.message);
+      const isValid = this.$refs.mstLcGrid.validateChangedGridData(["plant_cd", "plant_nm", "use_yn"], "필수입력 입니다.");
+      if (isValid) {
+        const data = this.$gridGetCudData(this.$refs.mstLcGrid)
+        if (data.length > 0) {
+          console.log("data===", data)
+          saveMstPlant(data).then(
+              (res) => {
+                if (res.code == 200) {
+                  this.$message.success('저장완료');
+                  this.searchData()
+                } else {
+                  this.$message.error(res.message);
+                }
               }
-              //return res.data;
-            },
-            error => {
-              console.log('error ==== ', error)
-            }
-        )
+          )
+        }
       }
     },
   }

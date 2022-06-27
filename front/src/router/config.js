@@ -81,4 +81,5 @@ export const constantRouterComponents = {
   NoticeBoardList: () => import("@/pages/system/NoticeBoardList"),
   MstPlant: () => import("@/pages/master/MstPlant"),
   MstWh: () => import("@/pages/master/MstWh"),
+  MstLc: () => import("@/pages/master/MstLc"),
 };
