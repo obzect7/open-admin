@@ -12,8 +12,16 @@ public interface BoardMapper extends Mapper<Board> {
 
     List<BoardDto> getBoardList(@Param("paramsMap") Map<String, Object> map);
 
-    int insertItem(@Param("paramsMap") BoardDto dto);
+    // 게시물 생성
+    int insertBoard(@Param("paramsMap") BoardDto dto);
+
+    // 게시물 수정
     int updateBoard(@Param("paramsMap") BoardDto dto);
-    int deleteItem(@Param("paramsMap") BoardDto dto);
+
+    // 게시물 삭제
+    int deleteBoard(@Param("paramsMap") BoardDto dto);
+
+    // 게시물 번호 채번(max+1)
+    String selectNextPostNo(@Param("paramsMap") BoardDto dto);
 
 }

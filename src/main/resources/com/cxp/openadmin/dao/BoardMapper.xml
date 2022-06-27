@@ -74,61 +74,60 @@
             CAST(POST_GRP_SN AS INTEGER)
     </select>
 
-    <insert id="insertItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
-        /* ItemMapper.xml ,  insertItem */
-        insert into mst_item
+    <select id="selectNextPostNo" resultType="string" parameterType="Map">
+        /* BoardMapper.xml ,  selectNextPostNo */
+        SELECT NVL(MAX(CAST(POST_NO AS INTEGER)),0) + 1 AS POST_NO
+          FROM CM_BOARD
+         WHERE BOARD_ID = #{paramsMap.board_id}
+    </select>
+
+    <insert id="insertBoard" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  insertBoard */
+        INSERT INTO CM_BOARD
         (
-                 plant_cd
-                ,owner_cd
-                ,item_cd
-                ,item_nm
-                ,spec
-                ,unit
-                ,class1
-                ,class2
-                ,class3
-                ,boxqty
-                ,pltqty
-                ,in_price1
-                ,out_price1
-                ,lot_yn
-                ,fifo_yn
-                ,appro_inv
-                ,in_wh_cd
-                ,in_lc_cd
-                ,remark
-                ,use_yn
-                ,reg_id
-                ,reg_dt
-                ,mod_id
-                ,mod_dt
-        )
+            BOARD_ID,
+            POST_NO,
+            POST_GRP_NO,
+            POST_GRP_SN,
+            POST_LVL,
+            POST_TIT,
+            POST_CONT,
+            POST_SD,
+            POST_ED,
+            REG_NM,
+            REG_EMAIL,
+            MOD_NM,
+            MOD_EMAIL,
+            NOTI_YN,
+            MAIN_NOTI_YN,
+            DEL_YN,
+            SECRT_YN,
+            REG_ID,
+            REG_DT,
+            MOD_ID,
+            MOD_DT)
         VALUES
-            (
-                 #{paramsMap.plant_cd}
-                ,#{paramsMap.owner_cd}
-                ,#{paramsMap.item_cd}
-                ,#{paramsMap.item_nm}
-                ,#{paramsMap.spec}
-                ,#{paramsMap.unit}
-                ,#{paramsMap.class1}
-                ,#{paramsMap.class2}
-                ,#{paramsMap.class3}
-                ,NVL(#{paramsMap.boxqty}, 0)
-                ,NVL(#{paramsMap.pltqty}, 0)
-                ,NVL(#{paramsMap.in_price1}, 0)
-                ,NVL(#{paramsMap.out_price1}, 0)
-                ,#{paramsMap.lot_yn}
-                ,#{paramsMap.fifo_yn}
-                ,NVL(#{paramsMap.appro_inv}, 0)
-                ,#{paramsMap.in_wh_cd}
-                ,#{paramsMap.in_lc_cd}
-                ,#{paramsMap.remark}
-                ,#{paramsMap.use_yn}
-                ,#{paramsMap.reg_id}
-                ,now()
-                ,#{paramsMap.mod_id}
-                ,now()
+            (#{paramsMap.board_id},
+             #{paramsMap.post_no},
+             NVL(#{paramsMap.post_grp_no}, #{paramsMap.post_no}),
+             NVL(#{paramsMap.post_grp_sn}, 0),
+             NVL(#{paramsMap.post_lvl}  , 1),
+             #{paramsMap.post_tit},
+             #{paramsMap.post_cont, jdbcType=CLOB},
+             REPLACE(#{paramsMap.post_sd}, '-', ''),
+             REPLACE(#{paramsMap.post_ed}, '-', ''),
+             #{paramsMap.reg_nm},
+             #{paramsMap.reg_email},
+             #{paramsMap.mod_nm},
+             #{paramsMap.mod_email},
+             IF(#{paramsMap.noti_yn} = 'TRUE', 'Y', 'N'),
+             NVL(#{paramsMap.main_noti_yn}, 'N'),
+             'N',
+             NVL(#{paramsMap.secrt_yn}, 'N'),
+             (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.reg_id}),
+             now(),
+            (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.mod_id}),
+             now()
             )
     </insert>
 
@@ -148,20 +147,19 @@
             MAIN_NOTI_YN   = NVL(#{paramsMap.main_noti_yn}, 'N'),
             FILE_GRP_SEQ   = #{paramsMap.file_grp_seq},
             mod_id         = #{paramsMap.mod_id},
-            mod_dt         = #{paramsMap.mod_dt}
+            mod_dt         = now()
         where board_id     = #{paramsMap.board_id}
           and post_no      = #{paramsMap.post_no}
     </update>
 
-    <delete id="deleteItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
-        /* ItemMapper.xml ,  deleteItem */
-        update mst_item
-           set use_yn  = 'N'
-              ,mod_id        = #{paramsMap.mod_id}
-              ,mod_dt        = now()
-        where plant_cd = #{paramsMap.plant_cd}
-          and owner_cd = #{paramsMap.owner_cd}
-          and item_cd  = #{paramsMap.item_cd}
-    </delete>
+    <update id="deleteBoard" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  deleteBoard */
+        UPDATE CM_BOARD
+        SET DEL_YN         = 'Y',
+            mod_id         = #{paramsMap.mod_id},
+            mod_dt         = now()
+        where board_id     = #{paramsMap.board_id}
+          and post_no      = #{paramsMap.post_no}
+    </update>
 
 </mapper>

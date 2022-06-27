@@ -50,10 +50,10 @@
       </div>
 
       <a-row>
-        <a-col :md="24" :sm="24" >
+        <a-col>
           <a-form-item style="margin-top: 24px" :wrapperCol="{span: 10, offset: 7}">
             <a-button type="primary" style="margin-left: 8px" @click="saveBoard" > <a-icon type="save" />저장</a-button>
-            <a-button type="primary" style="margin-left: 8px" @click="deleteItem" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
+            <a-button type="primary" style="margin-left: 8px" @click="deleteBoard" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
             <a-button type="primary" style="margin-left: 8px" @click="close" > <a-icon type="close" />닫기</a-button>
           </a-form-item>
         </a-col>
@@ -86,6 +86,7 @@ export default {
         reg_dt: '',
         reg_id: '',
         mod_id: '',
+        mod_nm: '',
         reg_nm: '',
         post_sd: '',
         post_ed: '',
@@ -97,8 +98,6 @@ export default {
     popinit: {}
   },
   created() {
-    console.log(this.popinit);
-    console.log(this.$store.state.account.user);
     //수정
     if(this.popinit.isNew === false) {
       this.param = this.popinit;
@@ -112,9 +111,16 @@ export default {
       this.param.post_ed = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate();
       this.param.reg_dt  = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate()
                      + ' ' +  ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
-      this.param.reg_nm = this.$store.state.account.user.name
       this.param.reg_id = this.$store.state.account.user.username
+      this.param.reg_nm = this.$store.state.account.user.name
       this.param.mod_id = this.$store.state.account.user.username
+      this.param.mod_nm = this.$store.state.account.user.name
+
+      this.param.board_id = '1';
+      this.param.post_grp_no = '1';
+      this.param.post_grp_sn = '1';
+      this.param.post_lvl = '1'
+
       this.param.row_status = 'I';
       this.param.noti_yn = true;
     }
@@ -135,19 +141,26 @@ export default {
       this.form.validateFields((err) => {
         if(!err) {
           saveBoard(this.param).then(this.aftersaveuser)
-          console.log(this.param)
         }
       })
     },
-    aftersaveuser(res) {
-      if (res.code == '200') {
-        this.$message.success('저장완료되었습니다.', 3)
-        this.$emit("closepop", '')
-      }
-    },
-    deleteItem(){
+    deleteBoard(){
       this.param.row_status = 'D';
       saveBoard(this.param).then(this.aftersaveuser)
+    },
+    aftersaveuser(res) {
+      if (res.code == '200') {
+        if(this.param.row_status == 'I'){
+          this.$message.success('저장 완료되었습니다.', 3)
+          this.$emit("closepop", '')
+        }else if(this.param.row_status == 'U'){
+          this.$message.success('수정 완료되었습니다.', 3)
+          this.$emit("closepop", '')
+        }else if(this.param.row_status == 'D'){
+          this.$message.success('삭제 완료되었습니다.', 3)
+          this.$emit("closepop", '')
+        }
+      }
     },
     postDtChange(event, dateString){
       this.param.post_sd = dateString[0].replace(/-/g,'');

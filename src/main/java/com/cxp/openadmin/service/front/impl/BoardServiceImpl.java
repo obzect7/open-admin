@@ -24,12 +24,16 @@ public class BoardServiceImpl implements BoardService {
     public int saveBoard(BoardDto dto) {
 
         int save = 0;
-        if(dto.getRow_status().equals("U")){
-            save = boardMapper.updateBoard(dto);
-        }else if(dto.getRow_status().equals("I")){
+        if(dto.getRow_status().equals("I")){
+
+            // 01. post_no 채번
+            dto.setPost_no(boardMapper.selectNextPostNo(dto));
+            // 02. board insert
+            save = boardMapper.insertBoard(dto);
+        }else if(dto.getRow_status().equals("U")){
             save = boardMapper.updateBoard(dto);
         }else if(dto.getRow_status().equals("D")){
-            save = boardMapper.updateBoard(dto);
+            save = boardMapper.deleteBoard(dto);
         }
 
         return save;

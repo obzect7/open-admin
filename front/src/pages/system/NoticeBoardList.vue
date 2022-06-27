@@ -36,9 +36,11 @@
 
       <div name="grid" style="padding-top: 10px;">
           <div style="background: white; padding: 10px ">
-            <a-button-group style="padding-bottom: 10px">
-              <a-button type="primary" @click="addBoard"> <a-icon type="plus-square" />글쓰기</a-button>
-            </a-button-group>
+            <a-row type="flex" justify="end" >
+              <a-button-group style="padding-bottom: 10px">
+                <a-button type="primary" @click="addBoard"> <a-icon type="plus-square" />글쓰기</a-button>
+              </a-button-group>
+            </a-row>
             <AUIGrid ref="itemGrid" class="grid-wrap"
                      @cellDoubleClick="cellDoubleClickHandler"
                      style="height: 65vh;"
