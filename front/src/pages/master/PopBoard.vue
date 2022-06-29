@@ -1,7 +1,6 @@
 <template>
   <a-card :body-style="{padding: '5px'}" :bordered="false" >
     <a-form :form="form" id="PopBoard" layout="horizontal" >
-      <div>
         <a-row >
           <a-col :md="24" :sm="24" >
             <a-form-item label="제목" :labelCol="{span: 2}" :wrapperCol="{span: 21, offset: 1}" :colon=false layout="inline">
@@ -45,6 +44,7 @@
         <a-row >
           <vue-editor v-model="param.post_cont"></vue-editor>
         </a-row>
+      <div v-show="comment_show">
         <a-row >
           <a-list
               class="comment-list"
@@ -86,13 +86,13 @@
             </div>
           </a-comment>
         </a-row>
+      </div>
         <a-divider/>
         <a-row type="flex" justify="end" >
           <a-button type="primary" style="margin-left: 8px" @click="saveBoard" > <a-icon type="save" />저장</a-button>
           <a-button type="primary" style="margin-left: 8px" @click="deleteBoard" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
           <a-button type="primary" style="margin-left: 8px" @click="close" > <a-icon type="close" />닫기</a-button>
         </a-row>
-      </div>
     </a-form>
   </a-card>
 </template>
@@ -182,6 +182,9 @@ export default {
   mounted() {
   },
   computed: {
+    comment_show: function (){
+      return this.popinit.isNew === false;
+    }
   },
   watch :{
   },
