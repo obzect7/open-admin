@@ -5,7 +5,8 @@
         <a-row >
           <a-col :md="24" :sm="24" >
             <a-form-item label="제목" :labelCol="{span: 2}" :wrapperCol="{span: 21, offset: 1}" :colon=false layout="inline">
-              <a-input v-model="param.post_tit"/>
+              <a-input v-model="param.post_tit"
+              />
             </a-form-item>
           </a-col>
         </a-row>
@@ -44,18 +45,54 @@
         <a-row >
           <vue-editor v-model="param.post_cont"></vue-editor>
         </a-row>
+        <a-row >
+          <a-list
+              class="comment-list"
+              :header="`${data.length} replies`"
+              item-layout="horizontal"
+              :data-source="data"
+          >
+            <a-list-item slot="renderItem" slot-scope="item, index">
+              <a-comment :author="item.author">
+                <a-avatar
+                    slot="avatar"
+                    icon="user"
+                    size="large"
+                />
+                <p slot="content">
+                  {{ item.content }}
+                </p>
+                <a-tooltip slot="datetime" :title="item.datetime.format('YYYY-MM-DD HH:mm:ss')">
+                  <span>{{ item.datetime.fromNow() }}</span>
+                </a-tooltip>
+              </a-comment>
+            </a-list-item>
+          </a-list>
+          <a-comment>
+            <a-avatar
+                slot="avatar"
+                icon="user"
+                alt="Han Solo"
+            />
+            <div slot="content">
+              <a-form-item>
+                <a-textarea :rows="4"/>
+              </a-form-item>
+              <a-form-item>
+                <a-button html-type="submit">
+                  Add Comment
+                </a-button>
+              </a-form-item>
+            </div>
+          </a-comment>
+        </a-row>
         <a-divider/>
+        <a-row type="flex" justify="end" >
+          <a-button type="primary" style="margin-left: 8px" @click="saveBoard" > <a-icon type="save" />저장</a-button>
+          <a-button type="primary" style="margin-left: 8px" @click="deleteBoard" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
+          <a-button type="primary" style="margin-left: 8px" @click="close" > <a-icon type="close" />닫기</a-button>
+        </a-row>
       </div>
-
-      <a-row>
-        <a-col>
-          <a-form-item style="margin-top: 24px" :wrapperCol="{span: 10, offset: 7}">
-            <a-button type="primary" style="margin-left: 8px" @click="saveBoard" > <a-icon type="save" />저장</a-button>
-            <a-button type="primary" style="margin-left: 8px" @click="deleteBoard" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
-            <a-button type="primary" style="margin-left: 8px" @click="close" > <a-icon type="close" />닫기</a-button>
-          </a-form-item>
-        </a-col>
-      </a-row>
     </a-form>
   </a-card>
 </template>
@@ -72,6 +109,20 @@ export default {
   },
   data () {
     return {
+      data: [
+        {
+          author: 'Han Solo',
+          content:
+              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+          datetime: moment().subtract(1, 'days'),
+        },
+        {
+          author: 'Han Solo',
+          content:
+              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+          datetime: moment().subtract(2, 'days'),
+        },
+      ],
       param : {
         plant_cd: '',
         owner_cd: '',
