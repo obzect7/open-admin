@@ -39,6 +39,8 @@ public class BoardServiceImpl implements BoardService {
         return save;
     }
 
-
+    public List<BoardDto> getBoardComtList(Map<String, Object> map) {
+        return boardMapper.getBoardComtList(map);
+    }
 
 }

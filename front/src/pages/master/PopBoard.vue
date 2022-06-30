@@ -48,22 +48,23 @@
         <a-row >
           <a-list
               class="comment-list"
-              :header="`${data.length} replies`"
+              :header="`${comment.length} replies`"
               item-layout="horizontal"
-              :data-source="data"
+              :data-source="comment"
+              v-show="comment.length!= 0"
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
-              <a-comment :author="item.author">
+              <a-comment :author="item.reg_nm">
                 <a-avatar
                     slot="avatar"
                     icon="user"
                     size="large"
                 />
                 <p slot="content">
-                  {{ item.content }}
+                  {{ item.comnt_cont }}
                 </p>
-                <a-tooltip slot="datetime" :title="item.datetime.format('YYYY-MM-DD HH:mm:ss')">
-                  <span>{{ item.datetime.fromNow() }}</span>
+                <a-tooltip slot="datetime" :title="item.reg_dt">
+                  <span>{{ item.reg_dt }}</span>
                 </a-tooltip>
               </a-comment>
             </a-list-item>
@@ -72,14 +73,13 @@
             <a-avatar
                 slot="avatar"
                 icon="user"
-                alt="Han Solo"
             />
             <div slot="content">
               <a-form-item>
                 <a-textarea :rows="4"/>
               </a-form-item>
               <a-form-item>
-                <a-button html-type="submit">
+                <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
                   Add Comment
                 </a-button>
               </a-form-item>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import {saveBoard} from "@/services/board";
+import {getBoardComtList, saveBoard} from "@/services/board";
 import moment from 'moment';
 import { VueEditor } from "vue2-editor";
 
@@ -109,20 +109,9 @@ export default {
   },
   data () {
     return {
-      data: [
-        {
-          author: 'Han Solo',
-          content:
-              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-          datetime: moment().subtract(1, 'days'),
-        },
-        {
-          author: 'Han Solo',
-          content:
-              'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-          datetime: moment().subtract(2, 'days'),
-        },
-      ],
+      comment: [],
+      submitting: false,
+      value: '',
       param : {
         plant_cd: '',
         owner_cd: '',
@@ -151,14 +140,8 @@ export default {
     popinit: {}
   },
   created() {
-    //수정
-    if(this.popinit.isNew === false) {
-      this.param = this.popinit;
-      this.param.noti_yn = this.popinit.noti_yn == 'Y' ? true : false ;
-      this.param.row_status = 'U';
-    }
     //신규
-    else if(this.popinit.isNew === true) {
+    if(this.popinit.isNew === true) {
       const date = new Date();
       this.param.post_sd = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + '01';
       this.param.post_ed = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate();
@@ -176,6 +159,14 @@ export default {
 
       this.param.row_status = 'I';
       this.param.noti_yn = true;
+    }
+    //수정
+    else if(this.popinit.isNew === false) {
+      this.param = this.popinit;
+      this.param.noti_yn = this.popinit.noti_yn == 'Y' ? true : false ;
+      this.param.row_status = 'U';
+
+      this.getBoardComt();
     }
 
   },
@@ -221,6 +212,23 @@ export default {
     postDtChange(event, dateString){
       this.param.post_sd = dateString[0].replace(/-/g,'');
       this.param.post_ed = dateString[1].replace(/-/g,'');
+    },
+    handleSubmit() {
+      this.submitting = true;
+
+      setTimeout(() => {
+        this.submitting = false;
+      }, 1000);
+    },
+    getBoardComt() {
+      return getBoardComtList(Object.assign(this.popinit)).then(
+          (res) => {
+            if(res.data.length > 0){
+              this.comment = res.data;
+              console.log('res====', this.comment)
+            }
+          }
+      )
     },
   },
 }

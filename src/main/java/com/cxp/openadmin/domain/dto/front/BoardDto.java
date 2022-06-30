@@ -31,6 +31,9 @@ public class BoardDto {
     private String del_yn;          //삭제 여부
     private String secrt_yn;        //비밀글 여부
 
+    private String post_comnt_no;   //댓글 PK
+    private String comnt_cont;      //댓글 내용
+
     private String reg_id;
     private Timestamp reg_dt;
     private String mod_id;

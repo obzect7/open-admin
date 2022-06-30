@@ -10,4 +10,6 @@ public interface BoardService {
     List<BoardDto> getBoardList(Map<String, Object> map);
 
     int saveBoard(BoardDto dto);
+
+    List<BoardDto> getBoardComtList(Map<String, Object> map);
 }

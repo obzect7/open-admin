@@ -10,6 +10,7 @@ import java.util.Map;
 
 public interface BoardMapper extends Mapper<Board> {
 
+    // 게시물 리스트 조회
     List<BoardDto> getBoardList(@Param("paramsMap") Map<String, Object> map);
 
     // 게시물 생성
@@ -23,5 +24,8 @@ public interface BoardMapper extends Mapper<Board> {
 
     // 게시물 번호 채번(max+1)
     String selectNextPostNo(@Param("paramsMap") BoardDto dto);
+
+    // 댓글 조회
+    List<BoardDto> getBoardComtList(@Param("paramsMap") Map<String, Object> map);
 
 }

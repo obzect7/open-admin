@@ -162,4 +162,20 @@
           and post_no      = #{paramsMap.post_no}
     </update>
 
+    <select id="getBoardComtList" resultType="com.cxp.openadmin.domain.dto.front.BoardDto" parameterType="Map">
+        SELECT POST_COMNT_NO
+             , BOARD_ID
+             , POST_NO
+             , COMNT_CONT
+             , REG_NM
+             , DEL_YN
+             , REG_ID
+             , REG_DT
+             , MOD_ID
+             , MOD_DT
+        FROM CM_BOARD_COMT
+        WHERE BOARD_ID     = #{paramsMap.board_id}
+          AND POST_NO      = #{paramsMap.post_no}
+    </select>
+
 </mapper>
