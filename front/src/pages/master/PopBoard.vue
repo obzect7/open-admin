@@ -76,10 +76,10 @@
             />
             <div slot="content">
               <a-form-item>
-                <a-textarea :rows="4"/>
+                <a-textarea :rows="4" v-model="comnt_param.comnt_cont"/>
               </a-form-item>
               <a-form-item>
-                <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
+                <a-button html-type="submit" type="primary" @click="saveBoardComt">
                   Add Comment
                 </a-button>
               </a-form-item>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import {getBoardComtList, saveBoard} from "@/services/board";
+import {getBoardComtList, saveBoardComtList, saveBoard} from "@/services/board";
 import moment from 'moment';
 import { VueEditor } from "vue2-editor";
 
@@ -110,8 +110,6 @@ export default {
   data () {
     return {
       comment: [],
-      submitting: false,
-      value: '',
       param : {
         plant_cd: '',
         owner_cd: '',
@@ -132,6 +130,15 @@ export default {
         reg_nm: '',
         post_sd: '',
         post_ed: '',
+      },
+      comnt_param: {
+        row_status: '',
+
+        board_id: '',
+        post_no: '',
+        comnt_cont: '',
+        reg_id: '',
+        reg_nm: '',
       },
       form: this.$form.createForm(this)
     }
@@ -187,13 +194,38 @@ export default {
     saveBoard(){
       this.form.validateFields((err) => {
         if(!err) {
-          saveBoard(this.param).then(this.aftersaveuser)
+          const that = this;
+          this.$confirm({
+            title: 'save',
+            content: '저장하시겠습니까?',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            centered: true,
+            onOk() {
+              saveBoard(that.param).then(that.aftersaveuser)
+            },
+            onCancel() {},
+          });
         }
       })
     },
     deleteBoard(){
-      this.param.row_status = 'D';
-      saveBoard(this.param).then(this.aftersaveuser)
+      const that = this;
+      this.$confirm({
+        title: 'delete',
+        content: '삭제하시겠습니까?',
+        okText: 'Yes',
+        okType: 'danger',
+        cancelText: 'No',
+        centered: true,
+        onOk() {
+          that.param.row_status = 'D';
+            saveBoard(that.param).then(that.aftersaveuser)
+        },
+        onCancel() {},
+      });
+
     },
     aftersaveuser(res) {
       if (res.code == '200') {
@@ -213,13 +245,6 @@ export default {
       this.param.post_sd = dateString[0].replace(/-/g,'');
       this.param.post_ed = dateString[1].replace(/-/g,'');
     },
-    handleSubmit() {
-      this.submitting = true;
-
-      setTimeout(() => {
-        this.submitting = false;
-      }, 1000);
-    },
     getBoardComt() {
       return getBoardComtList(Object.assign(this.popinit)).then(
           (res) => {
@@ -230,12 +255,29 @@ export default {
           }
       )
     },
+    saveBoardComt() {
+      this.comnt_param.row_status = 'I';
+      this.comnt_param.post_no = this.param.post_no;
+      this.comnt_param.board_id = this.param.board_id;
+      this.comnt_param.reg_nm = this.$store.state.account.user.name;
+      this.comnt_param.reg_id = this.$store.state.account.user.username;
+
+      return saveBoardComtList(this.comnt_param).then(
+          () => {
+            return getBoardComtList(Object.assign(this.popinit)).then(
+                (res) => {
+                  if(res.data.length > 0){
+                    this.comment = res.data;
+                    this.comnt_param.comnt_cont = '';
+                  }
+                }
+            )
+          }
+      );
+    },
   },
 }
 </script>
 
 <style>
-.ant-row{
-  margin-bottom: 0
-}
 </style>

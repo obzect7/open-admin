@@ -36,4 +36,11 @@ public class BoardController extends BaseController {
     public HttpResponse getBoardComtList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
         return HttpResponse.success(boardService.getBoardComtList(map));
     }
+
+    // 댓글 CRUD
+    @PostMapping("/saveBoardComtList")
+    public HttpResponse saveBoardComtList(@ModelAttribute BoardDto dto, HttpServletRequest request){
+        return HttpResponse.success(boardService.saveBoardComtList(dto));
+        //return HttpResponse.success(boardService.updateBoard(list));
+    }
 }

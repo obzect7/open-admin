@@ -70,8 +70,7 @@
             </if>
         </if>
         ORDER BY
-            CAST(POST_GRP_NO AS INTEGER) DESC,
-            CAST(POST_GRP_SN AS INTEGER)
+            POST_NO DESC
     </select>
 
     <select id="selectNextPostNo" resultType="string" parameterType="Map">
@@ -163,6 +162,7 @@
     </update>
 
     <select id="getBoardComtList" resultType="com.cxp.openadmin.domain.dto.front.BoardDto" parameterType="Map">
+        /* BoardMapper.xml ,  getBoardComtList */
         SELECT POST_COMNT_NO
              , BOARD_ID
              , POST_NO
@@ -176,6 +176,41 @@
         FROM CM_BOARD_COMT
         WHERE BOARD_ID     = #{paramsMap.board_id}
           AND POST_NO      = #{paramsMap.post_no}
+        ORDER BY POST_COMNT_NO
     </select>
+
+    <select id="selectNextPostComntNo" resultType="string" parameterType="Map">
+        /* BoardMapper.xml ,  selectNextPostComntNo */
+        SELECT NVL(MAX(CAST(POST_COMNT_NO AS INTEGER)),0) + 1 AS POST_COMNT_NO
+        FROM CM_BOARD_COMT
+    </select>
+
+    <insert id="insertBoardComnt" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  insertBoardComnt */
+        INSERT INTO CM_BOARD_COMT
+        (
+            POST_COMNT_NO,
+            BOARD_ID,
+            POST_NO,
+            COMNT_CONT,
+            REG_NM,
+            DEL_YN,
+            REG_ID,
+            REG_DT,
+            MOD_ID,
+            MOD_DT)
+        VALUES
+            (#{paramsMap.post_comnt_no},
+             #{paramsMap.board_id},
+             #{paramsMap.post_no},
+             #{paramsMap.comnt_cont},
+             #{paramsMap.reg_nm},
+             'N',
+             (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.reg_id}),
+             now(),
+             (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.reg_id}),
+             now()
+            )
+    </insert>
 
 </mapper>

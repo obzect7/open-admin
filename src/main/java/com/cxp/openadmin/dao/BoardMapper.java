@@ -28,4 +28,10 @@ public interface BoardMapper extends Mapper<Board> {
     // 댓글 조회
     List<BoardDto> getBoardComtList(@Param("paramsMap") Map<String, Object> map);
 
+    // 게시물 번호 채번(max+1)
+    String selectNextPostComntNo(@Param("paramsMap") BoardDto dto);
+
+    // 게시물 생성
+    int insertBoardComnt(@Param("paramsMap") BoardDto dto);
+
 }

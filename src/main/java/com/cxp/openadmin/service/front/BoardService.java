@@ -12,4 +12,6 @@ public interface BoardService {
     int saveBoard(BoardDto dto);
 
     List<BoardDto> getBoardComtList(Map<String, Object> map);
+
+    int saveBoardComtList(BoardDto dto);
 }

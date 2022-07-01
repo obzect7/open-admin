@@ -25,7 +25,6 @@ public class BoardServiceImpl implements BoardService {
 
         int save = 0;
         if(dto.getRow_status().equals("I")){
-
             // 01. post_no 채번
             dto.setPost_no(boardMapper.selectNextPostNo(dto));
             // 02. board insert
@@ -41,6 +40,23 @@ public class BoardServiceImpl implements BoardService {
 
     public List<BoardDto> getBoardComtList(Map<String, Object> map) {
         return boardMapper.getBoardComtList(map);
+    }
+
+    public int saveBoardComtList(BoardDto dto) {
+
+        int save = 0;
+        if(dto.getRow_status().equals("I")){
+            // 01. post_comnt_no 채번
+            dto.setPost_comnt_no(boardMapper.selectNextPostComntNo(dto));
+            // 02. board insert
+            save = boardMapper.insertBoardComnt(dto);
+        }else if(dto.getRow_status().equals("U")){
+            save = boardMapper.updateBoard(dto);
+        }else if(dto.getRow_status().equals("D")){
+            save = boardMapper.deleteBoard(dto);
+        }
+
+        return save;
     }
 
 }

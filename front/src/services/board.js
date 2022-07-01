@@ -26,3 +26,12 @@ export function getBoardComtList(params) {
         params,
     });
 }
+
+export function saveBoardComtList(params) {
+    console.log('saveBoardComtList===', params)
+    return axios({
+        url: "/front/board/saveBoardComtList",
+        method: "post",
+        params,
+    });
+}

@@ -85,5 +85,8 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style>
+.ant-row{
+  margin-bottom: 0
+}
 </style>
