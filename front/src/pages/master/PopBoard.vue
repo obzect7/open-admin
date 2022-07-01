@@ -264,6 +264,12 @@ export default {
       )
     },
     saveBoardComt() {
+
+      // (check) 내용 없을때 return 하기
+      if(this.comnt_param.comnt_cont == '') {
+        return ;
+      }
+
       this.comnt_param.row_status = 'I';
       this.comnt_param.post_no = this.param.post_no;
       this.comnt_param.board_id = this.param.board_id;
