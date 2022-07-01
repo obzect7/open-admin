@@ -50,10 +50,8 @@ public class BoardServiceImpl implements BoardService {
             dto.setPost_comnt_no(boardMapper.selectNextPostComntNo(dto));
             // 02. board insert
             save = boardMapper.insertBoardComnt(dto);
-        }else if(dto.getRow_status().equals("U")){
-            save = boardMapper.updateBoard(dto);
         }else if(dto.getRow_status().equals("D")){
-            save = boardMapper.deleteBoard(dto);
+            save = boardMapper.deleteBoardComnt(dto);
         }
 
         return save;

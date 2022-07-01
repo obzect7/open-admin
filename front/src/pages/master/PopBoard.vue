@@ -55,6 +55,7 @@
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
               <a-comment :author="item.reg_nm">
+                <span slot="actions" @click="deleteBoardComt(item)" v-show="item.reg_id==comnt_param.reg_id">delete</span>
                 <a-avatar
                     slot="avatar"
                     icon="user"
@@ -134,6 +135,7 @@ export default {
       comnt_param: {
         row_status: '',
 
+        post_comnt_no: '',
         board_id: '',
         post_no: '',
         comnt_cont: '',
@@ -166,12 +168,18 @@ export default {
 
       this.param.row_status = 'I';
       this.param.noti_yn = true;
+
+      this.comnt_param.reg_nm = this.$store.state.account.user.name;
+      this.comnt_param.reg_id = this.$store.state.account.user.username;
     }
     //수정
     else if(this.popinit.isNew === false) {
       this.param = this.popinit;
       this.param.noti_yn = this.popinit.noti_yn == 'Y' ? true : false ;
       this.param.row_status = 'U';
+
+      this.comnt_param.reg_nm = this.$store.state.account.user.name;
+      this.comnt_param.reg_id = this.$store.state.account.user.username;
 
       this.getBoardComt();
     }
@@ -259,8 +267,25 @@ export default {
       this.comnt_param.row_status = 'I';
       this.comnt_param.post_no = this.param.post_no;
       this.comnt_param.board_id = this.param.board_id;
-      this.comnt_param.reg_nm = this.$store.state.account.user.name;
-      this.comnt_param.reg_id = this.$store.state.account.user.username;
+
+      return saveBoardComtList(this.comnt_param).then(
+          () => {
+            return getBoardComtList(Object.assign(this.popinit)).then(
+                (res) => {
+                  if(res.data.length > 0){
+                    this.comment = res.data;
+                    this.comnt_param.comnt_cont = '';
+                  }
+                }
+            )
+          }
+      );
+    },
+    deleteBoardComt(e) {
+      this.comnt_param.row_status = 'D';
+      this.comnt_param.post_no = e.post_no;
+      this.comnt_param.board_id = e.board_id;
+      this.comnt_param.post_comnt_no = e.post_comnt_no
 
       return saveBoardComtList(this.comnt_param).then(
           () => {

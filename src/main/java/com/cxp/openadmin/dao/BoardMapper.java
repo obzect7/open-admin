@@ -31,7 +31,10 @@ public interface BoardMapper extends Mapper<Board> {
     // 게시물 번호 채번(max+1)
     String selectNextPostComntNo(@Param("paramsMap") BoardDto dto);
 
-    // 게시물 생성
+    // 댓글 생성
     int insertBoardComnt(@Param("paramsMap") BoardDto dto);
+
+    // 댓글 삭제
+    int deleteBoardComnt(@Param("paramsMap") BoardDto dto);
 
 }

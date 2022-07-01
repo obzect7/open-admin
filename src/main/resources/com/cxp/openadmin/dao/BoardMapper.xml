@@ -123,9 +123,9 @@
              NVL(#{paramsMap.main_noti_yn}, 'N'),
              'N',
              NVL(#{paramsMap.secrt_yn}, 'N'),
-             (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.reg_id}),
+             #{paramsMap.reg_id},
              now(),
-            (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.mod_id}),
+            #{paramsMap.mod_id},
              now()
             )
     </insert>
@@ -176,7 +176,8 @@
         FROM CM_BOARD_COMT
         WHERE BOARD_ID     = #{paramsMap.board_id}
           AND POST_NO      = #{paramsMap.post_no}
-        ORDER BY POST_COMNT_NO
+          AND DEL_YN = 'N'
+        ORDER BY REG_DT
     </select>
 
     <select id="selectNextPostComntNo" resultType="string" parameterType="Map">
@@ -206,11 +207,21 @@
              #{paramsMap.comnt_cont},
              #{paramsMap.reg_nm},
              'N',
-             (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.reg_id}),
+             #{paramsMap.reg_id},
              now(),
-             (SELECT ID FROM SYS_USER WHERE USERNAME = #{paramsMap.reg_id}),
+             #{paramsMap.reg_id},
              now()
             )
     </insert>
 
+    <update id="deleteBoardComnt" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  deleteBoard */
+        UPDATE CM_BOARD_COMT
+        SET DEL_YN         = 'Y',
+            mod_id         = #{paramsMap.reg_id},
+            mod_dt         = now()
+        where board_id     = #{paramsMap.board_id}
+          and post_no      = #{paramsMap.post_no}
+          and post_comnt_no = #{paramsMap.post_comnt_no}
+    </update>
 </mapper>
