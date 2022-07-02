@@ -3,8 +3,8 @@
   <div :style="{ minHeight: '800px' }">
     <a-spin :spinning="loading" size="large">
 
-      <wh-popup v-if="this.$store.state.modal.item_popup"
-                :visible="this.$store.state.modal.item_popup"
+      <wh-popup v-if="this.$store.state.modal.wh_popup"
+                :visible="this.$store.state.modal.wh_popup"
                 :cellClickinfo="this.cellClickinfo"
                 @selectWh="selectGridWh"
                   ></wh-popup>
@@ -81,7 +81,7 @@
       <a-row >
         <a-col :md="24" :sm="24" >
           <AUIGrid ref="mstLcGrid" class="grid-wrap"
-
+                   @cellEditBegin = "CellEditBegin"
                    @cellClick="cellClickHandler"
                    style="height:65vh"
           >
@@ -206,7 +206,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('modal', ['setModalstatus']),
+    ...mapMutations('modal', ['setWh_popup']),
     pageReset(){
       //페이지 초기화
       console.log('페이지 초기화')
@@ -226,7 +226,7 @@ export default {
     },
     CellEditBegin(event) {
       //해당 필드는 update 불가, add 시 입력가능
-      return this.$gridEditable(this.$refs.mstLcGrid,event,["plant_cd"])
+      return this.$gridEditable(this.$refs.mstLcGrid,event,["plant_cd", "plant_nm"])
     },
     cellClickHandler(event){
 
@@ -243,15 +243,20 @@ export default {
       this.cellClickinfo.rowIndex = rowIndex;
       this.cellClickinfo.dataField = dataField;
       //console.log('팝업 띄우는 쌤플')
-      this.setModalstatus(true)
+      this.setWh_popup(true)
 
 
     },
     selectGridWh(event){
-      console.log("event====", event)
+      //console.log("event====", event)
       const rowIndex = event.cellClickinfo.rowIndex;
 
-      console.log("rowIndex====", rowIndex)
+      //console.log("rowIndex====", rowIndex)
+      this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_cd", event.wh_cd)
+      this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_nm", event.wh_nm)
+
+      this.setWh_popup(false)
+
     },
     addRow() {
       // 하단에 1행 추가
