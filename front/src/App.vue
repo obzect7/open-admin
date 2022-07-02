@@ -86,7 +86,4 @@ export default {
 </script>
 
 <style>
-.ant-row{
-  margin-bottom: 0
-}
 </style>
