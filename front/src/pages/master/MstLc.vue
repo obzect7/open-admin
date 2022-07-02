@@ -2,6 +2,13 @@
 
   <div :style="{ minHeight: '800px' }">
     <a-spin :spinning="loading" size="large">
+
+      <wh-popup v-if="this.$store.state.modal.modalstatus"
+                :visible="this.$store.state.modal.modalstatus"
+                :cellClickinfo="this.cellClickinfo"
+                @selectWh="selectGridWh"
+                  ></wh-popup>
+
       <a-row>
         <a-col :span="24">
           <a-form layout="horizontal">
@@ -74,7 +81,8 @@
       <a-row >
         <a-col :md="24" :sm="24" >
           <AUIGrid ref="mstLcGrid" class="grid-wrap"
-                   @cellEditBegin="CellEditBegin"
+
+                   @cellClick="cellClickHandler"
                    style="height:65vh"
           >
           </AUIGrid>
@@ -90,15 +98,19 @@ import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCustomerList, saveCustomer} from "@/services/customer";
 import {getCmCodeLoad} from "@/services/commoncode";
 import {getMstPlantList, saveMstPlant} from "@/services/plant";
+import WhPopup from "@/pages/components/modal/WhPopup";
+import {mapMutations} from "vuex";
 
 export default {
   components: {
+    WhPopup,
     AUIGrid
   },
   data: function () {
     return {
       loading: false,     //로딩바 유무
       useYnList: [],
+      znList : [],
       // 쿼리 매개변수
       queryParam: {useYn: ""},
       columnLayout: [],
@@ -111,7 +123,7 @@ export default {
         showRowCheckColumn: true,
 
         // 전체 체크박스 표시 설정
-        showRowAllCheckBox: true,
+        showRowAllCheckBox: false,
 
         // 셀 선택모드 (기본값: singleCell)
         selectionMode: "multipleCells",
@@ -119,7 +131,13 @@ export default {
       },
 
       // 그리드 데이터
-      gridData: []
+      gridData: [],
+
+      //그릳드 선택cell 정보
+      cellClickinfo : {
+        rowIndex : '',
+        dataField : '',
+      }
     }
 
   },
@@ -129,12 +147,35 @@ export default {
   async mounted() {
 
     this.useYnList = await getCmCodeLoad('USEYN', '전체')
+    this.znList = await getCmCodeLoad('ZN_CD', '선택')
 
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
       {dataField: "plant_cd", headerText: "사업장코드", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "plant_nm", headerText: "사업장명", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "addr", headerText: "주소", style: "left-text"},
+      {dataField: "plant_nm", headerText: "사업장명", width: 120, headerStyle: "aui-grid-required-header", editable: false},
+      {dataField: "wh_cd", headerText: "창고코드", width: 120, headerStyle: "aui-grid-required-header", editable: false
+        // renderer: {
+        //   type: "IconRenderer",
+        //   iconWidth: 20, // icon 가로 사이즈, 지정하지 않으면 24로 기본값 적용됨
+        //   iconHeight: 20,
+        //   iconFunction: function (rowIndex, columnIndex, value) {
+        //     if (value && value.substr(0, 1) == "A")
+        //       return "./assets/office_female.png";
+        //     return "./assets/office_man.png";
+        //   },
+        // },
+      },
+      {dataField: "wh_nm", headerText: "창고명", width: 120, headerStyle: "aui-grid-required-header", editable: false},
+      {dataField: "lc_cd", headerText: "위치코드", width: 120, headerStyle: "aui-grid-required-header"},
+      {dataField: "lc_nm", headerText: "위치명", width: 120, headerStyle: "aui-grid-required-header"},
+      {dataField: "zn_cd", headerText: "구역", width: 120,
+        renderer: {
+          type: "DropDownListRenderer",
+          list: this.znList, //key-value Object 로 구성된 리스트
+          keyField: "code", // key 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
+        }
+      },
       {
         dataField: "use_yn", headerText: "사용여부", width: 140, headerStyle: "aui-grid-required-header",
         renderer: {
@@ -144,6 +185,7 @@ export default {
           valueField: "code_nm" // value 에 해당되는 필드명
         }
       },
+      {dataField: "remark", headerText: "비고", width: 140, style: "left-text "},
       {dataField: "reg_id", headerText: "등록자", width: 80, editable: false},
       {dataField: "reg_dt", headerText: "등록일자", width: 80, editable: false},
       {dataField: "mod_id", headerText: "수정자", width: 80, editable: false},
@@ -164,6 +206,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('modal', ['setModalstatus']),
     pageReset(){
       //페이지 초기화
       console.log('페이지 초기화')
@@ -184,6 +227,31 @@ export default {
     CellEditBegin(event) {
       //해당 필드는 update 불가, add 시 입력가능
       return this.$gridEditable(this.$refs.mstLcGrid,event,["plant_cd"])
+    },
+    cellClickHandler(event){
+
+      const rowIndex = event.rowIndex;
+      const dataField = event.dataField;
+
+      //console.log("rowIndex===", rowIndex)
+      //console.log("dataField===", dataField)
+
+      if(dataField != 'wh_cd'){
+        return;
+      }
+
+      this.cellClickinfo.rowIndex = rowIndex;
+      this.cellClickinfo.dataField = dataField;
+      //console.log('팝업 띄우는 쌤플')
+      this.setModalstatus(true)
+
+
+    },
+    selectGridWh(event){
+      console.log("event====", event)
+      const rowIndex = event.cellClickinfo.rowIndex;
+
+      console.log("rowIndex====", rowIndex)
     },
     addRow() {
       // 하단에 1행 추가
