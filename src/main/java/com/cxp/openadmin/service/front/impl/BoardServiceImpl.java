@@ -15,11 +15,13 @@ public class BoardServiceImpl implements BoardService {
     @Resource
     private BoardMapper boardMapper;
 
+    // 게시판 조회
     @Override
     public List<BoardDto> getBoardList(Map<String, Object> map) {
         return boardMapper.getBoardList(map);
     }
 
+    // 게시판 CRUD
     @Override
     public int saveBoard(BoardDto dto) {
 
@@ -38,10 +40,12 @@ public class BoardServiceImpl implements BoardService {
         return save;
     }
 
+    // 댓글 조회
     public List<BoardDto> getBoardComtList(Map<String, Object> map) {
         return boardMapper.getBoardComtList(map);
     }
 
+    // 댓글 CRUD
     public int saveBoardComtList(BoardDto dto) {
 
         int save = 0;
@@ -55,6 +59,11 @@ public class BoardServiceImpl implements BoardService {
         }
 
         return save;
+    }
+
+    // 공지대상 게시판 조회
+    public List<BoardDto> getNoticeBoardList(Map<String, Object> map) {
+        return boardMapper.getNoticeBoardList(map);
     }
 
 }

@@ -70,7 +70,7 @@
             </if>
         </if>
         ORDER BY
-            POST_NO DESC
+            CAST(POST_NO AS INT) DESC
     </select>
 
     <select id="selectNextPostNo" resultType="string" parameterType="Map">
@@ -224,4 +224,17 @@
           and post_no      = #{paramsMap.post_no}
           and post_comnt_no = #{paramsMap.post_comnt_no}
     </update>
+
+    <select id="getNoticeBoardList" resultType="com.cxp.openadmin.domain.dto.front.BoardDto" parameterType="Map">
+        /* BoardMapper.xml ,  getNoticeBoardList */
+        SELECT POST_TIT
+             , POST_CONT
+          FROM CM_BOARD
+         WHERE 1=1
+           AND DEL_YN = 'N'
+           AND NOTI_YN = 'Y'
+           AND ((date_format(now(), '%Y%m%d') >= POST_SD)
+                AND (POST_ED >= date_format(now(), '%Y%m%d')))
+         ORDER BY REG_DT DESC
+    </select>
 </mapper>
