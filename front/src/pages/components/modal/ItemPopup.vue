@@ -1,5 +1,5 @@
 <template>
-  <a-modal title="품번 검색 팝업" :visible="this.modalstatus" :footer="null" @cancel="cancelEvent" :width="650"
+  <a-modal title="품번 검색 팝업" :visible="this.item_popup" :footer="null" @cancel="cancelEvent" :width="650"
            :dialogStyle="{height:50}" >
     <a-spin :spinning="loading" size="large">
       <a-row>
@@ -146,14 +146,14 @@ export default {
 
   },
   computed: {
-    ...mapState('modal', ['modalstatus']),
+    ...mapState('modal', ['item_popup']),
   },
   watch: {
   },
   methods: {
-    ...mapMutations('modal', ['setModalstatus']),
+    ...mapMutations('modal', ['setItem_popup']),
     cancelEvent() {
-      this.setModalstatus(false)
+      this.setItem_popup(false)
     },
     searchData() {
 

@@ -109,7 +109,7 @@ export default {
     };
     return {
       data: [
-        { title: '계정 암호', actions: { title: '수정', callback: () => { this.showDialog()} } },
+        { title: '비밀번호 변경', actions: { title: '수정', callback: () => { this.showDialog()} } },
       ],
       visible: false,
       checkPassword: checkPassword,

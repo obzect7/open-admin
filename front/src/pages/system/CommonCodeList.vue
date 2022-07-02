@@ -281,7 +281,7 @@ export default {
     // this.$refs.myGrid2.resize(null,1200)
   },
   methods: {
-    ...mapMutations('modal', ['setModalstatus']),
+    ...mapMutations('modal', ['setItem_popup']),
     searchMaster() {
       console.log('조회를 시작합니다.', this.queryParam);
       this.loading = true
@@ -406,7 +406,7 @@ export default {
     },
     onSearchAckey(){
       console.log('팝업 띄우는 쌤플')
-      this.setModalstatus(true)
+      this.setItem_popup(true)
     },resetAckey(){
       console.log('!@@@@@@@@@@@@')
       this.queryParam.item_cd  = ''
@@ -417,7 +417,7 @@ export default {
       console.log("event=======", event)
       this.queryParam.item_cd = event.item_cd
       this.queryParam.item_nm = event.item_nm
-      this.setModalstatus(false)
+      this.setItem_popup(false)
     }
   }
 }
