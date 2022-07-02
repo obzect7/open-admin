@@ -13,7 +13,7 @@
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
-                    <a-input ref="popSearchWhCd" v-model="queryParam.item_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input ref="popSearchWhCd" v-model="queryParam.wh_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="10" :sm="24">
@@ -22,7 +22,7 @@
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
-                    <a-input ref="popSearchWhNm" v-model="queryParam.item_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input ref="popSearchWhNm" v-model="queryParam.wh_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="4" :sm="24">
@@ -162,6 +162,7 @@ export default {
     searchData() {
 
       this.loading = true
+      this.queryParam.use_yn = 'Y'
       return getMstWhList(Object.assign(this.queryParam)).then(
           (res) => {
             this.$refs.whPopupGrid.setGridData(res.data);

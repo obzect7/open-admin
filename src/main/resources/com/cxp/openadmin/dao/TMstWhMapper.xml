@@ -23,6 +23,15 @@
         <if test="paramsMap.plant_nm != null and paramsMap.plant_nm != ''">
             and t.plant_nm like concat('%',#{paramsMap.plant_nm},'%')
         </if>
+
+        <if test="paramsMap.wh_cd != null and paramsMap.wh_cd != ''">
+            and t.wh_cd like concat('%',#{paramsMap.wh_cd},'%')
+        </if>
+        <if test="paramsMap.wh_nm != null and paramsMap.wh_nm != ''">
+            and t.wh_nm like concat('%',#{paramsMap.wh_nm},'%')
+        </if>
+
+
         <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
             and t.use_yn = #{paramsMap.use_yn}
         </if>

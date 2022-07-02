@@ -95,11 +95,11 @@
 <script>
 // AUIGrid 컴포넌트
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getCustomerList, saveCustomer} from "@/services/customer";
 import {getCmCodeLoad} from "@/services/commoncode";
-import {getMstPlantList, saveMstPlant} from "@/services/plant";
+import {getMstLcList, saveMstPlant} from "@/services/mstLc";
 import WhPopup from "@/pages/components/modal/WhPopup";
 import {mapMutations} from "vuex";
+import {saveMstLc} from "@/services/mstLc";
 
 export default {
   components: {
@@ -152,7 +152,7 @@ export default {
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
       {dataField: "plant_cd", headerText: "사업장코드", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "plant_nm", headerText: "사업장명", width: 120, headerStyle: "aui-grid-required-header", editable: false},
+      {dataField: "plant_nm", headerText: "사업장명", width: 120, editable: false},
       {dataField: "wh_cd", headerText: "창고코드", width: 120, headerStyle: "aui-grid-required-header", editable: false
         // renderer: {
         //   type: "IconRenderer",
@@ -165,7 +165,7 @@ export default {
         //   },
         // },
       },
-      {dataField: "wh_nm", headerText: "창고명", width: 120, headerStyle: "aui-grid-required-header", editable: false},
+      {dataField: "wh_nm", headerText: "창고명", width: 120, editable: false},
       {dataField: "lc_cd", headerText: "위치코드", width: 120, headerStyle: "aui-grid-required-header"},
       {dataField: "lc_nm", headerText: "위치명", width: 120, headerStyle: "aui-grid-required-header"},
       {dataField: "zn_cd", headerText: "구역", width: 120,
@@ -216,7 +216,7 @@ export default {
     searchData() {
       console.log('조회를 시작합니다.', this.queryParam);
       this.loading = true
-      return getMstPlantList(Object.assign(this.queryParam)).then(
+      return getMstLcList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====', res)
             this.$refs.mstLcGrid.setGridData(res.data);
@@ -230,6 +230,7 @@ export default {
     },
     cellClickHandler(event){
 
+      console.log("event===", event)
       const rowIndex = event.rowIndex;
       const dataField = event.dataField;
 
@@ -243,7 +244,18 @@ export default {
       this.cellClickinfo.rowIndex = rowIndex;
       this.cellClickinfo.dataField = dataField;
       //console.log('팝업 띄우는 쌤플')
+
+      const rowaddYn = this.$refs.mstLcGrid.isAddedById(event.rowIdValue)
+      //console.log("rowaddYn===", rowaddYn)
+
+      if(rowaddYn == false){
+        this.$message.warn('신규행만 등록가능합니다.', 3)
+
+        return;
+      }
+
       this.setWh_popup(true)
+
 
 
     },
@@ -268,12 +280,12 @@ export default {
       this.$refs.mstLcGrid.removeCheckedRows();
     },
     saveRow() {
-      const isValid = this.$refs.mstLcGrid.validateChangedGridData(["plant_cd", "plant_nm", "use_yn"], "필수입력 입니다.");
+      const isValid = this.$refs.mstLcGrid.validateChangedGridData(["plant_cd", "wh_cd", "lc_cd","lc_nm", "use_yn"], "필수입력 입니다.");
       if (isValid) {
         const data = this.$gridGetCudData(this.$refs.mstLcGrid)
         if (data.length > 0) {
           console.log("data===", data)
-          saveMstPlant(data).then(
+          saveMstLc(data).then(
               (res) => {
                 if (res.code == 200) {
                   this.$message.success('저장완료');

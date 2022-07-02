@@ -6,9 +6,11 @@
         /* TMstLcMapper.xml , getMstLcList */
         select
             t.plant_cd
+          , p.plant_nm
           , t.lc_cd
           , t.lc_nm
           , t.wh_cd
+          , w.wh_nm
           , t.zn_cd
           , t.lc_holdtype
           , t.lc_type
@@ -19,17 +21,19 @@
           , t.mod_id
           , t.mod_dt
         from t_mst_lc t
+            inner join t_mst_plant p on t.PLANT_CD=p.PLANT_CD
+            inner join t_mst_wh w on t.PLANT_CD = w.PLANT_CD and t.WH_CD = w.WH_CD
         where 1=1
         <if test="paramsMap.plant_cd != null and paramsMap.plant_cd != ''">
             and t.plant_cd like concat('%',#{paramsMap.plant_cd},'%')
         </if>
         <if test="paramsMap.plant_nm != null and paramsMap.plant_nm != ''">
-            and t.plant_nm like concat('%',#{paramsMap.plant_nm},'%')
+            and p.plant_nm like concat('%',#{paramsMap.plant_nm},'%')
         </if>
         <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
             and t.use_yn = #{paramsMap.use_yn}
         </if>
-        order by t.plant_cd asc
+        order by t.plant_cd asc, t.wh_cd asc, t.lc_cd
     </select>
 
     <insert id="insertMstLc" parameterType="com.cxp.openadmin.domain.dto.backed.TmstLcDto"
@@ -39,8 +43,11 @@
         (
               plant_cd
             , wh_cd
-            , wh_nm
-            , wh_type
+            , lc_cd
+            , lc_nm
+            , zn_cd
+            , lc_holdtype
+            , lc_type
             , use_yn
             , remark
             , reg_id
@@ -52,8 +59,11 @@
         (
               #{paramsMap.plant_cd}
             , #{paramsMap.wh_cd}
-            , #{paramsMap.wh_nm}
-            , #{paramsMap.wh_type}
+            , #{paramsMap.lc_cd}
+            , #{paramsMap.lc_nm}
+            , #{paramsMap.zn_cd}
+            , #{paramsMap.lc_holdtype}
+            , #{paramsMap.lc_type}
             , #{paramsMap.use_yn}
             , #{paramsMap.remark}
             , #{paramsMap.reg_id}
@@ -67,10 +77,7 @@
             statementType="PREPARED">
         /* TMstLcMapper.xml ,  updateCmCodeGrp */
         update t_mst_lc set
-
-
             lc_nm       = #{paramsMap.lc_nm}
-          , wh_cd       = #{paramsMap.wh_cd}
           , zn_cd       = #{paramsMap.zn_cd}
           , lc_holdtype = #{paramsMap.lc_holdtype}
           , lc_type     = #{paramsMap.lc_type}
@@ -79,6 +86,7 @@
           , mod_id      = #{paramsMap.mod_id}
           , mod_dt      = now()
         where plant_cd = #{paramsMap.plant_cd}
+          and wh_cd    = #{paramsMap.wh_cd}
           and lc_cd    = #{paramsMap.lc_cd}
 
     </update>
@@ -87,6 +95,7 @@
         delete
         from t_mst_lc
         where plant_cd = #{paramsMap.plant_cd}
+          and wh_cd    = #{paramsMap.wh_cd}
           and lc_cd    = #{paramsMap.lc_cd}
     </delete>
 
