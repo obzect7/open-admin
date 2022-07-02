@@ -38,7 +38,7 @@ export default {
       state.item_popup = item_popup;
       // localStorage.setItem(process.env.VUE_APP_USER_KEY, JSON.stringify(user));
     },
-    setFile_popup(state, item_popup) {
+    setFile_popup(state, file_popup) {
       state.file_popup = file_popup;
     },
     setCust_popup(state, cust_popup) {
