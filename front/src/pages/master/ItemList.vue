@@ -46,7 +46,7 @@
               <a-col :md="3" :sm="24" >
                 <span style="float: right; margin-top: 3px;">
                   <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
-                <a-button style="margin-left: 8px">초기화</a-button>
+                  <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
                 </span>
               </a-col>
             </a-row>
@@ -211,7 +211,18 @@ export default {
     // 그리드 데이터 삽입하기
     grid.setGridData(this.gridData);
   },
+  watch:{
+    gridData: function (newVal, oldVal) {
+      this.$refs.itemGrid.setGridData(newVal);
+    },
+  },
   methods : {
+    pageReset(){
+      //페이지 초기화
+      console.log('페이지 초기화')
+      this.queryParam = {use_yn: ""}
+      this.gridData = [];
+    },
     search(){
       console.log('조회를 시작합니다.',this.queryParam);
       this.loading = true
