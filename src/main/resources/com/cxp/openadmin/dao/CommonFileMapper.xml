@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.CommonFileMapper">
+
+    <!-- 공통파일 정보 조회 -->
+    <select id="selectFileList" resultType="com.cxp.openadmin.domain.dto.backed.CommonFile" parameterType="com.cxp.openadmin.domain.dto.backed.CommonFile" statementType="PREPARED">
+        /* CommonFileMapper.selectFileList */
+        SELECT   FILE_SEQ,
+        FILE_GRP_SEQ,
+        FILE_NM,
+        FILE_TYPE,
+        FILE_SIZE,
+        FILE_PATH,
+        FILE_DESC,
+        SORT_ORDER,
+        ORGIN_FILE_NM,
+        USE_YN,
+        FILE_CONT
+        FROM   CM_FILE_MST E
+
+        <choose>
+            <when test="@org.apache.commons.lang3.StringUtils@isNotEmpty(fileSeq) || @org.apache.commons.lang3.StringUtils@isNotEmpty(fileGrpSeq)">
+                WHERE   1 = 1
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(fileSeq)">
+                    AND E.FILE_SEQ = #{fileSeq}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(fileGrpSeq)">
+                    AND E.FILE_GRP_SEQ = #{fileGrpSeq}
+                </if>
+                <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(useYn)">
+                    AND E.USE_YN = #{useYn}
+                </if>
+            </when>
+            <otherwise>
+                WHERE   1 = 2
+            </otherwise>
+        </choose>
+
+
+    </select>
+
+
+
+    <!-- 공통파일 저장 조회 -->
+    <insert id="saveFile" parameterType="com.cxp.openadmin.domain.dto.backed.CommonFile" statementType="PREPARED">
+        /* CommonFileMapper.saveFile */
+        INSERT INTO CM_FILE_MST
+        (FILE_SEQ,
+         FILE_NM,
+         FILE_TYPE,
+         FILE_SIZE,
+         FILE_PATH,
+         FILE_DESC,
+         SORT_ORDER,
+         REG_ID,
+         REG_DT,
+         MOD_ID,
+         MOD_DT,
+         ORGIN_FILE_NM,
+         USE_YN,
+         FILE_CONT,
+         SAVE_TYPE
+        )
+        VALUES (#{fileSeq},
+                #{fileNm},
+                #{fileType},
+                #{fileSize},
+                #{filePath},
+                #{fileDesc},
+                1,
+                #{regId},
+                #{regDt},
+                #{modId},
+                #{modDt},
+                #{orginFileNm},
+                'Y',
+                #{fileCont},
+                'F'
+               )
+
+
+    </insert>
+
+    <!-- 파일 그룹 SEQ UPDATE 처리 -->
+    <insert id="updateFilGrpSeq" parameterType="com.cxp.openadmin.domain.dto.backed.CommonFile" statementType="PREPARED">
+        /* CommonFileMapper.updateFilGrpSeq */
+        UPDATE CM_FILE_MST
+        SET FILE_GRP_SEQ = #{fileGrpSeq}
+        WHERE FILE_SEQ     = #{fileSeq}
+    </insert>
+
+    <!-- 파일  SEQ 삭제 처리 -->
+    <delete id="deleteFileSeq" parameterType="com.cxp.openadmin.domain.dto.backed.CommonFile" statementType="PREPARED">
+        /* CommonFileMapper.deleteFileSeq */
+        DELETE CM_FILE_MST
+         WHERE FILE_SEQ     = #{fileSeq}
+    </delete>
+
+    <!-- 파일 그룹 SEQ 삭제 처리 -->
+    <delete id="deleteFileGrpSeq" parameterType="com.cxp.openadmin.domain.dto.backed.CommonFile" statementType="PREPARED">
+        /* CommonFileMapper.deleteFileGrpSeq */
+        DELETE CM_FILE_MST
+         WHERE FILE_GRP_SEQ     = #{fileGrpSeq}
+    </delete>
+
+</mapper>

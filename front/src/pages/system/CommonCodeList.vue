@@ -33,7 +33,7 @@
                     </a-row>
                   </a-input-group>
 
-                  <item-popup v-if="this.$store.state.modal.modalstatus" :visible="this.$store.state.modal.modalstatus"
+                  <item-popup v-if="this.$store.state.modal.item_popup" :visible="this.$store.state.modal.item_popup"
                               :callType="'input'" @closepopItem="closepopItem"></item-popup>
                 </a-form-item>
               </a-col>

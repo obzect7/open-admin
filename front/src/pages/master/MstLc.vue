@@ -3,8 +3,8 @@
   <div :style="{ minHeight: '800px' }">
     <a-spin :spinning="loading" size="large">
 
-      <wh-popup v-if="this.$store.state.modal.modalstatus"
-                :visible="this.$store.state.modal.modalstatus"
+      <wh-popup v-if="this.$store.state.modal.item_popup"
+                :visible="this.$store.state.modal.item_popup"
                 :cellClickinfo="this.cellClickinfo"
                 @selectWh="selectGridWh"
                   ></wh-popup>

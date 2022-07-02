@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import javax.servlet.MultipartConfigElement;
 
 @Configuration
@@ -20,7 +21,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private Environment env;
 
-    // 정적 리소스 매핑
+    // 정적 자원(Static Resource)
+    /* 정적자원이란 html, css, image, javascript와 같이 컴파일이 필요없는 파일들을 말합니다.
+    스프링 부트에서 Web MVC 설정을 담당하는 WebMvcAutoConfiguration
+    클래스는 기본 설정으로 웹 리소스 폴더에서 정적 자원들을 찾습니다.
+    이 때 템플릿 엔진(Thymeleaf, Groovy, FreeMarker)등을 추가하면
+    src/main/resources/templates 경로를 기본 경로로 인식하게 됩니다. */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")

@@ -45,9 +45,9 @@ export default {
     return {
       desc: '단락: Ant Financial의 서비스 디자인 플랫폼인 Ant.design은 최소한의 워크로드로 Ant Financial 생태계에 원활하게 액세스하고 설계 및 개발에 걸친 경험 솔루션을 제공합니다.',
       linkList: [
-        {icon: 'rocket', href: '/#/', title: '快速开始'},
-        {icon: 'info-circle-o', href: '/#/', title: '产品简介'},
-        {icon: 'file-text', href: '/#/', title: '产品文档'}
+        {icon: 'rocket', href: '/#/', title: '빠른 시작'},
+        {icon: 'info-circle-o', href: '/#/', title: '제품 소개'},
+        {icon: 'file-text', href: '/#/', title: '제품 문서'}
       ],
       extraImage: 'https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png',
       dataSource

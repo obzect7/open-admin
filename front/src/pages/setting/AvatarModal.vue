@@ -32,7 +32,7 @@
     <a-row>
       <a-col :lg="2" :md="2">
         <a-upload name="file" :beforeUpload="beforeUpload" :showUploadList="false">
-          <a-button icon="upload">选择图片</a-button>
+          <a-button icon="upload">이미지 선택</a-button>
         </a-upload>
       </a-col>
       <a-col :lg="{span: 1, offset: 2}" :md="2">

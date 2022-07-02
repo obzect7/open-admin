@@ -1,7 +1,7 @@
 <template>
   <div class="api">
     <div class="introduce">
-      <h2 class="title">说明</h2>
+      <h2 class="title">설명</h2>
       <p class="content">
         AdvanceTable은 Ant Design Vue Table 구성 요소 패키지를 기반으로 하며 모든 API를 지원합니다. <br/>
         테이블 표시의 동적 구성 및 검색 조건의 동적 구성이 필요한 일부 시나리오에서 사용할 수 있는 <em>열 설정</em> 및 <em>검색 제어 구성</em> 기능을 주로 추가했습니다. <br/>

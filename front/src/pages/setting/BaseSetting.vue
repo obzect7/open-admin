@@ -18,7 +18,7 @@
           </a-form-item>
 
           <a-form-item>
-            <a-button type="primary" @click="submit">제출</a-button>
+            <a-button type="primary" @click="submit">저장</a-button>
           </a-form-item>
         </a-form>
 
