@@ -185,7 +185,7 @@
             , data1 = #{paramsMap.data1}
             , data2 = #{paramsMap.data2}
             , data3 = #{paramsMap.data3}
-            , data4 = #{paramsMap.data4 =}
+            , data4 = #{paramsMap.data4}
             , data5 = #{paramsMap.data5}
             , data6 = #{paramsMap.data6}
             , data7 = #{paramsMap.data7}

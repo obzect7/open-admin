@@ -373,7 +373,7 @@ export default {
 
       const data = this.$gridGetCudData(this.$refs.myGrid2,["code", "code_nm"])
       if(data.length){
-        saveCmCodeGrp(data).then(
+        saveCmCode(data).then(
             (res) => {
               console.log('res====', res)
               if (res.code == 200) {
