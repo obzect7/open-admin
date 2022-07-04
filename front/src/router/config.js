@@ -62,6 +62,7 @@ export const constantRouterComponents = {
   UserList: () => import("@/pages/user/UserList"),
   SystemUserList: () => import("@/pages/system/UserList"),
   MenuList: () => import("@/pages/system/MenuList"),
+  MenuListGrid: () => import("@/pages/system/MenuListGrid"),
   RoleList: () => import("@/pages/system/RoleList"),
   LogList: () => import("@/pages/system/LogList"),
   FormBasic: () => import("@/pages/form/basic"),
