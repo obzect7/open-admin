@@ -63,8 +63,12 @@
           </div>
 
           <a-col :md="24" :sm="24">
+            <file-attach v-if="this.$store.state.modal.file_popup" :visible="this.$store.state.modal.file_popup"
+                        :callType="'input'" @closepopItem="closeFilePopup"></file-attach>
+
             <AUIGrid ref="itemGrid" class="grid-wrap"
                      @cellDoubleClick="cellDoubleClickHandler"
+                     @cellClick="cellClickHandler"
                      style="height:65vh"
             >
             </AUIGrid>
@@ -90,11 +94,14 @@ import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getItemList} from "@/services/item";
 import PopItem from "@/pages/master/PopItem";
 import {getCmCodeLoad} from "@/services/commoncode";
+import FileAttach from "@/pages/components/modal/FileAttach";
+import {mapMutations} from "vuex";
 const useYnList= []
 
 export default {
 
   components : {
+    FileAttach,
     PopItem,
     AUIGrid
   },
@@ -169,6 +176,16 @@ export default {
       {dataField: "owner_cd", headerText: "화주코드", width: 140, visible: false},
 
       {dataField: "item_cd", headerText: "품번", width: 120, visible: true},
+      {
+        dataField : "fileName",
+        headerText : "파일",
+        width : 140,
+        renderer : {
+          type : "ButtonRenderer",
+          labelText : "첨부파일",
+          onclick : this.openFilePopup
+        }
+      },
       {dataField: "item_nm", headerText: "품명", width: 120, visible: true, style: "left-text "},
       {dataField: "spec", headerText: "규격", width: 120, visible: true, style: "left-text "},
       {dataField: "unit", headerText: "단위", width: 120, visible: true},
@@ -194,6 +211,7 @@ export default {
           valueField: "code_nm" // value 에 해당되는 필드명
         }
       },
+
       {dataField: "reg_id", headerText: "등록자", width: 140, editable: false},
       {dataField: "reg_dt", headerText: "등록일자", width: 140, editable: false},
       {dataField: "mod_id", headerText: "수정자", width: 140, editable: false},
@@ -217,6 +235,7 @@ export default {
     },
   },
   methods : {
+    ...mapMutations('modal', ['setFile_popup']),
     pageReset(){
       //페이지 초기화
       console.log('페이지 초기화')
@@ -238,16 +257,35 @@ export default {
     },
     cellDoubleClickHandler(event){
 
-      console.log("event.item===", event.item)
-      //this.popinit = event.item;
-      //console.log("popinit===", this.popinit)
-      let POpParam = event.item;
-      Object.assign(POpParam, {['isNew']: false})
+      if(event.dataField == "item_cd"){
+        console.log("event.===", event)
+        //this.popinit = event.item;
+        //console.log("popinit===", this.popinit)
+        let POpParam = event.item;
+        Object.assign(POpParam, {['isNew']: false})
 
-      //console.log("POpParam===", POpParam)
+        //console.log("POpParam===", POpParam)
 
-      this.openPopItem(POpParam)
-      this.isPopUp = true
+        this.openPopItem(POpParam)
+        this.isPopUp = true
+      }
+
+    },cellClickHandler(event){
+
+      console.log("cellClickHandler event.===", event)
+      if(event.dataField == "item_cd"){
+
+        //this.popinit = event.item;
+        //console.log("popinit===", this.popinit)
+        let POpParam = event.item;
+        Object.assign(POpParam, {['isNew']: false})
+
+        //console.log("POpParam===", POpParam)
+
+        this.openPopItem(POpParam)
+        this.isPopUp = true
+      }
+
     },
     openPopItem(param){
       // this.popinit = {};
@@ -288,10 +326,20 @@ export default {
             use_yn : 'Y',
             isNew : true,
       }
-
       this.openPopItem(param)
       //this.popinit = param;
       //this.isPopUp = true
+    },
+    openFilePopup(){
+      console.log('팝업 띄우는 쌤플')
+      this.setFile_popup(true)
+    },
+    //파일팝업 닫기
+    closeFilePopup(event) {
+      console.log("event=======", event)
+      this.queryParam.item_cd = event.item_cd
+      this.queryParam.item_nm = event.item_nm
+      this.setItem_popup(false)
     }
   }
 }
