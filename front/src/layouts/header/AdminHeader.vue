@@ -12,6 +12,11 @@
       </div>
       <div :class="['admin-header-right', headerTheme]">
           <!-- <header-notice class="header-item"/> -->
+          <span style="margin-right:24px">
+            <a-badge :count="noticeList.length">
+              <a-avatar icon="bell" style="background: white; color: black" @click="onNotice"/>
+            </a-badge>
+          </span>
           <header-avatar class="header-item"/>
           <!-- <a-dropdown class="lang header-item">
             <div>
@@ -31,6 +36,7 @@
 import HeaderAvatar from './HeaderAvatar'
 import IMenu from '@/components/menu/menu'
 import {mapState, mapMutations} from 'vuex'
+import {getNoticeBoardList} from "@/services/board";
 
 export default {
   name: 'AdminHeader',
@@ -42,8 +48,18 @@ export default {
         {key: 'KO', name: '한국어', alias: '한글'},
         {key: 'CN', name: '简体中文', alias: '简体'},
         {key: 'HK', name: '繁體中文', alias: '繁體'},
-      ]
+      ],
+      noticeList: '',
     }
+  },
+  mounted() {
+    getNoticeBoardList(this.boardParam).then(
+        (res) => {
+          if(res.data.length > 0){
+            this.noticeList = res.data;
+          }
+        }
+    );
   },
   computed: {
     ...mapState('setting', ['theme', 'isMobile', 'layout', 'systemName', 'lang', 'pageWidth']),
@@ -70,6 +86,20 @@ export default {
     },
     onSelect (obj) {
       this.$emit('menuSelect', obj)
+    },
+    onNotice() {
+      for (var i =0; i < this.noticeList.length; i++) {
+        this.$notification.open({
+          message: this.noticeList[i].post_tit,
+          description: this.noticeList[i].post_cont,
+          /* 모바일 튀어나감
+          style: {
+            width: '600px',
+            marginLeft: `${335 - 550}px`,
+          },
+          */
+        });
+      }
     },
     ...mapMutations('setting', ['setLang'])
   }

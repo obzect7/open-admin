@@ -43,4 +43,10 @@ public class BoardController extends BaseController {
         return HttpResponse.success(boardService.saveBoardComtList(dto));
         //return HttpResponse.success(boardService.updateBoard(list));
     }
+
+    // 공지대상 게시판 조회
+    @PostMapping("/getNoticeBoardList")
+    public HttpResponse getNoticeBoardList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
+        return HttpResponse.success(boardService.getNoticeBoardList(map));
+    }
 }

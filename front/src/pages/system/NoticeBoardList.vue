@@ -159,4 +159,7 @@ export default {
 .showcase2-complete-red {
   color: #ff0000;
 }
+.ant-row{
+  margin-bottom: 0
+}
 </style>
