@@ -22,6 +22,7 @@ module.exports = {
           system: {
             users: {name: '사용자관리'},
             menus: {name: '메뉴관리'},
+            menus_grid: {name: '메뉴관리_그리드'},
             roles: {name: 'ROLE관리'},
             logs: {name: '시스템로그'},
             commoncode: {name: '공통코드 관리'},
