@@ -38,6 +38,9 @@ public class ItemServiceImpl implements ItemService {
         return updateRow;
     }
 
-
-
+    @Override
+    public int saveFileGrpSeq(ItemDto item) {
+        int updateRow = itemMapper.updateFileGrpSeq(item);
+        return updateRow;
+    }
 }

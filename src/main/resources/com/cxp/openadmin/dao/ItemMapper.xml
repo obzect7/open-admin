@@ -28,6 +28,7 @@
         , A.REG_DT
         , A.MOD_ID
         , A.MOD_DT
+        , A.FILE_GRP_SEQ
         FROM MST_ITEM A
         where 1=1
 
@@ -132,12 +133,21 @@
           and item_cd  = #{paramsMap.item_cd}
     </update>
 
+    <update id="updateFileGrpSeq" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
+        /* ItemMapper.xml ,  updateFileGrpSeq */
+        update mst_item
+        set file_grp_seq   = #{paramsMap.file_grp_seq}
+        where plant_cd = #{paramsMap.plant_cd}
+          and owner_cd = #{paramsMap.owner_cd}
+          and item_cd  = #{paramsMap.item_cd}
+    </update>
+
     <delete id="deleteItem" parameterType="com.cxp.openadmin.domain.dto.front.ItemDto">
         /* ItemMapper.xml ,  deleteItem */
         update mst_item
            set use_yn  = 'N'
-              ,mod_id        = #{paramsMap.mod_id}
-              ,mod_dt        = now()
+              ,mod_id  = #{paramsMap.mod_id}
+              ,mod_dt  = now()
         where plant_cd = #{paramsMap.plant_cd}
           and owner_cd = #{paramsMap.owner_cd}
           and item_cd  = #{paramsMap.item_cd}

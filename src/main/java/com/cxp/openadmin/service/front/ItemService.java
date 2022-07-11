@@ -9,4 +9,6 @@ public interface ItemService {
     List<ItemDto> getItemList(Map<String, Object> map);
 
     int saveItem(List<ItemDto> list);
+
+    int saveFileGrpSeq(ItemDto item);
 }

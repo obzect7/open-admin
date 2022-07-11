@@ -91,11 +91,12 @@
 // AUIGrid 컴포넌트
 
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getItemList} from "@/services/item";
+import {getItemList, saveFileGrpSeq} from "@/services/item";
 import PopItem from "@/pages/master/PopItem";
-import {getCmCodeLoad} from "@/services/commoncode";
+import {getCmCodeLoad, saveCmCode} from "@/services/commoncode";
 import FileAttach from "@/pages/components/modal/FileAttach";
 import {mapMutations} from "vuex";
+import {getFileGrpSeq} from "@/services/common";
 const useYnList= []
 
 export default {
@@ -236,6 +237,7 @@ export default {
   },
   methods : {
     ...mapMutations('modal', ['setFile_popup']),
+    ...mapMutations('modal', ['setFile_grp_seq']),
     pageReset(){
       //페이지 초기화
       console.log('페이지 초기화')
@@ -330,9 +332,40 @@ export default {
       //this.popinit = param;
       //this.isPopUp = true
     },
-    openFilePopup(){
-      console.log('팝업 띄우는 쌤플')
-      this.setFile_popup(true)
+    async openFilePopup(row) {
+      // 1. file_grp_seq가 존재하는지 확인한다.
+      let item = this.$refs.itemGrid.getItemByRowIndex(row)
+
+      // // 2.file_grp_seq가 null이면 생성 후 팝업에 파라미터로 던져주고 존재하면 그냥 던져줌.
+      let saveCnt = 0
+      if (item.file_grp_seq == null) {
+        console.log('null입니다@@@@@@')
+        const fileGrpSeq = await getFileGrpSeq()
+        console.log('fileGrpSeq ===!! ', fileGrpSeq)
+        item.file_grp_seq = fileGrpSeq
+
+        await saveFileGrpSeq(item).then(
+            (res) => {
+              console.log('res====', res)
+              if (res.code == 200) {
+                saveCnt = res.data
+              } else {
+                this.$message.error(res.message);
+              }
+              //return res.data;
+            },
+            error => {
+              console.log('error ==== ', error)
+            }
+        )
+      }else{
+        saveCnt = 1
+      }
+      console.log('saveCnt ==',saveCnt)
+      if(saveCnt == 1){
+        this.setFile_grp_seq(item.file_grp_seq)
+        this.setFile_popup(true)
+      }
     },
     //파일팝업 닫기
     closeFilePopup(event) {

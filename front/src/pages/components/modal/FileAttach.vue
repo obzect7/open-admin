@@ -7,6 +7,7 @@
           :multiple="true"
           :action="fileactions"
           :headers="headers"
+          :data="params"
           @change="handleChange"
       >
         <a-button> <a-icon type="upload" /> 파일업로드 </a-button>
@@ -31,7 +32,10 @@ export default {
       headers: {
         authorization: Cookie.get('Authorization'),
       },
-      fileactions: process.env.VUE_APP_API_BASE_URL+'/common/upload',
+      params: {
+        file_grp_seq: this.$store.state.modal.file_grp_seq,
+      },
+      fileactions: process.env.VUE_APP_API_BASE_URL+'/common/uploads',
       loading: false,     //로딩바 유무
       queryParam: {},     // 쿼리 매개변수
       columnLayout: [],  //컬럼 레이아웃

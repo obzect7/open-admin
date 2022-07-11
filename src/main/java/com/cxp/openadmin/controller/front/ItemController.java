@@ -30,6 +30,17 @@ public class ItemController extends BaseController {
         return HttpResponse.success(itemService.saveItem(list));
     }
 
+    /**
+     * 파일 그룹 고유번호인 FILE_GRP_SEQ를 미리 업데이트 해준다.
+     * @param list
+     * @param request
+     * @return
+     */
+    @PostMapping("/saveFileGrpSeq")
+    public HttpResponse saveFileGrpSeq(@RequestBody ItemDto item, HttpServletRequest request){
+        return HttpResponse.success(itemService.saveFileGrpSeq(item));
+    }
+
 
 
 
