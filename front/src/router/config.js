@@ -83,4 +83,5 @@ export const constantRouterComponents = {
   MstPlant: () => import("@/pages/master/MstPlant"),
   MstWh: () => import("@/pages/master/MstWh"),
   MstLc: () => import("@/pages/master/MstLc"),
+  BasicCharts: () => import("@/pages/chart/BasicChart"),
 };
