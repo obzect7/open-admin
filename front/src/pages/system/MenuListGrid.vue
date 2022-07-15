@@ -9,7 +9,7 @@
               <a-row>
                 <a-col :md="7" :sm="24">
                   <a-form-item
-                      label="사업장코드"
+                      label="메뉴코드"
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
@@ -18,7 +18,7 @@
                 </a-col>
                 <a-col :md="7" :sm="24">
                   <a-form-item
-                      label="사업장명"
+                      label="메뉴명"
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
@@ -73,7 +73,7 @@
 
       <a-row >
         <a-col :md="24" :sm="24" >
-          <AUIGrid ref="mstPlantGrid" class="grid-wrap"
+          <AUIGrid ref="mstMenuGrid" class="grid-wrap"
                    @cellEditBegin="CellEditBegin"
                    style="height:65vh"
           >
@@ -90,6 +90,8 @@ import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCustomerList, saveCustomer} from "@/services/customer";
 import {getCmCodeLoad, saveCmCodeGrp} from "@/services/commoncode";
 import {getMstPlantList, saveMstPlant} from "@/services/plant";
+import {getMenuList, getMenus, saveMenuList} from "@/services/system";
+import {constantRouterComponents} from "@/router/config";
 
 export default {
   components: {
@@ -107,6 +109,9 @@ export default {
         // 편집 가능 여부 (기본값 : false)
         editable: true,
 
+        // 트리관련 설정
+        displayTreeOpen : true,
+
         // 엑스트라 체크박스 표시 설정
         showRowCheckColumn: true,
 
@@ -114,8 +119,14 @@ export default {
         showRowAllCheckBox: true,
 
         // 셀 선택모드 (기본값: singleCell)
-        selectionMode: "multipleCells",
+        selectionMode: "singleCell",
         showStateColumn: true,
+
+        flat2tree : true,
+        // 트리의 고유 필드명
+        treeIdField : "id",
+        // 계층 구조에서 내 부모 행의 treeIdField 참고 필드명
+        treeIdRefField : "parent_id"
       },
 
       // 그리드 데이터
@@ -128,29 +139,35 @@ export default {
   },
   async mounted() {
 
-    this.useYnList = await getCmCodeLoad('USEYN', '전체')
+    this.useYnList = await getCmCodeLoad('USEYN', '선택')
 
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
-      {dataField: "plant_cd", headerText: "사업장코드", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "plant_nm", headerText: "사업장명", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "addr", headerText: "주소", style: "left-text"},
+      {dataField: "id", headerText: "ID", width: 120, headerStyle: "aui-grid-required-header"},
+      {dataField: "name", headerText: "메뉴명", width: 120, headerStyle: "aui-grid-required-header"},
+      {dataField: "path", headerText: "경로", width: 120, headerStyle: "aui-grid-required-header"},
+      {dataField: "component", headerText: "컴포넌트명", width: 80},
       {
-        dataField: "use_yn", headerText: "사용여부", width: 140, headerStyle: "aui-grid-required-header",
+        dataField: "invisible", headerText: "숨김여부", width: 120,
         renderer: {
           type: "DropDownListRenderer",
           list: this.useYnList, //key-value Object 로 구성된 리스트
-          keyField: "code", // key 에 해당되는 필드명
+          keyField: "data1", // key 에 해당되는 필드명
           valueField: "code_nm" // value 에 해당되는 필드명
-        }
+        },
       },
-      {dataField: "reg_id", headerText: "등록자", width: 80, editable: false},
-      {dataField: "reg_dt", headerText: "등록일자", width: 80, editable: false},
-      {dataField: "mod_id", headerText: "수정자", width: 80, editable: false},
-      {dataField: "mod_dt", headerText: "수정일자", width: 80, editable: false}
+      {dataField: "cache_able", headerText: "페이지캐시", width: 80,
+        renderer: {
+          type: "DropDownListRenderer",
+          list: this.useYnList, //key-value Object 로 구성된 리스트
+          keyField: "data1", // key 에 해당되는 필드명
+          valueField: "code_nm" // value 에 해당되는 필드명
+        },
+      },
+      {dataField: "sort", headerText: "정렬순서", width: 80, headerStyle: "aui-grid-required-header"}
     ]
 
-    let grid = this.$refs.mstPlantGrid;
+    let grid = this.$refs.mstMenuGrid;
 
     // 그리드 생성
     grid.create(this.columnLayout, this.auigridProps);
@@ -160,7 +177,7 @@ export default {
   },
   watch:{
     gridData: function (newVal, oldVal) {
-      this.$refs.mstPlantGrid.setGridData(newVal);
+      this.$refs.mstMenuGrid.setGridData(newVal);
     },
   },
   methods: {
@@ -173,40 +190,40 @@ export default {
     searchData() {
       console.log('조회를 시작합니다.', this.queryParam);
       this.loading = true
-      return getMstPlantList(Object.assign(this.queryParam)).then(
+      return getMenuList(Object.assign(this.queryParam)).then(
           (res) => {
-            console.log('res====', res)
-            this.$refs.mstPlantGrid.setGridData(res.data);
+            this.$refs.mstMenuGrid.setGridData(res.data);
             setTimeout(() => this.loading = false, this.$gridDelayTime)
           }
       )
     },
     CellEditBegin(event) {
       //해당 필드는 update 불가, add 시 입력가능
-      return this.$gridEditable(this.$refs.mstPlantGrid,event,["plant_cd"])
+      return this.$gridEditable(this.$refs.mstMenuGrid,event,["id"])
     },
     addRow() {
-      // 하단에 1행 추가
-      // console.log('행추가 !!')
-      let item = { use_yn: "Y", row_status: 'I'}
-      this.$refs.mstPlantGrid.addRow(item, "last");
+
+      let item = {row_status:'I', use_yn:'Y', parent_id:this.$refs.mstMenuGrid.getSelectedItems()[0]["item"]["id"]}
+
+      this.$refs.mstMenuGrid.addTreeRow(item, this.$refs.mstMenuGrid.getSelectedItems()[0]["rowIdValue"],"selectionDown")
     },
     removeRow() {
-      const list = this.$refs.mstPlantGrid.getCheckedRowItemsAll()
+      const list = this.$refs.mstMenuGrid.getCheckedRowItemsAll()
       if(list.length == 0){
         this.$message.info('삭제할 행을 선택하세요.');
         return
       }
-      this.$refs.mstPlantGrid.removeCheckedRows()
+      this.$refs.mstMenuGrid.removeCheckedRows()
     },
     saveRow() {
-      const data = this.$gridGetCudData(this.$refs.myGrid1,["plant_cd", "plant_nm", "use_yn"])
+      const data = this.$gridGetCudData(this.$refs.mstMenuGrid,["name", "path", "component"])
+
       if(data.length){
-        saveMstPlant(data).then(
+        saveMenuList(data).then(
             (res) => {
               console.log('res====', res)
               if (res.code == 200) {
-                this.searchMaster()
+                this.searchData()
               } else {
                 this.$message.error(res.message);
               }

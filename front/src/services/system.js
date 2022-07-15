@@ -158,3 +158,16 @@ export function getSysUserList(params) {
     params,
   });
 }
+
+export function getMenuList(params) {
+  return axios({
+    url: "/backed/menumgt/getMenuList",
+    method: "post",
+    params,
+  });
+}
+
+export function saveMenuList(params) {
+  console.log('saveMstMenuList===', params)
+  return axios.post("/backed/menumgt/saveMenuList", params)
+}

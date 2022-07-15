@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.MenuMgtMapper">
+
+    <select id="getMenuList" resultType="com.cxp.openadmin.domain.dto.backed.SaveMenuMgtDto" parameterType="Map">
+        /* MenuMgtMapper.xml ,  getMenuList */
+        select *
+        from sys_menu sm
+       order by sort asc
+    </select>
+
+    <insert id="insertMenuList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveMenuMgtDto" statementType="PREPARED">
+        /* MenuMgtMapper.xml ,  insertMenuList */
+        insert into sys_menu
+        (id
+        ,path
+        ,invisible
+        ,parent_id
+        ,name
+        ,icon
+        ,cache_able
+        ,sort
+        ,component
+        ,permissions
+        ,created_time
+        )
+        values
+        ( '41'
+        , #{paramsMap.path}
+        , #{paramsMap.invisible}
+        , #{paramsMap.parent_id}
+        , #{paramsMap.name}
+        , #{paramsMap.icon}
+        , #{paramsMap.cache_able}
+        , #{paramsMap.sort}
+        , #{paramsMap.component}
+        , #{paramsMap.permissions}
+        , now()
+        )
+    </insert>
+
+    <update id="updateMenuList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto" statementType="PREPARED">
+        update sys_menu set
+               invisible    = #{paramsMap.invisible}
+             , path         = #{paramsMap.path}
+             , name         = #{paramsMap.name}
+             , cache_able   = #{paramsMap.cache_able}
+             , sort         = #{paramsMap.sort}
+             , component    = #{paramsMap.component}
+        where id = #{paramsMap.id}
+    </update>
+    <delete id="deleteMenuList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveCmCodeGrpDto">
+        delete from sys_menu
+        where id = #{paramsMap.id}
+    </delete>
+</mapper>

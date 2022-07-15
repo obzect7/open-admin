@@ -14,4 +14,3 @@ export function saveMstPlant(params) {
   console.log('saveMstPlant===', params)
    return axios.post("/backed/plant/saveMstPlant", params)
 }
-
