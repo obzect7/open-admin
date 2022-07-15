@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.FileMapper">
+
+
+    <insert id="insertfile" parameterType="com.cxp.openadmin.domain.dto.front.FileDto">
+        /* FileMapper.xml ,  insertfile */
+        insert into cm_file_mst
+        (
+             file_grp_seq
+            ,file_no
+            ,file_nm
+            ,file_type
+            ,file_size
+            ,file_path
+            ,file_desc
+            ,sort_order
+            ,orgin_file_nm
+           -- ,file_cont
+            ,save_type
+            ,refer_id
+            ,refer_type
+            ,thumbnail_file_path
+            ,thumbnail_file_nm
+           -- ,thumbnail_file_cont
+            ,thumbnail_save_type
+            ,thumbnail_file_size
+            ,use_yn
+            ,reg_id
+            ,reg_dt
+            ,mod_id
+            ,mod_dt
+        )
+        VALUES
+        (
+             #{paramsMap.file_grp_seq}
+            ,#{paramsMap.file_no}
+            ,#{paramsMap.file_nm}
+            ,#{paramsMap.file_type}
+            ,#{paramsMap.file_size}
+            ,#{paramsMap.file_path}
+            ,#{paramsMap.file_desc}
+            ,#{paramsMap.sort_order}
+            ,#{paramsMap.orgin_file_nm}
+              -- ,file_cont
+            ,#{paramsMap.save_type}
+            ,#{paramsMap.refer_id}
+            ,#{paramsMap.refer_type}
+            ,#{paramsMap.thumbnail_file_path}
+            ,#{paramsMap.thumbnail_file_nm}
+                -- ,thumbnail_file_cont
+            ,#{paramsMap.thumbnail_save_type}
+            ,#{paramsMap.thumbnail_file_size}
+            ,#{paramsMap.use_yn}
+            ,#{paramsMap.reg_id}
+            ,now()
+            ,#{paramsMap.mod_id}
+            ,now()
+        )
+    </insert>
+
+
+</mapper>

@@ -3,6 +3,7 @@ export default {
   state: {
     item_popup: false,
     file_popup: false,
+    file_grp_seq: '',
     cust_popup: false,
     wh_popup: false,
     lc_popup: false,
@@ -12,9 +13,11 @@ export default {
   getters: {
     item_popup: (state) => {
       return state.item_popup;
-    },
-    file_popup: (state) => {
+    }, file_popup: (state) => {
       return state.file_popup;
+    }
+    ,file_grp_seq: (state) => {
+      return state.file_grp_seq;
     },
     cust_popup: (state) => {
       return state.cust_popup;
@@ -40,6 +43,9 @@ export default {
     },
     setFile_popup(state, file_popup) {
       state.file_popup = file_popup;
+    },
+    setFile_grp_seq(state, file_grp_seq) {
+      state.file_grp_seq = file_grp_seq;
     },
     setCust_popup(state, cust_popup) {
       state.cust_popup = cust_popup;

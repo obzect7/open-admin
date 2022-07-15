@@ -78,6 +78,11 @@ module.exports = {
         security: {name: '보안 설정'},
         custom: {name: '커스텀 설정'},
       },
+      chart: {name: '차트 샘플',
+        chart: {
+          basicChart: {name: '베이직 차트'},
+        },
+      }
     }
   }
 }

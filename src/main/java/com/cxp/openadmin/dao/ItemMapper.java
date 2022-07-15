@@ -15,6 +15,9 @@ public interface ItemMapper extends Mapper<Item> {
     int insertItem(@Param("paramsMap") ItemDto dto);
 
     int updateItem(@Param("paramsMap") ItemDto dto);
+
+    int updateFileGrpSeq(@Param("paramsMap") ItemDto dto);
+
     int deleteItem(@Param("paramsMap") ItemDto dto);
 
 }

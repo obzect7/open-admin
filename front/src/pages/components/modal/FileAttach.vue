@@ -7,6 +7,7 @@
           :multiple="true"
           :action="fileactions"
           :headers="headers"
+          :data="params"
           @change="handleChange"
       >
         <a-button> <a-icon type="upload" /> 파일업로드 </a-button>
@@ -17,7 +18,7 @@
 
 <script>
 import {mapMutations, mapState} from "vuex";
-import {getFileList} from "@/services/fileAttach";
+import {getFileList, saveFileInfo} from "@/services/fileAttach";
 import {getItemList} from "@/services/item";
 import Cookie from "js-cookie";
 
@@ -31,7 +32,10 @@ export default {
       headers: {
         authorization: Cookie.get('Authorization'),
       },
-      fileactions: process.env.VUE_APP_API_BASE_URL+'/common/upload',
+      params: {
+        file_grp_seq: this.$store.state.modal.file_grp_seq,
+      },
+      fileactions: process.env.VUE_APP_API_BASE_URL+'/common/uploads',
       loading: false,     //로딩바 유무
       queryParam: {},     // 쿼리 매개변수
       columnLayout: [],  //컬럼 레이아웃
@@ -74,8 +78,41 @@ export default {
   methods: {
     ...mapMutations('modal', ['setFile_popup']),
     handleChange(info) {
+
+      const file_grp_seq = this.$store.state.modal.file_grp_seq
+      //console.log('file_grp_seq==', file_grp_seq)
+
       if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
+        //console.log(info.file, info.fileList);
+        // console.log("info====", info);
+        // console.log("name==", info.file.name)
+        // console.log("type==", info.file.type)
+        // console.log("originFileObj==", info.file.originFileObj)
+        // console.log("uid==", info.file.originFileObj.uid)
+        // console.log("path==", info.file.response.data)
+        // console.log("size==", info.file.originFileObj.size)
+
+        const file_nm = info.file.response.data.replace("http://localhost:8020/open_admin//", "");
+        const file_type = info.file.type.replace("application/", "");
+
+        let fileInfo = {};
+        Object.assign(fileInfo, {['row_status']: 'I'})
+        Object.assign(fileInfo, {['file_grp_seq']: file_grp_seq})
+        Object.assign(fileInfo, {['file_no']: info.file.originFileObj.uid})
+        Object.assign(fileInfo, {['file_nm']: file_nm})
+        Object.assign(fileInfo, {['file_type']: file_type})
+        Object.assign(fileInfo, {['file_size']: info.file.originFileObj.size})
+        Object.assign(fileInfo, {['file_path']: info.file.response.data})
+        Object.assign(fileInfo, {['orgin_file_nm']: info.file.name})
+        Object.assign(fileInfo, {['use_yn']: "Y"})
+        Object.assign(fileInfo, {['reg_id']: this.$store.state.account.user.username})
+        Object.assign(fileInfo, {['mod_id']: this.$store.state.account.user.username})
+
+        let data = [];
+        data.push(fileInfo)
+
+        saveFileInfo(data)
+
       }
       if (info.file.status === 'done') {
         this.$message.success(`${info.file.name} 파일업로드 성공`);

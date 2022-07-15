@@ -32,4 +32,5 @@ public class ItemDto {
     private Timestamp reg_dt;
     private String mod_id;
     private Timestamp mod_dt;
+    private String file_grp_seq;
 }

@@ -21,5 +21,10 @@ export function saveItem(params) {
     // })
 }
 
+export function saveFileGrpSeq(params) {
+    console.log('saveFileGrpSeq', params)
+    return axios.post("/front/item/saveFileGrpSeq", params)
+}
+
 
 
