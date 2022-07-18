@@ -24,6 +24,7 @@
         </a-row>
         <a-row >
           <AUIGrid ref="fileGrid" class="grid-wrap"
+                   @cellClick="cellClickHandler"
                    style="height:35vh"
           >
           </AUIGrid>
@@ -54,7 +55,8 @@ export default {
   data() {
     return {
       headers: {
-        authorization: Cookie.get('Authorization'),
+        // authorization: Cookie.get('Authorization'),
+        responseType: 'arraybuffer',
       },
       fileList: [],
       params: {
@@ -216,7 +218,7 @@ export default {
     },
     async goDeleteFile(event) {
       console.log('삭제@!!!!', event.item)
-      this.$message.success(`파일삭제 완료`);
+      const that = this
 
       this.$confirm({
         title: '첨부를 삭제하시겠습니까?',
@@ -224,16 +226,19 @@ export default {
         okText: '확인',
         cancelText: '취소',
         onOk() {
-
+          // console.log('this.'this)
+          // this.test12(event.item)
           deleteFile({file_seq: event.item.file_seq}).then(
-              (res) => {
+              async (res) => {
                 console.log('res====', res)
                 if (res.code == 200) {
                   console.log('삭제후 들어왔습니다.!@!@!@@!@!@!@!')
-                  this.$refs.fileGrid.clearGridData()
-                  this.$message.success(`파일삭제 완료`);
+                  that.$message.success(`파일삭제 완료`)
+                  const res = await getFileList({file_grp_seq: event.item.file_grp_seq})
+                  console.log('res====', res)
+                  that.$refs.fileGrid.setGridData(res.data)
                 } else {
-                  this.$message.error(res.message);
+                  that.$message.error(res.message)
                 }
                 //return res.data;
               },
@@ -241,11 +246,85 @@ export default {
                 console.log('error ==== ', error)
               }
           )
+
         }
       })
     },
-    test12(){
+    async cellClickHandler(event) {
+      // 셀클릭 이벤트 핸들링
+      console.log('cell click ===', event)
+      if (event.dataField == "orgin_file_nm") {
+        // const config = {
+        //   method: "GET",
+        //   url: '/upload/'+event.item.file_nm,
+        //   headers: this.headers,
+        //   responseType: "blob",
+        //   // data: data,
+        // };
+        // const response = await axios(config);
+        // const name = response.headers["content-disposition"]
+        //     .split("filename=")[1]
+        //     .replace(/"/g, "");
+        // const url = window.URL.createObjectURL(new Blob([response.data]));
+        // const link = document.createElement("a");
+        // link.href = url;
+        // link.setAttribute("download", name);
+        // link.style.cssText = "display:none";
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+
+        axios.post('/common/filedown', { file_nm: event.item.file_nm },{ responseType: 'blob' })
+            .then((response) => {
+              // console.log(name)
+              const url = window.URL.createObjectURL(new Blob([response]))
+              const link = document.createElement('a')
+              link.href = url
+              link.setAttribute('download', event.item.orgin_file_nm)
+              link.style.cssText = 'display:none'
+              document.body.appendChild(link)
+              link.click()
+              link.remove()
+
+              // try {
+              //   let blob = new Blob([response.data], { type: response.headers['content-type'] })
+              //   let fileName = this.getFileName(response.headers['content-disposition'])
+              //   fileName = decodeURI(fileName) // 파일명 디코딩 (프로젝트에 따라 사용여부 옵션)
+              //
+              //   if (window.navigator.msSaveOrOpenBlob) { // IE 10+
+              //     window.navigator.msSaveOrOpenBlob(blob, fileName)
+              //   } else { // not IE
+              //     let link = document.createElement('a')
+              //     link.href = window.URL.createObjectURL(blob)
+              //     link.target = '_self'
+              //     if (fileName) link.download = fileName
+              //     link.click()
+              //   }
+              //
+              //   // requestObj.callback(res.data)
+              // } catch (e) {
+              //   console.error(e)
+              // }
+            })
+
+      }
+    },
+    test12(item){
       console.log('test중입니다.')
+
+    },
+    getFileName (contentDisposition) {
+      let fileName = contentDisposition
+          .split(';')
+          .filter((ele) => {
+            return ele.indexOf('fileName') > -1
+          })
+          .map((ele) => {
+            return ele
+                .replace(/"/g, '')
+                .split('=')[1]
+          })
+      return fileName[0] ? fileName[0] : null
     }
   }
 }

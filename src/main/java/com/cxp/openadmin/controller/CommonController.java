@@ -4,18 +4,21 @@ import com.cxp.openadmin.domain.dto.backed.CmFileMstDto;
 import com.cxp.openadmin.exception.http.UploadException;
 import com.cxp.openadmin.util.HttpResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.entity.FileEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -91,7 +94,8 @@ public class CommonController {
         String fileNameArr[] = fileName.split("\\.");
         String suffix = fileNameArr[fileNameArr.length - 1];
         String newFileName = UUID.randomUUID().toString() + "." + suffix;
-        String finalFacePath = fileSpace + File.separator + "upload2" + File.separator + newFileName;
+//        String finalFacePath = fileSpace + File.separator + "upload2" + File.separator + newFileName;
+        String finalFacePath = fileSpace + File.separator + File.separator + newFileName;
         File dist = new File(finalFacePath);
         if (dist.getParentFile() != null) {
             // 폴더 생성
@@ -121,6 +125,34 @@ public class CommonController {
 
 
         return HttpResponse.success("");
+    }
+
+    @CrossOrigin( origins = "*", exposedHeaders = {"Content-Disposition"}, maxAge = 3600)
+    @RequestMapping(value = "/filedown", method= {RequestMethod.POST, RequestMethod.GET})
+    public void fileDown (
+            @RequestBody CmFileMstDto dto,
+//            @RequestParam("file_size") String file_size,
+            HttpServletResponse response) throws Exception {
+
+        String fileSpace = env.getProperty("resource.upload-location");
+        String fileFullPath = fileSpace + File.separator + File.separator + dto.getFile_nm();
+
+        try{
+            Path filePath = Paths.get(fileFullPath);
+
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; fileName=" + URLEncoder.encode(dto.getFile_nm(),"UTF-8"));
+            response.setHeader("Content-Transfer-Encoding", "binary");
+             response.setHeader( "Access-Control-Allow-Headers","Content-Disposition");
+            response.setHeader( "Access-Control-Expose-Headers","Content-Disposition");
+            byte[] fileByte = FileUtils.readFileToByteArray(new File(fileFullPath));
+            response.getOutputStream().write(fileByte);
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+
+        } catch(Exception e){
+
+        }
     }
 
     /**
