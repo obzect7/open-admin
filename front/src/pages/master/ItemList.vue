@@ -63,8 +63,8 @@
           </div>
 
           <a-col :md="24" :sm="24">
-            <file-attach v-if="this.$store.state.modal.file_popup" :visible="this.$store.state.modal.file_popup"
-                        :callType="'input'" @closepopItem="closeFilePopup"></file-attach>
+            <file-attach-box v-if="this.$store.state.modal.file_popup" :visible="this.$store.state.modal.file_popup"
+                        :callType="'input'" @closepopItem="closeFilePopup"></file-attach-box>
 
             <AUIGrid ref="itemGrid" class="grid-wrap"
                      @cellDoubleClick="cellDoubleClickHandler"
@@ -97,11 +97,13 @@ import {getCmCodeLoad, saveCmCode} from "@/services/commoncode";
 import FileAttach from "@/pages/components/modal/FileAttach";
 import {mapMutations} from "vuex";
 import {getFileGrpSeq} from "@/services/common";
+import FileAttachBox from "@/pages/components/modal/FileAttachBox";
 const useYnList= []
 
 export default {
 
   components : {
+    FileAttachBox,
     FileAttach,
     PopItem,
     AUIGrid

@@ -1,23 +1,18 @@
 package com.cxp.openadmin.dao;
 
-import com.cxp.openadmin.domain.dto.front.FileDto;
-import com.cxp.openadmin.domain.entity.Item;
+import com.cxp.openadmin.domain.dto.backed.CmFileMstDto;
+import com.cxp.openadmin.domain.dto.backed.TmstPlantDto;
+import com.cxp.openadmin.domain.entity.TMstPlant;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 import java.util.Map;
 
-public interface FileMapper extends Mapper<Item> {
+public interface FileMapper extends Mapper<TMstPlant> {
+    List<CmFileMstDto> getCmFileList(@Param("paramsMap") Map<String, Object> map);
 
-    //List<ItemDto> getItemList(@Param("paramsMap") Map<String, Object> map);
+    int insertCmFileMst(@Param("paramsMap") CmFileMstDto dto);
 
-    int insertfile(@Param("paramsMap") FileDto dto);
-
-    //int updateItem(@Param("paramsMap") ItemDto dto);
-
-    //int updateFileGrpSeq(@Param("paramsMap") ItemDto dto);
-
-    //int deleteItem(@Param("paramsMap") ItemDto dto);
-
+    int deleteFile(@Param("paramsMap") Map<String, Object> map);
 }

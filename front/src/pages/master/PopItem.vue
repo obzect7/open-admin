@@ -265,7 +265,6 @@
                 ok-text="예"
                 cancel-text="아니요"
                 @confirm="deleteItem"
-                @cancel="cancel"
             >
               <a-icon slot="icon" type="question-circle-o" style="color: red" />
               <a href="#" class="primary">

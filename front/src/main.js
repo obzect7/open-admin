@@ -34,6 +34,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 /* grid용 유틸 import */
 import gridUtil from "@/utils/gridUtil";
 
+
 library.add(faSquarePlus)
 
 /* font awesome 컴포넌트를 전역으로 등록 */
