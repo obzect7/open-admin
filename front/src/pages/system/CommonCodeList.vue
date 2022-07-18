@@ -76,7 +76,7 @@
 
       <a-col :md="10" :sm="24">
         <div>
-          <a-button-group>
+          <a-button-group style="margin-bottom: 10px;">
             <a-button type="primary" @click="masterAddRow">
               <a-icon type="plus-square"/>
               추가
@@ -104,7 +104,7 @@
         </AUIGrid>
       </a-col>
       <a-col :md="14" :sm="24">
-        <div>
+        <div style="margin-bottom: 10px;">
           <a-button type="primary" @click="detailAddRow">
             <a-icon type="plus-square"/>
             추가
