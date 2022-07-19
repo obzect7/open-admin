@@ -5,6 +5,7 @@
           <a-col :md="24" :sm="24" >
             <a-form-item label="제목" :labelCol="{span: 2}" :wrapperCol="{span: 21, offset: 1}" :colon=false layout="inline">
               <a-input v-model="param.post_tit"
+                       v-decorator="['item_cd', {initialValue: param.post_tit, rules: [{ required: true, message: '제목을 입력하세요.'}]}]"
               />
             </a-form-item>
           </a-col>
@@ -55,7 +56,7 @@
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
               <a-comment :author="item.reg_nm">
-                <span slot="actions" @click="deleteBoardComt(item)" v-show="item.reg_id==comnt_param.reg_id">delete</span>
+                <span slot="actions" @click="deleteBoardComt(item)" v-show="item.reg_id==comnt_param.reg_id">삭제</span>
                 <a-avatar
                     slot="avatar"
                     icon="user"
@@ -81,7 +82,7 @@
               </a-form-item>
               <a-form-item>
                 <a-button html-type="submit" type="primary" @click="saveBoardComt">
-                  Add Comment
+                  댓글등록
                 </a-button>
               </a-form-item>
             </div>

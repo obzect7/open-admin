@@ -15,18 +15,18 @@
         <a-row type="flex">
           <a-col :span="24" :xl="4" flex="auto">
             <a-select v-model="queryParam.search_type" placeholder="선택">
-              <a-select-option value="E">전체</a-select-option>
-              <a-select-option value="T">제목</a-select-option>
-              <a-select-option value="C">내용</a-select-option>
+              <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in boardSearchList">{{item.code_nm}}</a-select-option>
             </a-select>
           </a-col>
-          <a-col :span="24" :xl="16">
+          <a-col :span="24" :xl="16" flex="auto">
             <a-input v-model="queryParam.search_comment"
                      placeholder="입력하세요."
                      @keyup.enter="search"/>
           </a-col>
-          <a-col :span="24" :xl="4" flex="180px" style="float: right;">
-            <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
+          <a-col :span="24" :xl="6" flex="180px" >
+            <span style="float: right; margin-top: 3px;">
+              <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
+            </span>
           </a-col>
         </a-row>
       </a-form>
@@ -60,6 +60,9 @@
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getBoardList} from "@/services/board";
 import PopBoard from "@/pages/master/PopBoard";
+import {getCmCodeLoad} from "@/services/commoncode";
+
+const boardSearchList= []
 
 export default {
   name: "NoticeBoardList",
@@ -74,6 +77,7 @@ export default {
       isPopUp: false,    //팝업호출여부
       // 쿼리 매개변수
       queryParam: {search_type: "E"},
+      boardSearchList,
       columnLayout: [],
       // 그리드 속성 정의
       auigridProps: {
@@ -95,7 +99,11 @@ export default {
   beforeMount() {
 
   },
-  mounted() {
+  async mounted() {
+
+    // 기초코드 들고오기
+    this.boardSearchList = await getCmCodeLoad('BOARD_SEARCH')
+
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
       {dataField: "plant_cd", headerText: "사업장", width: 120, visible: false},
