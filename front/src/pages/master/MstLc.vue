@@ -91,8 +91,6 @@
         <a-col :span="24">
           <AUIGrid ref="mstLcGrid" class="grid-wrap"
                    v-model="gridData"
-                   @cellEditBegin="CellEditBegin"
-                   @cellClick="cellClickHandler"
                    style="height:65vh"
           >
           </AUIGrid>
@@ -123,6 +121,7 @@ export default {
       whList:[],      //창고 리스트
       useYnList: [],
       znList: [],
+      rowIndex : null,
       // 쿼리 매개변수
       queryParam: {useYn: "",plant_cd:"",wh_cd:""},
       columnLayout: [],
@@ -239,19 +238,11 @@ export default {
           }
       )
     },
-    CellEditBegin(event) {
-      //해당 필드는 update 불가, add 시 입력가능
-      // return this.$gridEditable(this.$refs.mstLcGrid, event, ["plant_cd", "plant_nm"])
-    },
-    cellClickHandler(event) {
-
-
-    },
     selectGridWh(event) {
       console.log("event====", event)
-      const rowIndex = event.cellClickinfo.rowIndex;
+      const rowIndex = this.rowIndex;
 
-      //console.log("rowIndex====", rowIndex)
+      console.log("rowIndex====", rowIndex)
       this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_cd", event.wh_cd)
       this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_nm", event.wh_nm)
 
@@ -287,7 +278,10 @@ export default {
       }
     },
     openWhPopup(event) {
-      console.log('event==', event)
+      //console.log('event==', event)
+      this.rowIndex = event.rowIndex;
+      console.log("rowIndex===", this.rowIndex)
+
       const rowaddYn = this.$refs.mstLcGrid.isAddedById(event.item.uid)
       if (rowaddYn) {
         this.setWh_popup(true)
