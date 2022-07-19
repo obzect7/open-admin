@@ -13,8 +13,9 @@ spring:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql console log
 
 resource:
-  upload-location: D:\\uploads\\open_admin
-  server-url: http://localhost:8020/open_admin
+#  upload-location: D:\\uploads\\open_admin\\upload
+  upload-location: D:\\prosoft_admin\\src\\main\\resources\\upload
+  server-url: http://localhost:8020/upload
 
 wx:
   mini-app:

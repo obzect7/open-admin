@@ -3,8 +3,46 @@
 <mapper namespace="com.cxp.openadmin.dao.FileMapper">
 
 
-    <insert id="insertfile" parameterType="com.cxp.openadmin.domain.dto.front.FileDto">
-        /* FileMapper.xml ,  insertfile */
+    <select id="getCmFileList" resultType="com.cxp.openadmin.domain.dto.backed.CmFileMstDto" parameterType="Map">
+        /* FileMapper.xml ,  getCmFileList */
+        select
+              t.file_seq
+            , t.file_grp_seq
+            , t.file_no
+            , t.file_nm
+            , t.file_type
+            , t.file_size
+            , t.file_path
+            , t.file_desc
+            , t.sort_order
+            , t.orgin_file_nm
+            , t.file_cont
+            , t.save_type
+            , t.refer_id
+            , t.refer_type
+            , t.thumbnail_file_path
+            , t.thumbnail_file_nm
+            , t.thumbnail_file_cont
+            , t.thumbnail_save_type
+            , t.thumbnail_file_size
+            , t.use_yn
+            , t.reg_id
+            , t.reg_dt
+            , t.mod_id
+            , t.mod_dt
+        from cm_file_mst t
+        where 1=1
+        <if test="paramsMap.file_grp_seq != null and paramsMap.file_grp_seq != ''">
+            and t.file_grp_seq like concat('%',#{paramsMap.file_grp_seq},'%')
+        </if>
+        <if test="paramsMap.file_seq != null and paramsMap.file_seq != ''">
+            and t.file_seq = #{paramsMap.file_seq}
+        </if>
+        order by t.file_seq asc
+    </select>
+
+    <insert id="insertCmFileMst" parameterType="com.cxp.openadmin.domain.dto.front.FileDto">
+        /* FileMapper.xml ,  insertCmFileMst */
         insert into cm_file_mst
         (
              file_grp_seq
@@ -58,6 +96,11 @@
             ,now()
         )
     </insert>
+
+    <delete id="deleteFile" parameterType="Map">
+        delete from cm_file_mst
+        where file_seq = #{paramsMap.file_seq}
+    </delete>
 
 
 </mapper>

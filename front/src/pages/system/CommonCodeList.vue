@@ -76,7 +76,7 @@
 
       <a-col :md="10" :sm="24">
         <div>
-          <a-button-group>
+          <a-button-group style="margin-bottom: 10px;">
             <a-button type="primary" @click="masterAddRow">
               <a-icon type="plus-square"/>
               추가
@@ -104,7 +104,7 @@
         </AUIGrid>
       </a-col>
       <a-col :md="14" :sm="24">
-        <div>
+        <div style="margin-bottom: 10px;">
           <a-button type="primary" @click="detailAddRow">
             <a-icon type="plus-square"/>
             추가
@@ -234,8 +234,8 @@ export default {
     ]
 
     this.columnLayoutDT = [
-      {dataField: "code", headerText: "코드ID", filter : {showIcon : true}, width: 120 },
-      {dataField: "code_nm", headerText: "코드명", filter : {showIcon : true}, width: 140},
+      {dataField: "code", headerStyle: "aui-grid-required-header", headerText: "코드ID", filter : {showIcon : true}, width: 120 },
+      {dataField: "code_nm",headerStyle: "aui-grid-required-header", headerText: "코드명", filter : {showIcon : true}, width: 140},
       {dataField:"sort",			headerText:"정렬",			width:100,		dataType:"numeric",
         renderer : {
           type : "NumberStepRenderer",

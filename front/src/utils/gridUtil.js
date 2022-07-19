@@ -1,9 +1,13 @@
 import {saveCmCode} from "@/services/commoncode";
+import delIcon from "@/assets/img/delete_icon.png"
 
 export default {
     install(Vue){
         //GRID 호출시 DELAY TIME
         Vue.prototype.$gridDelayTime = 500
+
+        Vue.prototype.$delIcon = delIcon
+
 
         /*
          paramter 정의

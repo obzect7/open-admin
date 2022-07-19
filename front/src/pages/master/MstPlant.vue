@@ -2,12 +2,9 @@
 
   <div :style="{ minHeight: '800px' }">
     <a-spin :spinning="loading" size="large">
-      <a-row>
-        <a-col :span="24">
-          <a-form layout="horizontal">
-            <div>
-              <a-row>
-                <a-col :md="7" :sm="24">
+      <a-form layout="horizontal">
+        <a-row type="flex" justify="end">
+                <a-col :span="7">
                   <a-form-item
                       label="사업장코드"
                       :labelCol="{span: 5}"
@@ -16,7 +13,7 @@
                     <a-input v-model="queryParam.plant_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
-                <a-col :md="7" :sm="24">
+                <a-col :xl="7" :lg="12" :md="12" :sm="24">
                   <a-form-item
                       label="사업장명"
                       :labelCol="{span: 5}"
@@ -25,7 +22,7 @@
                     <a-input v-model="queryParam.plant_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
-                <a-col :md="7" :sm="24">
+                <a-col :xl="7" :lg="12" :md="16" :sm="24">
                   <a-form-item
                       label="사용여부"
                       :labelCol="{span: 5}"
@@ -38,37 +35,35 @@
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :md="3" :sm="24">
+                <a-col :xl="3" :lg="12" :md="8" :sm="24">
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="searchData" :loading="loading">조회</a-button>
               <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
               </span>
                 </a-col>
-              </a-row>
-            </div>
-          </a-form>
-        </a-col>
-      </a-row>
-
+        </a-row>
+      </a-form>
       <a-row type="flex" justify="end" >
-        <a-col  :span="3.5">
-          <a-button-group>
-            <a-space>
-            <a-button type="primary" @click="addRow" size="small">
-              <a-icon type="plus-square"/>
-              추가
-            </a-button>
+        <a-space >
+        <a-col  :span="8">
+              <a-button type="primary" @click="addRow" size="small">
+                <a-icon type="plus-square"/>
+                추가
+              </a-button>
+        </a-col>
+          <a-col :span="8">
             <a-button type="primary" @click="removeRow" size="small">
               <a-icon type="delete"/>
               삭제
             </a-button>
+          </a-col>
+          <a-col :span="8">
             <a-button type="primary" @click="saveRow" size="small">
               <a-icon type="save"/>
               저장
             </a-button>
-            </a-space>
-          </a-button-group>
-        </a-col>
+          </a-col>
+        </a-space>
       </a-row>
 
       <a-row >
