@@ -49,17 +49,11 @@ export default {
         {key: 'CN', name: '简体中文', alias: '简体'},
         {key: 'HK', name: '繁體中文', alias: '繁體'},
       ],
-      noticeList: '',
+      noticeList: [],
     }
   },
   mounted() {
-    getNoticeBoardList(this.boardParam).then(
-        (res) => {
-          if(res.data.length > 0){
-            this.noticeList = res.data;
-          }
-        }
-    );
+
   },
   computed: {
     ...mapState('setting', ['theme', 'isMobile', 'layout', 'systemName', 'lang', 'pageWidth']),
@@ -87,19 +81,38 @@ export default {
     onSelect (obj) {
       this.$emit('menuSelect', obj)
     },
-    onNotice() {
-      for (var i =0; i < this.noticeList.length; i++) {
-        this.$notification.open({
-          message: this.noticeList[i].post_tit,
-          description: this.noticeList[i].post_cont,
-          /* 모바일 튀어나감
-          style: {
-            width: '600px',
-            marginLeft: `${335 - 550}px`,
-          },
-          */
-        });
-      }
+    async onNotice() {
+      const res = await getNoticeBoardList()
+        this.noticeList = res.data
+          console.log('res =-=', res);
+        for (let i = 0; i < this.noticeList.length; i++) {
+          console.log('key ====',this.noticeList[i].post_no)
+          setTimeout(() => {
+          this.$notification.open({
+            key: this.noticeList[i].post_no,
+            message: this.noticeList[i].post_tit,
+            description: this.noticeList[i].post_cont,
+            btn: h => {
+              return h(
+                  'a-button',
+                  {
+                    props: {
+                      type: 'primary',
+                      size: 'small',
+                    },
+                    on: {
+                      click: () => this.$notification.close(this.noticeList[i].post_no),
+                    },
+                  },
+                  '공지 상세보기',
+              )
+            },
+            // onClose: close,
+          })
+        }, i*500);
+        }
+
+
     },
     ...mapMutations('setting', ['setLang'])
   }

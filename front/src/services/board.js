@@ -41,7 +41,7 @@ export function saveBoardComtList(params) {
 }
 
 // 공지대상 게시판 조회
-export function getNoticeBoardList(params) {
+export async function getNoticeBoardList(params) {
     console.log('getNoticeBoardList===',params)
     return axios({
         url: "/front/board/getNoticeBoardList",
