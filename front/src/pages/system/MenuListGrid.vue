@@ -13,7 +13,7 @@
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
-                    <a-input v-model="queryParam.plant_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input v-model="queryParam.id" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="7" :sm="24">
@@ -22,7 +22,7 @@
                       :labelCol="{span: 5}"
                       :wrapperCol="{span: 18, offset: 1}"
                   >
-                    <a-input v-model="queryParam.plant_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input v-model="queryParam.name" @keyup.enter="searchData" placeholder="입력하세요."/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="7" :sm="24">
@@ -202,6 +202,10 @@ export default {
       return this.$gridEditable(this.$refs.mstMenuGrid,event,["id"])
     },
     addRow() {
+      if(this.$refs.mstMenuGrid.getSelectedItems().length == 0) {
+        this.$message.warning("추가 행을 먼저 선택하여 주세요.");
+        return false;
+      }
 
       let item = {row_status:'I', use_yn:'Y', parent_id:this.$refs.mstMenuGrid.getSelectedItems()[0]["item"]["id"]}
 

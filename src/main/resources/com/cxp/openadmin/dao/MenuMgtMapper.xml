@@ -3,7 +3,7 @@
 <mapper namespace="com.cxp.openadmin.dao.MenuMgtMapper">
 
     <select id="getMenuList" resultType="com.cxp.openadmin.domain.dto.backed.SaveMenuMgtDto" parameterType="Map">
-        /* MenuMgtMapper.xml ,  getMenuList */
+        /*  ,  getMenuList */
         select *
         from sys_menu sm
        order by sort asc
@@ -12,8 +12,7 @@
     <insert id="insertMenuList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveMenuMgtDto" statementType="PREPARED">
         /* MenuMgtMapper.xml ,  insertMenuList */
         insert into sys_menu
-        (id
-        ,path
+        (path
         ,invisible
         ,parent_id
         ,name
@@ -25,8 +24,7 @@
         ,created_time
         )
         values
-        ( '41'
-        , #{paramsMap.path}
+        ( #{paramsMap.path}
         , #{paramsMap.invisible}
         , #{paramsMap.parent_id}
         , #{paramsMap.name}

@@ -28,6 +28,7 @@ module.exports = {
             commoncode: {name: '공통코드 관리'},
             commoncode_free: {name: '공통코드_무료그리드'},
             board: {name: '게시판관리'},
+            roles_grid: {name: 'ROLE관리_그리드'}
           },
       },
       master : {
