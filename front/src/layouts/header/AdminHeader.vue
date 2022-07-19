@@ -13,7 +13,7 @@
       <div :class="['admin-header-right', headerTheme]">
           <!-- <header-notice class="header-item"/> -->
           <span style="margin-right:24px">
-            <a-badge :count="noticeList.length">
+            <a-badge dot>
               <a-avatar icon="bell" style="background: white; color: black" @click="onNotice"/>
             </a-badge>
           </span>
