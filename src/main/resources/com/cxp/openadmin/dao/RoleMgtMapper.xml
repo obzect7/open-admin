@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.RoleMgtMapper">
+
+    <select id="getRoleList" resultType="com.cxp.openadmin.domain.dto.backed.SaveRoleMgtDto" parameterType="Map">
+        /* MenuMgtMapper.xml ,  getMenuList */
+        select *
+        from sys_role sm
+        order by id asc
+    </select>
+
+    <insert id="insertRoleList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveRoleMgtDto" statementType="PREPARED">
+
+        /* MenuMgtMapper.xml ,  insertMenuList */
+        insert into sys_role
+        (unique_key
+        ,name
+        ,remark
+        ,created_time
+        )
+        values
+        ( #{paramsMap.unique_key}
+        , #{paramsMap.name}
+        , #{paramsMap.remark}
+        , now()
+        )
+    </insert>
+
+    <update id="updateRoleList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveRoleMgtDto" statementType="PREPARED">
+        update sys_role set
+               unique_key   = #{paramsMap.unique_key}
+             , name         = #{paramsMap.name}
+             , remark       = #{paramsMap.remark}
+        where id = #{paramsMap.id}
+    </update>
+    <delete id="deleteRoleList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveRoleMgtDto">
+        delete from sys_role
+        where id = #{paramsMap.id}
+    </delete>
+
+    <select id="getRoleMenuList" resultType="com.cxp.openadmin.domain.dto.backed.SaveRoleMenuDto" parameterType="Map">
+        /* MenuMgtMapper.xml ,  getMenuList */
+        select AA.id as menu_id
+            ,AA.path
+            ,AA.parent_id
+            ,AA.name
+            ,BB.id
+            ,#{paramsMap.id} as role_id
+            ,BB.menu_ids
+            from sys_menu AA left outer join
+            (
+            select SUBSTRING_INDEX (SUBSTRING_INDEX (B.menu_ids,  ',',  aa.id), ',', -1) as menu_ids, b.id, b.role_id
+            from (WITH RECURSIVE A AS (SELECT 1 AS LEVEL
+                                        UNION ALL
+                                       SELECT 1+A.LEVEL FROM A
+                                        WHERE A.LEVEL <![CDATA[<]]> (select max(id) from sys_menu)
+            )
+            SELECT level as id FROM A) AA inner join (select * from sys_role_menu where role_id = #{paramsMap.id}) B
+            on CHAR_LENGTH (b.menu_ids) - CHAR_LENGTH ( REPLACE (b.menu_ids, ',' , '' )) >= aa.id-1
+            ) BB
+            on aA.id = bB.menu_ids
+    </select>
+
+    <update id="saveRoleMenuList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveRoleMenuDto" statementType="PREPARED">
+        INSERT INTO sys_role_menu
+        (id
+        ,role_id
+        ,menu_ids
+        ) VALUES (
+         #{paramsMap.id}
+        ,#{paramsMap.role_id}
+        ,#{paramsMap.menu_ids}
+        )
+        ON DUPLICATE KEY UPDATE
+            menu_ids = #{paramsMap.menu_ids}
+    </update>
+</mapper>

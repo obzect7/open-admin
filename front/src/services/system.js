@@ -159,6 +159,9 @@ export function getSysUserList(params) {
   });
 }
 
+/* 메뉴리스트 그리드 조회
+ *  
+ */
 export function getMenuList(params) {
   return axios({
     url: "/backed/menumgt/getMenuList",
@@ -167,7 +170,39 @@ export function getMenuList(params) {
   });
 }
 
+/* 메뉴리스트 그리드 저장
+ *  
+ */
 export function saveMenuList(params) {
   console.log('saveMstMenuList===', params)
   return axios.post("/backed/menumgt/saveMenuList", params)
+}
+
+/* 권한 리스트 그리드 조회
+ *  
+ */
+export function getRoleList(params) {
+  return axios({
+    url: "/backed/rolemgt/getRoleList",
+    method: "post",
+    params,
+  });
+}
+
+export function saveRoleList(params) {
+  console.log('saveRoleList===', params)
+  return axios.post("/backed/rolemgt/saveRoleList", params)
+}
+
+export function getRoleMenuList(params) {
+  return axios({
+    url: "/backed/rolemgt/getRoleMenuList",
+    method: "post",
+    params,
+  });
+}
+
+export function saveRoleMenuList(params) {
+  console.log('saveRoleList===', params)
+  return axios.post("/backed/rolemgt/saveRoleMenuList", params)
 }
