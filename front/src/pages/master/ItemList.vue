@@ -175,7 +175,7 @@ export default {
       {dataField: "plant_cd", headerText: "사업장", width: 120, visible: false},
       {dataField: "owner_cd", headerText: "화주코드", width: 140, visible: false},
 
-      {dataField: "item_cd", headerText: "품번", width: 120, visible: true},
+      {dataField: "item_cd", headerText: "품번", width: 100, visible: true},
       {
         dataField : "fileName",
         headerText : "파일",

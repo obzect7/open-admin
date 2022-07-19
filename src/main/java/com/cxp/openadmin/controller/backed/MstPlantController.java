@@ -23,6 +23,12 @@ public class MstPlantController extends BaseController {
         return HttpResponse.success(mstPlantService.getMstPlantList(map));
     }
 
+    @PostMapping("/getPlantComboList")
+    public HttpResponse getPlantComboList(@RequestBody(required = false) Map<String, Object> map, HttpServletRequest request){
+
+        return HttpResponse.success(mstPlantService.getMstPlantList(map));
+    }
+
     @PostMapping("/saveMstPlant")
     public HttpResponse saveMstPlant(@RequestBody(required = false) List<TmstPlantDto> list, HttpServletRequest request){
         return HttpResponse.success(mstPlantService.saveMstPlant(list));
