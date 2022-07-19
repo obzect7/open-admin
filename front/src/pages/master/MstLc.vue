@@ -121,7 +121,6 @@ export default {
       whList:[],      //창고 리스트
       useYnList: [],
       znList: [],
-      rowIndex : null,
       // 쿼리 매개변수
       queryParam: {useYn: "",plant_cd:"",wh_cd:""},
       columnLayout: [],
@@ -240,7 +239,7 @@ export default {
     },
     selectGridWh(event) {
       console.log("event====", event)
-      const rowIndex = this.rowIndex;
+      const rowIndex = this.cellClickinfo.rowIndex
 
       console.log("rowIndex====", rowIndex)
       this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_cd", event.wh_cd)
@@ -279,8 +278,9 @@ export default {
     },
     openWhPopup(event) {
       //console.log('event==', event)
-      this.rowIndex = event.rowIndex;
-      console.log("rowIndex===", this.rowIndex)
+      //this.rowIndex = event.rowIndex;
+      this.cellClickinfo.rowIndex = event.rowIndex;
+      console.log("rowIndex===", this.cellClickinfo.rowIndex)
 
       const rowaddYn = this.$refs.mstLcGrid.isAddedById(event.item.uid)
       if (rowaddYn) {
