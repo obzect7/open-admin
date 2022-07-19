@@ -10,11 +10,9 @@
       <PopItem v-if="isPopUp" @closepop="closePopItem" :popinit="this.popinit" />
     </a-modal>
     <div :bordered="false" :style="{ minHeight: '800px' }"  v-show="!isPopUp">
-      <div >
         <a-form layout="horizontal" >
-          <div >
-            <a-row >
-              <a-col :md="7" :sm="24" >
+            <a-row type="flex">
+              <a-col :span="24" :xl="6" flex="auto" >
                 <a-form-item
                     label="품번"
                     :labelCol="{span: 5}"
@@ -23,7 +21,7 @@
                   <a-input v-model="queryParam.item_cd" placeholder="입력하세요." />
                 </a-form-item>
               </a-col>
-              <a-col :md="7" :sm="24" >
+              <a-col :span="24" :xl="6" flex="auto" >
                 <a-form-item
                     label="품명"
                     :labelCol="{span: 5}"
@@ -32,7 +30,7 @@
                   <a-input v-model="queryParam.item_nm" placeholder="입력하세요." />
                 </a-form-item>
               </a-col>
-              <a-col :md="7" :sm="24" >
+              <a-col :span="24" :xl="6" flex="auto" >
                 <a-form-item
                     label="사용여부"
                     :labelCol="{span: 5}"
@@ -43,25 +41,26 @@
                   </a-select>
                 </a-form-item>
               </a-col>
-              <a-col :md="3" :sm="24" >
+              <a-col :span="24" :xl="6" flex="180px">
                 <span style="float: right; margin-top: 3px;">
                   <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
                   <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
                 </span>
               </a-col>
             </a-row>
-          </div>
         </a-form>
-      </div>
 
-      <div>
+      <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;" >
+        <a-space >
+          <a-col  :span="24">
+            <a-button type="primary" @click="addItem" size="small">
+              <a-icon type="plus-square"/>
+              추가
+            </a-button>
+          </a-col>
+        </a-space>
+      </a-row>
         <a-row>
-          <div>
-            <a-button-group>
-              <a-button type="primary" @click="addItem"> <a-icon type="plus-square" />추가 </a-button>
-            </a-button-group>
-          </div>
-
           <a-col :md="24" :sm="24">
             <file-attach-box v-if="this.$store.state.modal.file_popup" :visible="this.$store.state.modal.file_popup"
                         :callType="'input'" @closepopItem="closeFilePopup"></file-attach-box>
@@ -76,8 +75,6 @@
         </a-row>
       </div>
 
-
-    </div>
   </a-spin>
 
 </template>
@@ -195,9 +192,37 @@ export default {
       {dataField: "class1", headerText: "구분1", width: 120, visible: true},
       {dataField: "class2", headerText: "구분2", width: 120, visible: true},
       {dataField: "class3", headerText: "구분3", width: 120, visible: true},
-      {dataField: "boxqty", headerText: "Box/Qty", width: 120, visible: true, style: "right-text "},
-      {dataField: "pltqty", headerText: "Plt/Qty", width: 120, visible: true, style: "right-text "},
-      {dataField: "in_price1", headerText: "입고단가", width: 120, visible: true, style: "right-text "},
+      {dataField: "boxqty", headerText: "Box/Qty", width: 120, visible: true,dataType : "numeric",style: "right-text ",
+        editRenderer : {
+          type : "InputEditRenderer",
+          //showEditorBtnOver : true, // 마우스 오버 시 에디터버턴 보이기
+          onlyNumeric : true, // 0~9만 입력가능
+          allowPoint : false, // 소수점( . ) 도 허용할지 여부
+          allowNegative : false, // 마이너스 부호(-) 허용 여부
+          textAlign : "right", // 오른쪽 정렬로 입력되도록 설정
+          autoThousandSeparator : true // 천단위 구분자 삽입 여부
+        }
+      },
+      {dataField: "pltqty", headerText: "Plt/Qty", width: 120, visible: true,dataType : "numeric",style: "right-text ",
+        editRenderer : {
+          type : "InputEditRenderer",
+          //showEditorBtnOver : true, // 마우스 오버 시 에디터버턴 보이기
+          onlyNumeric : true, // 0~9만 입력가능
+          allowPoint : false, // 소수점( . ) 도 허용할지 여부
+          allowNegative : false, // 마이너스 부호(-) 허용 여부
+          autoThousandSeparator : true // 천단위 구분자 삽입 여부
+        }
+      },
+      {dataField: "in_price1", headerText: "입고단가", width: 120, visible: true,dataType : "numeric",style: "right-text ",
+        editRenderer : {
+          type : "InputEditRenderer",
+          //showEditorBtnOver : true, // 마우스 오버 시 에디터버턴 보이기
+          onlyNumeric : true, // 0~9만 입력가능
+          allowPoint : false, // 소수점( . ) 도 허용할지 여부
+          allowNegative : false, // 마이너스 부호(-) 허용 여부
+          autoThousandSeparator : true // 천단위 구분자 삽입 여부
+        }
+      },
       {dataField: "out_price", headerText: "출고단가", width: 120, visible: true, style: "right-text "},
       {dataField: "lot_yn", headerText: "LOT관리여부", width: 120, visible: true},
       {dataField: "fifo_yn", headerText: "선입선출여부", width: 120, visible: true},

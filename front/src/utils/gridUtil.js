@@ -1,5 +1,6 @@
 import {saveCmCode} from "@/services/commoncode";
 import delIcon from "@/assets/img/delete_icon.png"
+import searchIcon from "@/assets/img/search.png"
 
 export default {
     install(Vue){
@@ -7,7 +8,7 @@ export default {
         Vue.prototype.$gridDelayTime = 500
 
         Vue.prototype.$delIcon = delIcon
-
+        Vue.prototype.$searchIcon = searchIcon
 
         /*
          paramter 정의

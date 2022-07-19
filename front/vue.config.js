@@ -36,6 +36,8 @@ const assetsCDN = {
 
 module.exports = {
   devServer: {
+    host: 'localhost',
+    overlay: true,
     // proxy: {
     //   '/api': { //test /services/api.js의 API_PROXY_PREFIX 값은 동일하게 유지됩니다.
     //     target: process.env.VUE_APP_API_BASE_URL,
