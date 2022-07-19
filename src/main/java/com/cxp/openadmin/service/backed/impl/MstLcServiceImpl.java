@@ -17,6 +17,11 @@ public class MstLcServiceImpl implements MstLcService {
 
     @Override
     public List<TmstLcDto> getMstLcList(Map<String, Object> map) {
+
+        if(map != null && map.get("wh_cd") !=null && !"".equals(map.get("wh_cd").toString())){
+            String[] whCdArr = map.get("wh_cd").toString().split(",");
+            map.put("whArr",whCdArr);
+        }
         return mstLcMapper.getMstLcList(map);
     }
 
