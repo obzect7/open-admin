@@ -59,6 +59,7 @@
             on CHAR_LENGTH (b.menu_ids) - CHAR_LENGTH ( REPLACE (b.menu_ids, ',' , '' )) >= aa.id-1
             ) BB
             on aA.id = bB.menu_ids
+        order by menu_id asc
     </select>
 
     <update id="saveRoleMenuList" parameterType="com.cxp.openadmin.domain.dto.backed.SaveRoleMenuDto" statementType="PREPARED">

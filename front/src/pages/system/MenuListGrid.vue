@@ -202,6 +202,10 @@ export default {
       return this.$gridEditable(this.$refs.mstMenuGrid,event,["id"])
     },
     addRow() {
+      if(this.$refs.mstMenuGrid.getSelectedItems().length == 0) {
+        this.$message.warning("추가 행을 먼저 선택하여 주세요.");
+        return false;
+      }
 
       let item = {row_status:'I', use_yn:'Y', parent_id:this.$refs.mstMenuGrid.getSelectedItems()[0]["item"]["id"]}
 
