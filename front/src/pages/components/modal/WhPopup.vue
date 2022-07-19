@@ -99,8 +99,10 @@ export default {
   },
 
   async mounted() {
+    console.log('@@@@@@@@@@@@')
     this.useYnList = await getCmCodeLoad('USEYN', '전체')
     this.whTypeList = await getCmCodeLoad('WH_TYPE')
+    console.log('whTypeList === ',this.whTypeList)
 
 
     //console.log("whTypeList====", this.whTypeList)
@@ -117,7 +119,7 @@ export default {
             type: "DropDownListRenderer",
             list: this.whTypeList, //key-value Object 로 구성된 리스트
             keyField: "code", // key 에 해당되는 필드명
-            valueField: "value" // value 에 해당되는 필드명
+            valueField: "code_nm" // value 에 해당되는 필드명
           }
       },
       // {
@@ -181,7 +183,6 @@ export default {
       const item = event.item;
 
       Object.assign(item, {['cellClickinfo']: this.cellClickinfo})
-
 
       this.$emit("selectWh", item)
       //this.$emit(this.parent.queryParam.ackey = 'aaaa')
