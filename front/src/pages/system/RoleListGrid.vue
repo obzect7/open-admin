@@ -1,4 +1,5 @@
 <template>
+  <div>
   <a-spin :spinning="loading" size="large">
     <a-row>
       <a-col :span="24">
@@ -18,68 +19,75 @@
     </a-row>
 
     <a-row>
-
-      <a-col :md="10" :sm="24">
-        <div>
+      <a-col :span="24" :xl="10">
+        <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
           <a-space >
-            <a-button-group>
-              <a-col  :span="6">
-              <a-button type="primary" @click="masterAddRow">
+            <a-col :span="6">
+              <a-button type="primary" @click="masterAddRow" size="small">
                 <a-icon type="plus-square"/>
                 추가
               </a-button>
               </a-col>
               <a-col  :span="6">
-              <a-button type="primary" @click="masterRemoveRow">
+              <a-button type="primary" @click="masterRemoveRow" size="small">
                 <a-icon type="delete"/>
                 삭제
               </a-button>
               </a-col>
               <a-col  :span="6">
-                <a-button type="primary" @click="saveMaster">
+                <a-button type="primary" @click="saveMaster" size="small">
                   <a-icon type="save"/>
                   저장
                 </a-button>
               </a-col>
               <a-col  :span="6">
-                <a-button type="primary" @click="downLoadExcel('grid1')">
+                <a-button type="primary" @click="downLoadExcel('grid1')" size="small">
                   <a-icon type="file-excel"/>
                   다운로드
                 </a-button>
               </a-col>
-            </a-button-group>
           </a-space>
-        </div>
+        </a-row>
+        <a-row type="flex">
+          <a-col :span="24">
         <AUIGrid ref="myGrid1" class="grid-wrap"
                  @cellClick="cellClickHandler"
                  style="height:65vh"
         >
         </AUIGrid>
+          </a-col>
+        </a-row>
       </a-col>
-      <a-col :md="10" :sm="24">
-        <div>
+
+      <a-col :span="24" :xl="14">
+        <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
           <a-space >
             <a-col  :span="6">
-              <a-button type="primary" @click="saveDetail">
+              <a-button type="primary" @click="saveDetail" size="small">
                 <a-icon type="save"/>
                 저장
               </a-button>
             </a-col>
             <a-col  :span="6">
-              <a-button type="primary" @click="downLoadExcel('grid2')">
+              <a-button type="primary" @click="downLoadExcel('grid2')" size="small">
                 <a-icon type="file-excel"/>
                 다운로드
               </a-button>
             </a-col>
           </a-space>
-        </div>
-        <AUIGrid ref="myGrid2" class="grid-wrap"
-                 style="height:65vh"
-        >
-        </AUIGrid>
+        </a-row>
+        <a-row type="flex">
+          <a-col :span="24">
+            <AUIGrid ref="myGrid2" class="grid-wrap"
+                     style="height:65vh"
+            >
+            </AUIGrid>
+          </a-col>
+        </a-row>
       </a-col>
     </a-row>
   </a-spin>
+  </div>
 </template>
 
 
