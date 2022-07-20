@@ -108,7 +108,7 @@ const redirectGuard = (to, from, next, options) => {
 };
 
 /**
- * 进度条结束
+ * 진행률 표시줄 끝
  * @param to
  * @param form
  * @param options

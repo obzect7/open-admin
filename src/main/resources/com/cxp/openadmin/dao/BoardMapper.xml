@@ -227,8 +227,11 @@
 
     <select id="getNoticeBoardList" resultType="com.cxp.openadmin.domain.dto.front.BoardDto" parameterType="Map">
         /* BoardMapper.xml ,  getNoticeBoardList */
-        SELECT POST_TIT
-             , POST_CONT
+        SELECT
+               BOARD_ID
+             , POST_NO
+             , POST_TIT
+             , REGEXP_REPLACE(POST_CONT, <![CDATA['<[^>]*>|&nbsp;' ]]>, '') AS POST_CONT
           FROM CM_BOARD
          WHERE 1=1
            AND DEL_YN = 'N'

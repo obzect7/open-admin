@@ -7,82 +7,90 @@
                 :visible="this.$store.state.modal.wh_popup"
                 :cellClickinfo="this.cellClickinfo"
                 @selectWh="selectGridWh"
-                  ></wh-popup>
+      ></wh-popup>
+      <a-form layout="horizontal">
+        <a-row type="flex">
+          <a-col :span="24" :xl="6" flex="auto">
+            <a-form-item
+                label="사업장"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-select v-model="queryParam.plant_cd" placeholder="선택하세요." @change="plantChange" >
+                <a-select-option :key="item.plant_cd" :value="item.plant_cd" v-for="(item, index) in this.plantList">
+                  {{ item.plant_nm }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" :xl="6" flex="auto">
+            <a-form-item
+                label="창고"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-select mode="multiple"
+                        placeholder="선택하세요."
+                        @change="whChange">
+                <a-select-option :key="item.wh_cd" :value="item.wh_cd" v-for="(item, index) in whList">
+                  {{ item.wh_nm }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" :xl="6" flex="auto">
+            <a-form-item
+                label="사용여부"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-radio-group default-value="Y" button-style="solid" v-model="queryParam.use_yn">
+                <a-radio-button :key="item.code" :value="item.code" v-for="(item, index) in useYnList">
+                  {{ item.code_nm }}
+                </a-radio-button>
+              </a-radio-group>
 
-      <a-row>
-        <a-col :span="24">
-          <a-form layout="horizontal">
-            <div>
-              <a-row>
-                <a-col :md="7" :sm="24">
-                  <a-form-item
-                      label="사업장코드"
-                      :labelCol="{span: 5}"
-                      :wrapperCol="{span: 18, offset: 1}"
-                  >
-                    <a-input v-model="queryParam.plant_cd" @keyup.enter="searchData" placeholder="입력하세요."/>
-                  </a-form-item>
-                </a-col>
-                <a-col :md="7" :sm="24">
-                  <a-form-item
-                      label="사업장명"
-                      :labelCol="{span: 5}"
-                      :wrapperCol="{span: 18, offset: 1}"
-                  >
-                    <a-input v-model="queryParam.plant_nm" @keyup.enter="searchData" placeholder="입력하세요."/>
-                  </a-form-item>
-                </a-col>
-                <a-col :md="7" :sm="24">
-                  <a-form-item
-                      label="사용여부"
-                      :labelCol="{span: 5}"
-                      :wrapperCol="{span: 18, offset: 1}"
-                  >
-                    <a-select v-model="queryParam.use_yn" placeholder="선택하세요.">
-                      <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">
-                        {{ item.code_nm }}
-                      </a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
-                <a-col :md="3" :sm="24">
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" :xl="6" flex="180px">
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="searchData" :loading="loading">조회</a-button>
               <a-button style="margin-left: 8px" @click="pageReset">초기화</a-button>
               </span>
-                </a-col>
-              </a-row>
-            </div>
-          </a-form>
-        </a-col>
-      </a-row>
+          </a-col>
+        </a-row>
+        <a-row type="flex">
 
-      <a-row type="flex" justify="end" >
-        <a-col  :span="3.5">
-          <a-button-group>
-            <a-space>
-            <a-button type="primary" @click="addRow">
+        </a-row>
+      </a-form>
+
+      <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
+        <a-space>
+          <a-col :span="8">
+            <a-button type="primary" @click="addRow" size="small">
               <a-icon type="plus-square"/>
               추가
             </a-button>
-            <a-button type="primary" @click="removeRow">
+          </a-col>
+          <a-col :span="8">
+            <a-button type="primary" @click="removeRow" size="small">
               <a-icon type="delete"/>
               삭제
             </a-button>
-            <a-button type="primary" @click="saveRow">
+          </a-col>
+          <a-col :span="8">
+            <a-button type="primary" @click="saveRow" size="small">
               <a-icon type="save"/>
               저장
             </a-button>
-            </a-space>
-          </a-button-group>
-        </a-col>
+          </a-col>
+        </a-space>
       </a-row>
 
-      <a-row >
-        <a-col :md="24" :sm="24" >
+      <a-row>
+        <a-col :span="24">
           <AUIGrid ref="mstLcGrid" class="grid-wrap"
-                   @cellEditBegin = "CellEditBegin"
-                   @cellClick="cellClickHandler"
+                   v-model="gridData"
                    style="height:65vh"
           >
           </AUIGrid>
@@ -95,7 +103,7 @@
 <script>
 // AUIGrid 컴포넌트
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
-import {getCmCodeLoad} from "@/services/commoncode";
+import {getCmCodeLoad, getPlantComboList, getWhComboList} from "@/services/commoncode";
 import {getMstLcList, saveMstPlant} from "@/services/mstLc";
 import WhPopup from "@/pages/components/modal/WhPopup";
 import {mapMutations} from "vuex";
@@ -108,14 +116,18 @@ export default {
   },
   data: function () {
     return {
-      loading: false,     //로딩바 유무
+      loading: false,  //로딩바 유무
+      plantList:[],   //사업장 리스트
+      whList:[],      //창고 리스트
       useYnList: [],
-      znList : [],
+      znList: [],
       // 쿼리 매개변수
-      queryParam: {useYn: ""},
+      queryParam: {useYn: "",plant_cd:"",wh_cd:""},
       columnLayout: [],
       // 그리드 속성 정의
       auigridProps: {
+        // 실제 조회 Field 또는 가상 Field 모두 가능 ( 가상 Field 일 경우 추가 row는 uid 생성되나, 조회된 row는 uid 존재 안함//실제 field면 조회 field 값, 추가면 _$uid 값이 field 값으로 생성됨.  )
+        rowIdField: "uid",
         // 편집 가능 여부 (기본값 : false)
         editable: true,
 
@@ -134,9 +146,9 @@ export default {
       gridData: [],
 
       //그릳드 선택cell 정보
-      cellClickinfo : {
-        rowIndex : '',
-        dataField : '',
+      cellClickinfo: {
+        rowIndex: '',
+        dataField: '',
       }
     }
 
@@ -147,28 +159,31 @@ export default {
   async mounted() {
 
     this.useYnList = await getCmCodeLoad('USEYN', '전체')
-    this.znList = await getCmCodeLoad('ZN_CD', '선택')
+    this.znList    = await getCmCodeLoad('ZN_CD', '선택')
+    this.plantList = await getPlantComboList('전체')
+    console.log('plantList==',this.plantList)
+
 
     // 그리드 칼럼 레이아웃 정의
     this.columnLayout = [
       {dataField: "plant_cd", headerText: "사업장코드", width: 120, headerStyle: "aui-grid-required-header"},
       {dataField: "plant_nm", headerText: "사업장명", width: 120, editable: false},
-      {dataField: "wh_cd", headerText: "창고코드", width: 120, headerStyle: "aui-grid-required-header", editable: false
-        // renderer: {
-        //   type: "IconRenderer",
-        //   iconWidth: 20, // icon 가로 사이즈, 지정하지 않으면 24로 기본값 적용됨
-        //   iconHeight: 20,
-        //   iconFunction: function (rowIndex, columnIndex, value) {
-        //     if (value && value.substr(0, 1) == "A")
-        //       return "./assets/office_female.png";
-        //     return "./assets/office_man.png";
-        //   },
-        // },
+      {
+        dataField: "wh_cd", headerText: "창고코드", width: 120, headerStyle: "aui-grid-required-header", editable: true,
+        renderer: {
+          type: "IconRenderer",
+          iconWidth: 20, // icon 가로 사이즈, 지정하지 않으면 24로 기본값 적용됨
+          iconHeight: 20,
+          iconPosition: "aisleRight",  // 아이콘 위치
+          iconTableRef: {"default": this.$searchIcon},
+          onClick: this.openWhPopup
+        },
       },
       {dataField: "wh_nm", headerText: "창고명", width: 120, editable: false},
       {dataField: "lc_cd", headerText: "위치코드", width: 120, headerStyle: "aui-grid-required-header"},
       {dataField: "lc_nm", headerText: "위치명", width: 120, headerStyle: "aui-grid-required-header"},
-      {dataField: "zn_cd", headerText: "구역", width: 120,
+      {
+        dataField: "zn_cd", headerText: "구역", width: 120,
         renderer: {
           type: "DropDownListRenderer",
           list: this.znList, //key-value Object 로 구성된 리스트
@@ -185,29 +200,27 @@ export default {
           valueField: "code_nm" // value 에 해당되는 필드명
         }
       },
-      {dataField: "remark", headerText: "비고", width: 140, style: "left-text "},
+      {dataField: "remark", headerText: "비고", width: 140, style: "left-text" , editable: true},
       {dataField: "reg_id", headerText: "등록자", width: 80, editable: false},
       {dataField: "reg_dt", headerText: "등록일자", width: 80, editable: false},
       {dataField: "mod_id", headerText: "수정자", width: 80, editable: false},
       {dataField: "mod_dt", headerText: "수정일자", width: 80, editable: false}
     ]
 
-    let grid = this.$refs.mstLcGrid;
-
     // 그리드 생성
-    grid.create(this.columnLayout, this.auigridProps);
+    this.$refs.mstLcGrid.create(this.columnLayout, this.auigridProps);
 
     // 그리드 데이터 삽입하기
-    grid.setGridData(this.gridData);
+    // this.$refs.mstLcGrid.setGridData(this.gridData);
   },
-  watch:{
+  watch: {
     gridData: function (newVal, oldVal) {
       this.$refs.mstLcGrid.setGridData(newVal);
     },
   },
   methods: {
     ...mapMutations('modal', ['setWh_popup']),
-    pageReset(){
+    pageReset() {
       //페이지 초기화
       console.log('페이지 초기화')
       this.queryParam = {useYn: ""}
@@ -219,51 +232,16 @@ export default {
       return getMstLcList(Object.assign(this.queryParam)).then(
           (res) => {
             console.log('res====', res)
-            this.$refs.mstLcGrid.setGridData(res.data);
+            this.gridData = res.data
             setTimeout(() => this.loading = false, this.$gridDelayTime)
           }
       )
     },
-    CellEditBegin(event) {
-      //해당 필드는 update 불가, add 시 입력가능
-      return this.$gridEditable(this.$refs.mstLcGrid,event,["plant_cd", "plant_nm"])
-    },
-    cellClickHandler(event){
+    selectGridWh(event) {
+      console.log("event====", event)
+      const rowIndex = this.cellClickinfo.rowIndex
 
-      console.log("event===", event)
-      const rowIndex = event.rowIndex;
-      const dataField = event.dataField;
-
-      //console.log("rowIndex===", rowIndex)
-      //console.log("dataField===", dataField)
-
-      if(dataField != 'wh_cd'){
-        return;
-      }
-
-      this.cellClickinfo.rowIndex = rowIndex;
-      this.cellClickinfo.dataField = dataField;
-      //console.log('팝업 띄우는 쌤플')
-
-      const rowaddYn = this.$refs.mstLcGrid.isAddedById(event.rowIdValue)
-      //console.log("rowaddYn===", rowaddYn)
-
-      if(rowaddYn == false){
-        this.$message.warn('신규행만 등록가능합니다.', 3)
-
-        return;
-      }
-
-      this.setWh_popup(true)
-
-
-
-    },
-    selectGridWh(event){
-      //console.log("event====", event)
-      const rowIndex = event.cellClickinfo.rowIndex;
-
-      //console.log("rowIndex====", rowIndex)
+      console.log("rowIndex====", rowIndex)
       this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_cd", event.wh_cd)
       this.$refs.mstLcGrid.setCellValue(rowIndex, "wh_nm", event.wh_nm)
 
@@ -273,14 +251,14 @@ export default {
     addRow() {
       // 하단에 1행 추가
       // console.log('행추가 !!')
-      let item = { use_yn: "Y", row_status: 'I'};
+      let item = {use_yn: "Y", row_status: 'I'};
       this.$refs.mstLcGrid.addRow(item, "last");
     },
     removeRow() {
       this.$refs.mstLcGrid.removeCheckedRows();
     },
     saveRow() {
-      const isValid = this.$refs.mstLcGrid.validateChangedGridData(["plant_cd", "wh_cd", "lc_cd","lc_nm", "use_yn"], "필수입력 입니다.");
+      const isValid = this.$refs.mstLcGrid.validateChangedGridData(["plant_cd", "wh_cd", "lc_cd", "lc_nm", "use_yn"], "필수입력 입니다.");
       if (isValid) {
         const data = this.$gridGetCudData(this.$refs.mstLcGrid)
         if (data.length > 0) {
@@ -298,6 +276,26 @@ export default {
         }
       }
     },
+    openWhPopup(event) {
+      //console.log('event==', event)
+      //this.rowIndex = event.rowIndex;
+      this.cellClickinfo.rowIndex = event.rowIndex;
+      console.log("rowIndex===", this.cellClickinfo.rowIndex)
+
+      const rowaddYn = this.$refs.mstLcGrid.isAddedById(event.item.uid)
+      if (rowaddYn) {
+        this.setWh_popup(true)
+      }
+    },
+    async plantChange(value) {
+      console.log('value ====',value)
+      this.whList = await getWhComboList(value,)
+    },
+    whChange(value){
+      const test = value
+      this.queryParam.wh_cd = ''+value
+      console.log('@@@@@@@@@',this.queryParam.wh_cd)
+    }
   }
 }
 

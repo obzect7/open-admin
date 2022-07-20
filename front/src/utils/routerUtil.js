@@ -151,6 +151,17 @@ function loadGuards(guards, options) {
   beforeEach.forEach((guard) => {
     if (guard && typeof guard === "function") {
       router.beforeEach((to, from, next) => guard(to, from, next, options));
+
+      //a.vue 를 빌드시 최초aaa.js 이나 또 빌드하면 bbb.js 같이 파일명이 변함.
+      //파일이 없을때 chunk 에러가 발생하는데 chunk 에러 발생시 화면을 로그할 수 있게 리로드 해준다.
+      //참고 사이트1 : https://blog.francium.tech/vue-lazy-routes-loading-chunk-failed-9ee407bbd58
+      //참고 사이트2 : https://satisfactoryplace.tistory.com/194
+      router.onError(error => {
+        console.log('리로드 청크 에러 ',error)
+        if (/loading chunk \d* failed./i.test(error.message)) {
+          window.location.reload()
+        }
+      })
     }
   });
   afterEach.forEach((guard) => {

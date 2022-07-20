@@ -57,6 +57,7 @@ const resp500 = {
     const {message} = options
     if (response.code === 500) {
       message.error('처리중 장애가 발생했습니다.\n'+response.data.message)
+      console.log('res1111====',response)
     }
     return response
   },
@@ -64,7 +65,12 @@ const resp500 = {
     const {message} = options
     const {response} = error
     if (response.status === 500) {
-      message.error('처리중 장애가 발생했습니다.\n'+response.data.message)
+      console.log('res22222====',response)
+      if(response.data.code == 99998){
+        message.error('중복된 값이 존재합니다.')
+      }else{
+        message.error('처리중 장애가 발생했습니다.\n'+response.data.message)
+      }
       // console.log('errrrrrrrrrrrrrr=',response)
     }
     return Promise.reject(error)

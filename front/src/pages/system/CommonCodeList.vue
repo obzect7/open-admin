@@ -1,143 +1,165 @@
 <template>
-  <a-spin :spinning="loading" size="large">
-    <a-row>
-      <a-col :span="24">
-        <a-form layout="horizontal">
-          <div>
-            <a-row>
-              <a-col :md="7" :sm="24">
-                <a-form-item
-                    label="그룹코드"
-                    :labelCol="{span: 5}"
-                    :wrapperCol="{span: 18, offset: 1}"
-                >
-                  <a-input v-model="queryParam.groupCd" placeholde1="입력하세요."/>
-                </a-form-item>
-              </a-col>
-              <a-col :md="7" :sm="24">
-                <a-form-item
-                    label="품번"
-                    :labelCol="{span: 5}"
-                    :wrapperCol="{span: 18, offset: 1}"
-                >
-                  <a-input-group >
-                    <a-row :gutter="8">
-                      <a-col :span="10">
-                        <a-input-search placeholder="" enter-button @search="onSearchAckey" v-model="queryParam.item_cd" />
-                      </a-col>
-                      <a-col :span="14">
-                        <a-input default-value="" v-model="queryParam.item_nm">
-                        <a-icon slot="addonAfter" type="close-circle" @click="resetAckey" />
-                        </a-input>
-                      </a-col>
-                    </a-row>
-                  </a-input-group>
+  <div :style="{ minHeight: '800px' }">
+    <a-spin :spinning="loading" size="large">
+      <a-form layout="horizontal">
+        <a-row type="flex">
+          <a-col :span="24" :xl="7" flex="auto">
+            <a-form-item
+                label="그룹코드"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-input v-model="queryParam.groupCd" placeholde1="입력하세요."/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" :xl="10" flex="auto">
+            <a-form-item
+                label="품번"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-input-group>
+                <a-row :gutter="8">
+                  <a-col :span="10">
+                    <a-input-search placeholder="" enter-button @search="onSearchAckey"
+                                    v-model="queryParam.item_cd"/>
+                  </a-col>
+                  <a-col :span="14">
+                    <a-input default-value="" v-model="queryParam.item_nm">
+                      <a-icon slot="addonAfter" type="close-circle" @click="resetAckey"/>
+                    </a-input>
+                  </a-col>
+                </a-row>
+              </a-input-group>
 
-                  <item-popup v-if="this.$store.state.modal.item_popup" :visible="this.$store.state.modal.item_popup"
-                              :callType="'input'" @closepopItem="closepopItem"></item-popup>
-                </a-form-item>
-              </a-col>
-              <a-col :md="7" :sm="24">
-                <a-form-item
-                    label="사용여부"
-                    :labelCol="{span: 5}"
-                    :wrapperCol="{span: 18, offset: 1}"
-                >
-                  <a-select v-model="queryParam.useYn"  >
-                    <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">{{item.code_nm}}</a-select-option>
-<!--                    <a-select-option value="Y">사용</a-select-option>-->
-<!--                    <a-select-option value="N">미사용</a-select-option>-->
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :md="7" :sm="24">
-                <a-form-item
-                    label="그룹코드명"
-                    :labelCol="{span: 5}"
-                    :wrapperCol="{span: 18, offset: 1}"
-                >
-                  <a-input v-model="queryParam.groupNm" placeholder="입력하세요."/>
-                </a-form-item>
-              </a-col>
-              <a-col :md="3" :sm="24">
+              <item-popup v-if="this.$store.state.modal.item_popup" :visible="this.$store.state.modal.item_popup"
+                          :callType="'input'" @closepopItem="closepopItem"></item-popup>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" :xl="7" flex="auto">
+            <a-form-item
+                label="사용여부"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-select v-model="queryParam.useYn">
+                <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">
+                  {{ item.code_nm }}
+                </a-select-option>
+                <!--                    <a-select-option value="Y">사용</a-select-option>-->
+                <!--                    <a-select-option value="N">미사용</a-select-option>-->
+              </a-select>
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row type="flex">
+          <a-col flex="auto">
+            <a-form-item
+                label="그룹코드명"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}"
+            >
+              <a-input v-model="queryParam.groupNm" placeholder="입력하세요."/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="24" :xl="6" flex="180px">
                 <span style="float: right; margin-top: 3px;">
                   <a-button type="primary" icon="search" @click="searchMaster" :loading="loading">조회</a-button>
                   <a-button style="margin-left: 8px">초기화</a-button>
                 </span>
+          </a-col>
+        </a-row>
+      </a-form>
+
+      <a-row>
+        <a-col :span="24" :xl="10">
+          <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
+            <a-space>
+              <a-col :span="6">
+                <a-button type="primary" @click="masterAddRow" size="small">
+                  <a-icon type="plus-square"/>
+                  추가
+                </a-button>
               </a-col>
-            </a-row>
-          </div>
-        </a-form>
+              <a-col :span="6">
+                <a-button type="primary" @click="masterRemoveRow" size="small">
+                  <a-icon type="delete"/>
+                  삭제
+                </a-button>
+              </a-col>
+              <a-col :span="6">
+                <a-button type="primary" @click="saveMaster" size="small">
+                  <a-icon type="save"/>
+                  저장
+                </a-button>
+              </a-col>
+              <a-col :span="6">
+                <a-button type="primary" @click="downLoadExcel('grid1')" size="small">
+                  <a-icon type="file-excel"/>
+                  다운로드
+                </a-button>
+              </a-col>
+            </a-space>
+          </a-row>
+          <a-row type="flex">
+            <a-col :span="24">
+              <AUIGrid ref="myGrid1" class="grid-wrap"
+                       @cellClick="cellClickHandler"
+                       @cellEditBegin="cellEditBeginMaster"
+                       style="height:65vh"
+              >
+              </AUIGrid>
+            </a-col>
+          </a-row>
+        </a-col>
 
-      </a-col>
-    </a-row>
+        <a-col :span="24" :xl="14">
+          <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
+            <a-space>
+              <a-col :span="6">
+                <a-button type="primary" @click="detailAddRow" size="small">
+                  <a-icon type="plus-square"/>
+                  추가
+                </a-button>
+              </a-col>
+              <a-col :span="6">
+                <a-button type="primary" @click="detailRemoveRow" size="small">
+                  <a-icon type="delete"/>
+                  삭제
+                </a-button>
+              </a-col>
+              <a-col :span="6">
+                <a-button type="primary" @click="saveDetail" size="small">
+                  <a-icon type="save"/>
+                  저장
+                </a-button>
+              </a-col>
+              <a-col :span="6">
+                <a-button type="primary" @click="downLoadExcel('grid2')" size="small">
+                  <a-icon type="file-excel"/>
+                  다운로드
+                </a-button>
+              </a-col>
+            </a-space>
+          </a-row>
+          <a-row type="flex">
+            <a-col :span="24">
+              <AUIGrid ref="myGrid2" class="grid-wrap"
+                       style="height:65vh"
+                       @cellEditBegin="cellEditBeginDetail"
+              >
+              </AUIGrid>
+            </a-col>
+          </a-row>
+        </a-col>
 
-    <a-row>
-
-      <a-col :md="10" :sm="24">
-        <div>
-          <a-button-group style="margin-bottom: 10px;">
-            <a-button type="primary" @click="masterAddRow">
-              <a-icon type="plus-square"/>
-              추가
-            </a-button>
-            <a-button type="primary" @click="masterRemoveRow">
-              <a-icon type="delete"/>
-              삭제
-            </a-button>
-            <a-button type="primary" @click="saveMaster">
-              <a-icon type="save"/>
-              저장
-            </a-button>
-            <a-button type="primary" @click="downLoadExcel('grid1')">
-              <a-icon type="file-excel"/>
-              다운로드
-            </a-button>
-
-          </a-button-group>
-        </div>
-        <AUIGrid ref="myGrid1" class="grid-wrap"
-                 @cellClick="cellClickHandler"
-                 @cellEditBegin="cellEditBeginMaster"
-                 style="height:65vh"
-        >
-        </AUIGrid>
-      </a-col>
-      <a-col :md="14" :sm="24">
-        <div style="margin-bottom: 10px;">
-          <a-button type="primary" @click="detailAddRow">
-            <a-icon type="plus-square"/>
-            추가
-          </a-button>
-          <a-button type="primary" @click="detailRemoveRow">
-            <a-icon type="delete"/>
-            삭제
-          </a-button>
-          <a-button type="primary" @click="saveDetail">
-            <a-icon type="save"/>
-            저장
-          </a-button>
-          <a-button type="primary" @click="downLoadExcel('grid2')">
-            <a-icon type="file-excel"/>
-            다운로드
-          </a-button>
-        </div>
-        <AUIGrid ref="myGrid2" class="grid-wrap"
-                 style="height:65vh"
-                 @cellEditBegin="cellEditBeginDetail"
-        >
-        </AUIGrid>
-      </a-col>
-    </a-row>
-  </a-spin>
+      </a-row>
+    </a-spin>
+  </div>
 </template>
 
-
 <script>
-
-
 // AUIGrid 컴포넌트
-
 import AUIGrid from "@/components/auigrid/import/AUIGrid-Vue.js/AUIGrid";
 import {getCmCodeGrpList, getCmCodeList, getCmCodeLoad, saveCmCode, saveCmCodeGrp} from "@/services/commoncode";
 import ItemPopup from "@/pages/components/modal/ItemPopup";
@@ -158,8 +180,8 @@ export default {
       useYnList,
       // 쿼리 매개변수
       queryParam: {
-        item_cd:"",
-        item_nm:"",
+        item_cd: "",
+        item_nm: "",
       },
       // 그리드 칼럼 레이아웃 정의
       columnLayoutHD: [],
@@ -178,7 +200,7 @@ export default {
         // 셀 선택모드 (기본값: singleCell)
         selectionMode: "multipleCells",
         //필터사용유무
-        enableFilter : true,
+        enableFilter: true,
       },
 
       // 그리드 데이터
@@ -205,7 +227,7 @@ export default {
   },
   async mounted() {
     console.log('mounted @@@@@@@@@@####### = ')
-    this.useYnList = await getCmCodeLoad('USEYN','전체')
+    this.useYnList = await getCmCodeLoad('USEYN', '전체')
     this.columnLayoutHD = [
       {
         dataField: "group_cd",
@@ -230,21 +252,35 @@ export default {
           valueField: "code_nm" // value 에 해당되는 필드명
         },
       },
-      {dataField: "rem", headerText: "비고"}
+      {dataField: "rem", headerText: "비고",style: "left-text",}
     ]
 
     this.columnLayoutDT = [
-      {dataField: "code", headerStyle: "aui-grid-required-header", headerText: "코드ID", filter : {showIcon : true}, width: 120 },
-      {dataField: "code_nm",headerStyle: "aui-grid-required-header", headerText: "코드명", filter : {showIcon : true}, width: 140},
-      {dataField:"sort",			headerText:"정렬",			width:100,		dataType:"numeric",
-        renderer : {
-          type : "NumberStepRenderer",
-          min : 1,
-          max : 99,
-          step : 1,
-          inputHeight : 25, // input 높이 지정
-          textEditable : true
-        }
+      {
+        dataField: "code",
+        headerStyle: "aui-grid-required-header",
+        headerText: "코드ID",
+        filter: {showIcon: true},
+        width: 120
+      },
+      {
+        dataField: "code_nm",
+        headerStyle: "aui-grid-required-header",
+        headerText: "코드명",
+        filter: {showIcon: true},
+        width: 140
+      },
+      {
+        dataField: "sort", headerText: "정렬", width: 100, dataType: "numeric",editable: true,
+        renderer: {
+          type: "NumberStepRenderer",
+          min: 1,
+          max: 99,
+          step: 1,
+          inputHeight: 25, // input 높이 지정
+          textEditable: true
+        },
+
       },
       {
         dataField: "use_yn", headerText: "사용여부", width: 120,
@@ -314,8 +350,13 @@ export default {
       this.$refs.myGrid2.clearGridData();
     },
     masterRemoveRow() {
+      const list = this.$refs.myGrid1.getCheckedRowItemsAll()
+      if(list.length == 0){
+        this.$message.info('삭제할 행을 선택하세요.');
+        return
+      }
       // 체크된 행 삭제 처리
-      this.$refs.myGrid1.removeCheckedRows();
+      this.$refs.myGrid1.removeCheckedRows()
     },
     detailAddRow() {
 
@@ -324,7 +365,7 @@ export default {
 
         // 하단에 1행 추가
         console.log('행추가 !!')
-        let item = {use_yn: "Y", row_status: 'I', group_cd: master[0].group_cd};
+        let item = {use_yn: "Y", row_status: 'I', group_cd: master[0].group_cd,sort:0};
         this.$refs.myGrid2.addRow(item, "last");
       } else {
         this.$message.warn('그룹코드를 선택하세요.', 3)
@@ -332,8 +373,13 @@ export default {
       console.log('test == ', master);
     },
     detailRemoveRow() {
+      const list = this.$refs.myGrid2.getCheckedRowItemsAll()
+      if(list.length == 0){
+        this.$message.info('삭제할 행을 선택하세요.');
+        return
+      }
       // 체크된 행 삭제 처리
-      this.$refs.myGrid2.removeCheckedRows();
+      this.$refs.myGrid2.removeCheckedRows()
     }, cellClickHandler(event) {
       // 셀클릭 이벤트 핸들링
       console.log('cell click ===', event)
@@ -346,17 +392,18 @@ export default {
     },
     cellEditBeginMaster(event) {
       //해당 필드는 update 불가, add 시 입력가능
-      return this.$gridEditable(this.$refs.myGrid1,event,["group_cd"])
-    },cellEditBeginDetail(event) {
+      return this.$gridEditable(this.$refs.myGrid1, event, ["group_cd"])
+    }, cellEditBeginDetail(event) {
       //해당 필드는 update 불가, add 시 입력가능
-      return this.$gridEditable(this.$refs.myGrid2,event,["code"])
+      return this.$gridEditable(this.$refs.myGrid2, event, ["code"])
     }, saveMaster() {
-      const data = this.$gridGetCudData(this.$refs.myGrid1,["group_cd", "code", "code_nm"])
-      if(data.length){
+      const data = this.$gridGetCudData(this.$refs.myGrid1, ["group_cd", "code", "code_nm"])
+      if (data.length) {
         saveCmCodeGrp(data).then(
             (res) => {
               console.log('res====', res)
               if (res.code == 200) {
+                this.$message.success('저장완료');
                 this.searchMaster()
               } else {
                 this.$message.error(res.message);
@@ -371,12 +418,14 @@ export default {
 
     }, saveDetail() {
 
-      const data = this.$gridGetCudData(this.$refs.myGrid2,["code", "code_nm"])
-      if(data.length){
+      const data = this.$gridGetCudData(this.$refs.myGrid2, ["code", "code_nm"])
+      if (data.length > 0) {
+        this.loading = true
         saveCmCode(data).then(
             (res) => {
               console.log('res====', res)
               if (res.code == 200) {
+                this.$message.success('저장완료');
                 this.searchMaster()
               } else {
                 this.$message.error(res.message);
@@ -392,11 +441,11 @@ export default {
     },
     downLoadExcel(id) {
       // 내보내기 실행
-      if(id == "grid1"){
+      if (id == "grid1") {
         this.$refs.myGrid1.exportToXlsx({
           isRowStyleFront: false,
         })
-      }else{
+      } else {
         this.$refs.myGrid2.exportToXlsx({
           isRowStyleFront: false,
         })
@@ -404,13 +453,13 @@ export default {
 
 
     },
-    onSearchAckey(){
+    onSearchAckey() {
       console.log('팝업 띄우는 쌤플')
       this.setItem_popup(true)
-    },resetAckey(){
+    }, resetAckey() {
       console.log('!@@@@@@@@@@@@')
-      this.queryParam.item_cd  = ''
-      this.queryParam.item_nm  = ''
+      this.queryParam.item_cd = ''
+      this.queryParam.item_nm = ''
     },
     //품번팝업에서 선택한 대상
     closepopItem(event) {

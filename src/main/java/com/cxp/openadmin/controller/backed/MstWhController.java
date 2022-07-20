@@ -23,6 +23,10 @@ public class MstWhController extends BaseController {
 
         return HttpResponse.success(mstWhService.getMstWhList(map));
     }
+    @PostMapping("/getWhComboList")
+    public HttpResponse getWhComboList(@RequestBody(required = false) Map<String, Object> map, HttpServletRequest request){
+        return HttpResponse.success(mstWhService.getMstWhList(map));
+    }
 
     @PostMapping("/saveMstWh")
     public HttpResponse saveMstWh(@Valid @RequestBody List<TmstWhDto> list, HttpServletRequest request){

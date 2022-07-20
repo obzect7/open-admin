@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxp.openadmin.dao.ChartMapper">
+
+    <select id="getChartList" resultType="com.cxp.openadmin.domain.dto.front.ChartDto" parameterType="Map">
+        /* BoardMapper.xml ,  getBoardList */
+        SELECT ID
+             , GRP_NO
+             , GRP_SQ
+             , GRP_NM
+             , DATA_01
+             , DATA_02
+             , DATA_03
+             , DATA_04
+             , DATA_05
+             , COLOR
+        FROM SM_CHART
+        ORDER BY ID, GRP_NO, GRP_SQ
+    </select>
+
+</mapper>

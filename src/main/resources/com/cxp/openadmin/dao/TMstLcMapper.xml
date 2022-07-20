@@ -33,6 +33,12 @@
         <if test="paramsMap.use_yn != null and paramsMap.use_yn != ''">
             and t.use_yn = #{paramsMap.use_yn}
         </if>
+        <if test="paramsMap.whArr!=null and paramsMap.whArr != ''">
+            and t.wh_cd in
+            <foreach collection="paramsMap.whArr" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
         order by t.plant_cd asc, t.wh_cd asc, t.lc_cd
     </select>
 

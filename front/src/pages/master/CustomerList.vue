@@ -2,11 +2,9 @@
   <a-spin :spinning="loading" size="large">
 
   <div :bordered="false" :style="{ minHeight: '800px' }">
-    <div >
       <a-form layout="horizontal" >
-        <div >
-          <a-row >
-            <a-col :md="7" :sm="24" >
+          <a-row type="flex">
+            <a-col :span="24" :xl="6" flex="auto" >
               <a-form-item
                   label="거래처코드"
                   :labelCol="{span: 5}"
@@ -15,7 +13,7 @@
                 <a-input v-model="queryParam.custCd" placeholder="입력하세요." />
               </a-form-item>
             </a-col>
-            <a-col :md="7" :sm="24" >
+            <a-col :span="24" :xl="6" flex="auto" >
               <a-form-item
                   label="거래처명"
                   :labelCol="{span: 5}"
@@ -24,7 +22,7 @@
                 <a-input v-model="queryParam.custNm" placeholder="입력하세요." />
               </a-form-item>
             </a-col>
-            <a-col :md="7" :sm="24" >
+            <a-col :span="24" :xl="6" flex="auto" >
               <a-form-item
                   label="사용여부"
                   :labelCol="{span: 5}"
@@ -37,38 +35,43 @@
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :md="3" :sm="24" >
+            <a-col :span="24" :xl="6" flex="180px" >
               <span style="float: right; margin-top: 3px;">
                 <a-button type="primary" icon="search" @click="search" :loading="loading">조회</a-button>
                 <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
               </span>
             </a-col>
           </a-row>
-        </div>
       </a-form>
-    </div>
 
-    <div>
-      <a-row>
-
-        <a-col :md="24" :sm="24">
-          <div>
-
-            <a-button-group>
-              <a-button type="primary" @click="addRow"> <a-icon type="plus-square" />추가 </a-button>
-              <a-button type="primary" @click="removeRow"> <a-icon type="delete" />삭제 </a-button>
-              <a-button type="primary" @click="saveRow"> <a-icon type="save" />저장 </a-button>
-            </a-button-group>
-          </div>
-          <AUIGrid ref="custGrid" class="grid-wrap"
-                   @cellEditBegin = "CellEditBegin"
-                   style="height:65vh"
-          >
-          </AUIGrid>
-        </a-col>
+      <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
+        <a-space >
+          <a-col  :span="8">
+            <a-button type="primary" @click="addRow" size="small">
+              <a-icon type="plus-square"/>
+              추가
+            </a-button>
+          </a-col>
+          <a-col :span="8">
+            <a-button type="primary" @click="removeRow" size="small">
+              <a-icon type="delete"/>
+              삭제
+            </a-button>
+          </a-col>
+          <a-col :span="8">
+            <a-button type="primary" @click="saveRow" size="small">
+              <a-icon type="save"/>
+              저장
+            </a-button>
+          </a-col>
+        </a-space>
       </a-row>
-    </div>
-
+      <a-row>
+        <AUIGrid ref="custGrid" class="grid-wrap"
+                 @cellEditBegin = "CellEditBegin"
+                 style="height:65vh">
+        </AUIGrid>
+      </a-row>
 
   </div>
   </a-spin>
@@ -255,20 +258,18 @@ export default {
       this.$refs.custGrid.addRow(item, "last");
     },
     removeRow(){
-      this.$refs.custGrid.removeCheckedRows();
+
+      const list = this.$refs.custGrid.getCheckedRowItemsAll()
+      if(list.length == 0){
+        this.$message.info('삭제할 행을 선택하세요.');
+        return
+      }
+      this.$refs.custGrid.removeCheckedRows()
     },
     saveRow(){
-
-      const isValid = this.$refs.custGrid.validateChangedGridData(["plant_cd", "owner_cd", "cust_cd", "cust_nm","use_yn"], "필수입력 입니다.");
-
-      if(isValid){
-
-        const data = this.$gridGetCudData(this.$refs.custGrid)
-
+        const data = this.$gridGetCudData(this.$refs.custGrid,["plant_cd", "owner_cd", "cust_cd", "cust_nm","use_yn"])
         if (data.length > 0) {
-
           this.loading = true
-
           console.log("data===", data)
           saveCustomer(data).then(
               (res) => {
@@ -279,10 +280,7 @@ export default {
                 }
               }
           )
-
-          this.loading = true
         }
-      }
     },
   }
 }
@@ -290,19 +288,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.search{
-  margin-bottom: 54px;
-}
-.fold{
-  width: calc(100% - 216px);
-  display: inline-block
-}
-.operator{
-  margin-bottom: 18px;
-}
-@media screen and (max-width: 900px) {
-  .fold {
-    width: 100%;
-  }
-}
 </style>

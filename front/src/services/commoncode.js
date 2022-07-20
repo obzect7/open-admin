@@ -89,3 +89,49 @@ export function saveCmCode(params) {
   return axios.post("/backed/commoncode/saveCmCode", params, {})
 }
 
+// 사업장 정보 가져오기
+// option = "전체" or "선택" or null
+export async function getPlantComboList(option) {
+    console.log('getPlantComboList===','')
+    const param = {
+        plant_cd: ''
+    }
+    const response = await axios.post("/backed/plant/getPlantComboList", param, {})
+    let   data     = response.data
+    if(option != null && option != ""){
+        let firstRow = new Object()
+        firstRow.plant_cd     = ''
+        firstRow.plant_nm = option
+        firstRow.addr = ''
+        firstRow.use_yn = 'Y'
+        firstRow.remark = ''
+        data.unshift(firstRow)
+    }
+    console.log('data ==',data)
+    return data
+}
+
+// 창고 정보 가져오기
+// option = "전체" or "선택" or null
+export async function getWhComboList(plant_cd,option) {
+    console.log('getPlantComboList===',plant_cd)
+    const param = {
+        plant_cd: plant_cd
+    }
+    const response = await axios.post("/backed/wh/getWhComboList", param, {})
+    let   data     = response.data
+    if(option != null && option != ""){
+        let firstRow = new Object()
+        firstRow.plant_cd = plant_cd
+        firstRow.wh_cd = ''
+        firstRow.wh_nm = option
+        firstRow.wh_type = ''
+        firstRow.use_yn = 'Y'
+        firstRow.remark = ''
+        data.unshift(firstRow)
+    }
+    console.log('data ==',data)
+    return data
+}
+
+

@@ -331,7 +331,4 @@ export default {
 </script>
 
 <style scoped>
-.popupStyle {
-  height: 100px;
-}
 </style>
