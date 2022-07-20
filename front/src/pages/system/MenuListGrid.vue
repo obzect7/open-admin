@@ -1,48 +1,44 @@
 <template>
-
-  <div :style="{ minHeight: '800px' }">
     <a-spin :spinning="loading" size="large">
       <a-row>
-        <a-col :span="24">
+        <a-col :span="15">
           <a-form layout="horizontal">
             <div>
               <a-row>
                 <a-col :md="7" :sm="24">
                   <a-form-item
                       label="메뉴코드"
-                      :labelCol="{span: 5}"
-                      :wrapperCol="{span: 18, offset: 1}"
+                      :labelCol="{span: 8}"
                   >
-                    <a-input v-model="queryParam.id" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input v-model="queryParam.id" @keyup.enter="searchData" placeholder="입력하세요." style="width: 120px"/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="7" :sm="24">
                   <a-form-item
                       label="메뉴명"
-                      :labelCol="{span: 5}"
-                      :wrapperCol="{span: 18, offset: 1}"
+                      :labelCol="{span: 8}"
+                      :wrapperCol="{span: 10, offset: 1}"
                   >
-                    <a-input v-model="queryParam.name" @keyup.enter="searchData" placeholder="입력하세요."/>
+                    <a-input v-model="queryParam.name" @keyup.enter="searchData" placeholder="입력하세요." style="width: 120px"/>
                   </a-form-item>
                 </a-col>
                 <a-col :md="7" :sm="24">
                   <a-form-item
                       label="사용여부"
-                      :labelCol="{span: 5}"
-                      :wrapperCol="{span: 18, offset: 1}"
+                      :labelCol="{span: 8}"
+                      :wrapperCol="{span: 10, offset: 1}"
                   >
-                    <a-select v-model="queryParam.use_yn" placeholder="선택하세요.">
+                    <a-select v-model="queryParam.use_yn" placeholder="선택하세요." style="width: 150px">
                       <a-select-option :key="item.code" :value="item.code" v-for="(item, index) in useYnList">
                         {{ item.code_nm }}
                       </a-select-option>
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :md="3" :sm="24">
-              <span style="float: right; margin-top: 3px;">
-                <a-button type="primary" icon="search" @click="searchData" :loading="loading">조회</a-button>
-              <a-button style="margin-left: 8px" @click="pageReset" >초기화</a-button>
-              </span>
+                <a-col :md="3" :sm="24" >
+                  <span style="float: right; margin-top: 3px;">
+                    <a-button type="primary" icon="search" @click="searchData" :loading="loading">조회</a-button>
+                  </span>
                 </a-col>
               </a-row>
             </div>
@@ -81,7 +77,6 @@
         </a-col>
       </a-row>
     </a-spin>
-  </div>
 </template>
 
 <script>

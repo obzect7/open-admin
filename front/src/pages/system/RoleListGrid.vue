@@ -21,25 +21,34 @@
 
       <a-col :md="10" :sm="24">
         <div>
-          <a-button-group>
-            <a-button type="primary" @click="masterAddRow">
-              <a-icon type="plus-square"/>
-              추가
-            </a-button>
-            <a-button type="primary" @click="masterRemoveRow">
-              <a-icon type="delete"/>
-              삭제
-            </a-button>
-            <a-button type="primary" @click="saveMaster">
-              <a-icon type="save"/>
-              저장
-            </a-button>
-            <a-button type="primary" @click="downLoadExcel('grid1')">
-              <a-icon type="file-excel"/>
-              다운로드
-            </a-button>
-
-          </a-button-group>
+          <a-space >
+            <a-button-group>
+              <a-col  :span="6">
+              <a-button type="primary" @click="masterAddRow">
+                <a-icon type="plus-square"/>
+                추가
+              </a-button>
+              </a-col>
+              <a-col  :span="6">
+              <a-button type="primary" @click="masterRemoveRow">
+                <a-icon type="delete"/>
+                삭제
+              </a-button>
+              </a-col>
+              <a-col  :span="6">
+                <a-button type="primary" @click="saveMaster">
+                  <a-icon type="save"/>
+                  저장
+                </a-button>
+              </a-col>
+              <a-col  :span="6">
+                <a-button type="primary" @click="downLoadExcel('grid1')">
+                  <a-icon type="file-excel"/>
+                  다운로드
+                </a-button>
+              </a-col>
+            </a-button-group>
+          </a-space>
         </div>
         <AUIGrid ref="myGrid1" class="grid-wrap"
                  @cellClick="cellClickHandler"
@@ -47,16 +56,22 @@
         >
         </AUIGrid>
       </a-col>
-      <a-col :md="14" :sm="24">
+      <a-col :md="10" :sm="24">
         <div>
-          <a-button type="primary" @click="saveDetail">
-            <a-icon type="save"/>
-            저장
-          </a-button>
-          <a-button type="primary" @click="downLoadExcel('grid2')">
-            <a-icon type="file-excel"/>
-            다운로드
-          </a-button>
+          <a-space >
+            <a-col  :span="6">
+              <a-button type="primary" @click="saveDetail">
+                <a-icon type="save"/>
+                저장
+              </a-button>
+            </a-col>
+            <a-col  :span="6">
+              <a-button type="primary" @click="downLoadExcel('grid2')">
+                <a-icon type="file-excel"/>
+                다운로드
+              </a-button>
+            </a-col>
+          </a-space>
         </div>
         <AUIGrid ref="myGrid2" class="grid-wrap"
                  style="height:65vh"
