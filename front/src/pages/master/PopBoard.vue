@@ -6,6 +6,7 @@
             <a-form-item label="제목" :labelCol="{span: 2}" :wrapperCol="{span: 21, offset: 1}" :colon=false layout="inline">
               <a-input v-model="param.post_tit"
                        v-decorator="['item_cd', {initialValue: param.post_tit, rules: [{ required: true, message: '제목을 입력하세요.'}]}]"
+                       :disabled="param.state=='look'"
               />
             </a-form-item>
           </a-col>
@@ -25,7 +26,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :md="12" :sm="24" >
+          <a-col :md="12" :sm="24" v-show="param.state!='look'">
             <a-form-item label="게시기간" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
               <a-range-picker
                   :value="[moment(param.post_sd), moment(param.post_ed)]"
@@ -34,7 +35,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :md="12" :sm="24" >
+          <a-col :md="12" :sm="24" v-show="param.state!='look'">
             <a-form-item label="공지팝업여부" :labelCol="{span: 5}" :wrapperCol="{span: 18, offset: 1}" :colon=false>
               <a-checkbox v-model="param.noti_yn">
               </a-checkbox>
@@ -43,7 +44,9 @@
         </a-row>
         <a-divider/>
         <a-row >
-          <vue-editor v-model="param.post_cont"></vue-editor>
+          <vue-editor v-model="param.post_cont"
+                      :disabled="param.state=='look'"
+          ></vue-editor>
         </a-row>
       <div v-show="comment_show">
         <a-row >
@@ -92,7 +95,7 @@
         <a-divider/>
         <a-row type="flex" justify="end" >
           <a-button type="primary" style="margin-left: 8px" @click="saveBoard" > <a-icon type="save" />저장</a-button>
-          <a-button type="primary" style="margin-left: 8px" @click="deleteBoard" v-show="!popinit.isNew" > <a-icon type="delete" />삭제</a-button>
+          <a-button type="primary" style="margin-left: 8px" @click="deleteBoard" v-show="param.state=='update'" > <a-icon type="delete" />삭제</a-button>
           <a-button type="primary" style="margin-left: 8px" @click="close" > <a-icon type="close" />닫기</a-button>
         </a-row>
     </a-form>
@@ -116,6 +119,7 @@ export default {
         plant_cd: '',
         owner_cd: '',
         row_status: '',
+        state:'',
 
         board_id: '',
         post_no: '',
@@ -153,6 +157,7 @@ export default {
     //신규
     if(this.popinit.isNew === true) {
       const date = new Date();
+      this.param.state = 'insert';
       this.param.post_sd = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + '01';
       this.param.post_ed = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate();
       this.param.reg_dt  = date.getFullYear() + '-' + (('0' + (date.getMonth() + 1)).slice(-2)) + '-' + date.getDate()
@@ -176,6 +181,19 @@ export default {
     //수정
     else if(this.popinit.isNew === false) {
       this.param = this.popinit;
+      this.param.state = 'update';
+      this.param.noti_yn = this.popinit.noti_yn == 'Y' ? true : false ;
+      this.param.row_status = 'U';
+
+      this.comnt_param.reg_nm = this.$store.state.account.user.name;
+      this.comnt_param.reg_id = this.$store.state.account.user.username;
+
+      this.getBoardComt();
+    }
+    // 게시판 보러온 유저들
+    else{
+      this.param = this.popinit;
+      this.param.state = 'look';
       this.param.noti_yn = this.popinit.noti_yn == 'Y' ? true : false ;
       this.param.row_status = 'U';
 
@@ -190,7 +208,7 @@ export default {
   },
   computed: {
     comment_show: function (){
-      return this.popinit.isNew === false;
+      return this.param.state != 'insert';
     }
   },
   watch :{

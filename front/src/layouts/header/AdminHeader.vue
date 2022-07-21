@@ -28,6 +28,17 @@
           </a-dropdown> -->
       </div>
     </div>
+    <div>
+      <a-modal
+          :title="'게시판 등록'"
+          style="top: 5px"
+          :width="1100"
+          v-model="isPopUp"
+          :footer="null"
+      >
+        <PopBoard v-if="isPopUp" @closepop="closePopBoard" :popinit="this.popinit"/>
+      </a-modal>
+    </div>
   </a-layout-header>
 </template>
 
@@ -37,10 +48,11 @@ import HeaderAvatar from './HeaderAvatar'
 import IMenu from '@/components/menu/menu'
 import {mapState, mapMutations} from 'vuex'
 import {getNoticeBoardList} from "@/services/board";
+import PopBoard from "@/pages/master/PopBoard";
 
 export default {
   name: 'AdminHeader',
-  components: {IMenu, HeaderAvatar},
+  components: {IMenu, HeaderAvatar, PopBoard},
   props: ['collapsed', 'menuData'],
   data() {
     return {
@@ -50,6 +62,8 @@ export default {
         {key: 'HK', name: '繁體中文', alias: '繁體'},
       ],
       noticeList: [],
+      isPopUp: false,    //팝업호출여부
+      popinit: {},       //팝업변수
     }
   },
   mounted() {
@@ -75,6 +89,16 @@ export default {
     }
   },
   methods: {
+    openPopBoard(param) {
+      this.popinit = param;
+      this.isPopUp = true
+    },
+    closePopBoard() {
+      //console.log('sssss')
+      this.isPopUp = false
+      this.search()
+      //this.$router.go()
+    },
     toggleCollapse () {
       this.$emit('toggleCollapse')
     },
@@ -101,7 +125,13 @@ export default {
                       size: 'small',
                     },
                     on: {
-                      click: () => this.$notification.close(this.noticeList[i].post_no),
+                      click: () => {
+                        //전체 notification 닫기
+                        for(let j = 0; j < this.noticeList.length; j++){
+                          this.$notification.close(this.noticeList[j].post_no);
+                        }
+                        this.openPopBoard(this.noticeList[i]);
+                      }
                     },
                   },
                   '공지 상세보기',
