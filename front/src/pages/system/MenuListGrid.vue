@@ -45,7 +45,7 @@
 
       <a-row type="flex" justify="end" style="margin-top:10px; margin-bottom: 10px;">
         <a-space>
-            <a-button type="primary" @click="addRow" size="small">
+            <a-button type="primary" @click="addRowLow" size="small">
               <a-icon type="plus-square"/>
               추가
             </a-button>
@@ -191,15 +191,21 @@ export default {
       //해당 필드는 update 불가, add 시 입력가능
       return this.$gridEditable(this.$refs.mstMenuGrid,event,["id"])
     },
-    addRow() {
+    addRowLow() {
       if(this.$refs.mstMenuGrid.getSelectedItems().length == 0) {
-        this.$message.warning("추가 행을 먼저 선택하여 주세요.");
+        this.$message.warning("하위에 추가 행을 먼저 선택하여 주세요.");
         return false;
       }
 
-      let item = {row_status:'I', use_yn:'Y', parent_id:this.$refs.mstMenuGrid.getSelectedItems()[0]["item"]["id"]}
+      let item;
 
-      this.$refs.mstMenuGrid.addTreeRow(item, this.$refs.mstMenuGrid.getSelectedItems()[0]["rowIdValue"],"selectionDown")
+      if(this.$refs.mstMenuGrid.getSelectedItems()[0]["rowIndex"] == 0) {
+        item = {row_status:'I', use_yn:'Y', parent_id:this.$refs.mstMenuGrid.getSelectedItems()[0]["item"]["parent_id"]}
+        this.$refs.mstMenuGrid.addRow(item, "last")
+      } else {
+        item = {row_status:'I', use_yn:'Y', parent_id:this.$refs.mstMenuGrid.getSelectedItems()[0]["item"]["id"]}
+        this.$refs.mstMenuGrid.addTreeRow(item, this.$refs.mstMenuGrid.getSelectedItems()[0]["rowIdValue"],"selectionDown")
+      }
     },
     removeRow() {
       const list = this.$refs.mstMenuGrid.getCheckedRowItemsAll()
