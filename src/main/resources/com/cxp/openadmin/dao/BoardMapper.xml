@@ -232,6 +232,12 @@
              , POST_NO
              , POST_TIT
              , REGEXP_REPLACE(POST_CONT, <![CDATA['<[^>]*>|&nbsp;' ]]>, '') AS POST_CONT
+             , POST_SD
+             , POST_ED
+             , REG_ID
+             , REG_NM
+             , REG_DT
+             , NOTI_YN
           FROM CM_BOARD
          WHERE 1=1
            AND DEL_YN = 'N'
