@@ -239,6 +239,7 @@
              , REG_DT
              , NOTI_YN
              , NVL(VIEW_CNT, 0) AS VIEW_CNT
+             , FILE_GRP_SEQ
           FROM CM_BOARD
          WHERE 1=1
            AND DEL_YN = 'N'
@@ -252,6 +253,14 @@
         /* BoardMapper.xml ,  saveBoardLookCount */
         UPDATE CM_BOARD
         SET VIEW_CNT       = (NVL(VIEW_CNT, 0) + 1)
+        WHERE board_id     = #{paramsMap.board_id}
+          AND post_no      = #{paramsMap.post_no}
+    </update>
+
+    <update id="saveBoardFileGrpSeq" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  saveBoardFileGrpSeq */
+        UPDATE CM_BOARD
+        SET FILE_GRP_SEQ   = #{paramsMap.file_grp_seq}
         WHERE board_id     = #{paramsMap.board_id}
           AND post_no      = #{paramsMap.post_no}
     </update>

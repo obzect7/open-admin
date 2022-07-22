@@ -24,4 +24,7 @@ public interface BoardService {
 
     // 게시판 조회 count
     int saveBoardLookCount(BoardDto dto);
+
+    // 게시판 첨부파일 번호 update
+    int saveBoardFileGrpSeq(BoardDto dto);
 }

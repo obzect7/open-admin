@@ -71,4 +71,8 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.saveBoardLookCount(dto);
     }
 
+    // 게시판 첨부파일 번호 update
+    public int saveBoardFileGrpSeq(BoardDto dto) {
+        return boardMapper.saveBoardFileGrpSeq(dto);
+    }
 }

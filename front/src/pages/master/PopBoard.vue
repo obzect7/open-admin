@@ -48,6 +48,15 @@
                       :disabled="param.state=='look'"
           ></vue-editor>
         </a-row>
+        <a-row type="flex" justify="end">
+          <file-attach-box v-if="this.$store.state.modal.file_popup" :visible="this.$store.state.modal.file_popup"
+                           :callType="'input'" @closepopItem="closeFilePopup"></file-attach-box>
+          <a-button icon="download"
+                    @click="openFilePopup"
+          >
+            첨부파일
+          </a-button>
+        </a-row>
       <div v-show="comment_show">
         <a-row >
           <a-list
@@ -103,13 +112,28 @@
 </template>
 
 <script>
-import {getBoardComtList, saveBoardComtList, saveBoard, saveBoardLookCount} from "@/services/board";
+import {
+  getBoardComtList,
+  saveBoardComtList,
+  saveBoard,
+  saveBoardLookCount,
+  saveBoardFileGrpSeq
+} from "@/services/board";
 import moment from 'moment';
 import { VueEditor } from "vue2-editor";
+//첨부파일
+import FileAttach from "@/pages/components/modal/FileAttach";
+import {mapMutations} from "vuex";
+import {getFileGrpSeq} from "@/services/common";
+import FileAttachBox from "@/pages/components/modal/FileAttachBox";
+import {saveFileGrpSeq} from "@/services/item";
+
 
 export default {
   name : "PopBoard",
   components: {
+    FileAttachBox,
+    FileAttach,
     VueEditor
   },
   data () {
@@ -136,6 +160,7 @@ export default {
         reg_nm: '',
         post_sd: '',
         post_ed: '',
+        file_grp_seq: '',
       },
       comnt_param: {
         row_status: '',
@@ -215,6 +240,8 @@ export default {
   watch :{
   },
   methods : {
+    ...mapMutations('modal', ['setFile_popup']),
+    ...mapMutations('modal', ['setFile_grp_seq']),
     moment,
     close(){
       this.$emit("closepop", '')
@@ -323,6 +350,44 @@ export default {
     addBoardLookCount() {
       saveBoardLookCount(this.param);
     },
+    async openFilePopup() {
+
+      // 1.file_grp_seq가 null이면 생성 후 팝업에 파라미터로 던져주고 존재하면 그냥 던져줌.
+      let saveCnt = 0
+      if (this.param.file_grp_seq == null) {
+        console.log('null입니다@@@@@@')
+        this.param.file_grp_seq = await getFileGrpSeq()
+
+        console.log(this.param);
+        await saveBoardFileGrpSeq(this.param).then(
+            (res) => {
+              console.log('res====', res)
+              if (res.code == 200) {
+                saveCnt = res.data
+              } else {
+                this.$message.error(res.message);
+              }
+              //return res.data;
+            },
+            error => {
+              console.log('error ==== ', error)
+            }
+        )
+      }else{
+        saveCnt = 1
+      }
+      if(saveCnt == 1){
+        this.setFile_grp_seq(this.param.file_grp_seq)
+        this.setFile_popup(true)
+      }
+    },
+    //파일팝업 닫기
+    closeFilePopup(event) {
+      console.log("event=======", event)
+      this.queryParam.item_cd = event.item_cd
+      this.queryParam.item_nm = event.item_nm
+      this.setItem_popup(false)
+    }
   },
 }
 </script>

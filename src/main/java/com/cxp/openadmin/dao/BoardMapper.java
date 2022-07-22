@@ -43,4 +43,7 @@ public interface BoardMapper extends Mapper<Board> {
     // 게시판 조회 count
     int saveBoardLookCount(@Param("paramsMap") BoardDto dto);
 
+    // 게시판 첨부파일 번호 update
+    int saveBoardFileGrpSeq(@Param("paramsMap") BoardDto dto);
+
 }

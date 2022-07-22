@@ -59,3 +59,12 @@ export async function saveBoardLookCount(params) {
         params,
     });
 }
+
+export function saveBoardFileGrpSeq(params) {
+    console.log('saveBoardFileGrpSeq', params)
+    return axios({
+        url: "/front/board/saveBoardFileGrpSeq",
+        method: "post",
+        params,
+    });
+}

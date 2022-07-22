@@ -54,6 +54,11 @@ public class BoardController extends BaseController {
     @PostMapping("/saveBoardLookCount")
     public HttpResponse saveBoardLookCount(@ModelAttribute BoardDto dto, HttpServletRequest request){
         return HttpResponse.success(boardService.saveBoardLookCount(dto));
-        //return HttpResponse.success(boardService.updateBoard(list));
+    }
+
+    //  게시판 첨부파일 번호 update
+    @PostMapping("/saveBoardFileGrpSeq")
+    public HttpResponse saveBoardFileGrpSeq(@ModelAttribute BoardDto dto, HttpServletRequest request){
+        return HttpResponse.success(boardService.saveBoardFileGrpSeq(dto));
     }
 }
