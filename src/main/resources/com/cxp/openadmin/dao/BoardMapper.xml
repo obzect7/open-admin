@@ -238,6 +238,7 @@
              , REG_NM
              , REG_DT
              , NOTI_YN
+             , NVL(VIEW_CNT, 0) AS VIEW_CNT
           FROM CM_BOARD
          WHERE 1=1
            AND DEL_YN = 'N'
@@ -246,4 +247,12 @@
                 AND (POST_ED >= date_format(now(), '%Y%m%d')))
          ORDER BY REG_DT DESC
     </select>
+
+    <update id="saveBoardLookCount" parameterType="com.cxp.openadmin.domain.dto.front.BoardDto">
+        /* BoardMapper.xml ,  saveBoardLookCount */
+        UPDATE CM_BOARD
+        SET VIEW_CNT       = (NVL(VIEW_CNT, 0) + 1)
+        WHERE board_id     = #{paramsMap.board_id}
+          AND post_no      = #{paramsMap.post_no}
+    </update>
 </mapper>

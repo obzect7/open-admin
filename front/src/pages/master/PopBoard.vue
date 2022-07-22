@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import {getBoardComtList, saveBoardComtList, saveBoard} from "@/services/board";
+import {getBoardComtList, saveBoardComtList, saveBoard, saveBoardLookCount} from "@/services/board";
 import moment from 'moment';
 import { VueEditor } from "vue2-editor";
 
@@ -201,6 +201,7 @@ export default {
       this.comnt_param.reg_id = this.$store.state.account.user.username;
 
       this.getBoardComt();
+      this.addBoardLookCount();
     }
 
   },
@@ -318,6 +319,9 @@ export default {
             )
           }
       );
+    },
+    addBoardLookCount() {
+      saveBoardLookCount(this.param);
     },
   },
 }

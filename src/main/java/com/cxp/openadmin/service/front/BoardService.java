@@ -21,4 +21,7 @@ public interface BoardService {
 
     // 공지대상 게시판 조회
     List<BoardDto> getNoticeBoardList(Map<String, Object> map);
+
+    // 게시판 조회 count
+    int saveBoardLookCount(BoardDto dto);
 }

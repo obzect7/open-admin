@@ -40,4 +40,7 @@ public interface BoardMapper extends Mapper<Board> {
     // 공지대상 게시판 조회
     List<BoardDto> getNoticeBoardList(@Param("paramsMap") Map<String, Object> map);
 
+    // 게시판 조회 count
+    int saveBoardLookCount(@Param("paramsMap") BoardDto dto);
+
 }

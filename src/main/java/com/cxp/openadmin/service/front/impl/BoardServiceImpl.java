@@ -66,4 +66,9 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.getNoticeBoardList(map);
     }
 
+    // 게시판 조회 count
+    public int saveBoardLookCount(BoardDto dto) {
+        return boardMapper.saveBoardLookCount(dto);
+    }
+
 }

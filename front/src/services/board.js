@@ -49,3 +49,13 @@ export async function getNoticeBoardList(params) {
         params,
     });
 }
+
+// 공지대상 게시판 조회
+export async function saveBoardLookCount(params) {
+    console.log('saveBoardLookCount===',params)
+    return axios({
+        url: "/front/board/saveBoardLookCount",
+        method: "post",
+        params,
+    });
+}

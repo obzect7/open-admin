@@ -49,4 +49,11 @@ public class BoardController extends BaseController {
     public HttpResponse getNoticeBoardList(@RequestParam(required = false) Map<String, Object> map, HttpServletRequest request){
         return HttpResponse.success(boardService.getNoticeBoardList(map));
     }
+
+    //  게시판 조회 count
+    @PostMapping("/saveBoardLookCount")
+    public HttpResponse saveBoardLookCount(@ModelAttribute BoardDto dto, HttpServletRequest request){
+        return HttpResponse.success(boardService.saveBoardLookCount(dto));
+        //return HttpResponse.success(boardService.updateBoard(list));
+    }
 }
