@@ -71,7 +71,7 @@
                 <span slot="actions" @click="deleteBoardComt(item)" v-show="item.reg_id==comnt_param.reg_id">삭제</span>
                 <a-avatar
                     slot="avatar"
-                    icon="user"
+                    :src="item.avatar"
                     size="large"
                 />
                 <p slot="content">
@@ -86,7 +86,7 @@
           <a-comment>
             <a-avatar
                 slot="avatar"
-                icon="user"
+                :src="this.$store.state.account.user.avatar"
             />
             <div slot="content">
               <a-form-item>

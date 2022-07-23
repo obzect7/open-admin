@@ -163,17 +163,19 @@
 
     <select id="getBoardComtList" resultType="com.cxp.openadmin.domain.dto.front.BoardDto" parameterType="Map">
         /* BoardMapper.xml ,  getBoardComtList */
-        SELECT POST_COMNT_NO
-             , BOARD_ID
-             , POST_NO
-             , COMNT_CONT
-             , REG_NM
-             , DEL_YN
-             , REG_ID
-             , REG_DT
-             , MOD_ID
-             , MOD_DT
-        FROM CM_BOARD_COMT
+        SELECT BC.POST_COMNT_NO
+             , BC.BOARD_ID
+             , BC.POST_NO
+             , BC.COMNT_CONT
+             , US.NAME AS REG_NM
+             , BC.DEL_YN
+             , BC.REG_ID
+             , BC.REG_DT
+             , BC.MOD_ID
+             , BC.MOD_DT
+             , US.AVATAR
+        FROM CM_BOARD_COMT AS BC
+             LEFT JOIN SYS_USER AS US ON BC.REG_ID = US.USERNAME
         WHERE BOARD_ID     = #{paramsMap.board_id}
           AND POST_NO      = #{paramsMap.post_no}
           AND DEL_YN = 'N'

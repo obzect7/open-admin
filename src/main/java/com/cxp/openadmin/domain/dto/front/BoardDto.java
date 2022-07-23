@@ -33,6 +33,7 @@ public class BoardDto {
 
     private String post_comnt_no;   //댓글 PK
     private String comnt_cont;      //댓글 내용
+    private String avatar;          //댓글 이미지
 
     private String reg_id;
     private Timestamp reg_dt;
