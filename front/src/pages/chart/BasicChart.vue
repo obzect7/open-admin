@@ -24,7 +24,6 @@
 <script>
 import {Chart, registerables} from 'chart.js';
 import {getChartList} from "@/services/chart";
-import {isMobileDevice} from "ant-design-vue/lib/vc-menu/util";
 
 Chart.register(...registerables);
 
@@ -115,15 +114,6 @@ export default {
               }
             }
           },
-          animations: {
-            tension: {
-              duration: 1000,
-              easing: 'linear',
-              from: 1,
-              to: 0,
-              loop: true
-            }
-          },
         },
       });
     },
@@ -205,8 +195,6 @@ export default {
     },
   },
   mounted() {
-    this.mobile_yn = isMobileDevice();
-
     getChartList().then(
         (res) => {
           if (res.data.length > 0) {

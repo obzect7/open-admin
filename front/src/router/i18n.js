@@ -82,6 +82,8 @@ module.exports = {
       chart: {name: '차트 샘플',
         chart: {
           basicChart: {name: '베이직 차트'},
+          chart01: {name: '차트 샘플 01'},
+          chart02: {name: '차트 샘플 02'},
         },
       }
     }
