@@ -143,15 +143,15 @@ export default {
           type: "DropDownListRenderer",
           list: this.useYnList, //key-value Object 로 구성된 리스트
           keyField: "data1", // key 에 해당되는 필드명
-          valueField: "code_nm" // value 에 해당되는 필드명
+          valueField: "data2" // value 에 해당되는 필드명
         },
       },
       {dataField: "cache_able", headerText: "페이지캐시", width: 80,
         renderer: {
           type: "DropDownListRenderer",
           list: this.useYnList, //key-value Object 로 구성된 리스트
-          keyField: "data1", // key 에 해당되는 필드명
-          valueField: "code_nm" // value 에 해당되는 필드명
+          keyField: "data3", // key 에 해당되는 필드명
+          valueField: "data4" // value 에 해당되는 필드명
         },
       },
       {dataField: "sort", headerText: "정렬순서", width: 80, headerStyle: "aui-grid-required-header"}
